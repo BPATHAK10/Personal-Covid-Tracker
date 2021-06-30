@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { 
     Grid,
     Paper,
@@ -12,7 +12,10 @@ from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import { Link, useHistory } from 'react-router-dom';
+import { 
+    Link, 
+    useHistory,
+ } from 'react-router-dom';
 import {useDispatch} from 'react-redux'
 import {GoogleLogin} from "react-google-login"
 import Icon from './icon';
@@ -59,11 +62,8 @@ const SignIn=()=>{
     const dispatch = useDispatch()
     const history = useHistory()
 
-    //  const [user, setuser] = useState(null)
 
     const googleSuccess = async (res) => {
-        console.log(res)
-
         const result = res?.profileObj;
         const token = res?.tokenId;
     
@@ -128,13 +128,6 @@ const SignIn=()=>{
                          Sign Up
                     </Link>
                 </Typography>
-                
-                <Typography >Go Home
-                    <Link to="/" className={classes.link}>
-                         Home
-                    </Link>
-                </Typography>
-               
                        
             </Paper>
         </Grid>

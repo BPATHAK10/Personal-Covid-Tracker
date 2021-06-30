@@ -1,5 +1,5 @@
-import React,{ useState, useContext } from 'react';
-import {withRouter, Link} from "react-router-dom"
+import React,{ useState, useEffect } from 'react';
+import {withRouter, Link, useLocation} from "react-router-dom"
 import { 
   AppBar,
   Toolbar,
@@ -19,7 +19,7 @@ import {
  import { useDispatch } from 'react-redux';
  import * as actionType from "../../redux/user/authActionTypes"
 
- import { useHistory } from 'react-router';
+ import { useHistory } from 'react-router-dom';
 
  import SearchIcon from '@material-ui/icons/Search';
  import AccountCircle from '@material-ui/icons/AccountCircle';
@@ -60,18 +60,15 @@ import {
 function AppBar_custom(props) {
   const classes = useStyles();
   const [anchorEl, setanchorEl] = useState(null)
-  const [isSignedIn, setisSignedIn] = useState(false)
   const [user, setuser] = useState(JSON.parse(localStorage.getItem("userInfo")))
 
   const dispatch = useDispatch()
   const history = useHistory()
 
-  console.log(user)
 
   const isMenuOpen = Boolean(anchorEl);
 
-
-
+  
   const handleProfileMenuOpen = (event) => {
     setanchorEl(event.currentTarget);
   };
@@ -86,9 +83,9 @@ function AppBar_custom(props) {
     // close menu
     setanchorEl(null);
 
-    history.push('/');
-
     setuser(null);
+    history.push('/sign-in');
+
   };
 
  
