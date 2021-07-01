@@ -60,20 +60,13 @@ export default class UserDAO {
         }      
 
     
-    static async addUser(
-        userInfo,
-        location, 
-        currently_infected, 
-        organization) {
+    static async addUser(userInfo) {
 
         try {
             const userDoc = { 
                 username: userInfo.username,
                 password: userInfo.password,
                 email: userInfo.email,
-                location: location,
-                currently_infected: currently_infected,
-                organization: organization
             }
             return await user.insertOne(userDoc)
         } 
@@ -83,14 +76,14 @@ export default class UserDAO {
         }
     }
     
-    static async updateUser(userId,location, currently_infected, organization) {
+    static async updateUser(userId,userInfo) {
     try {
         const updateResponse = await user.updateOne(
         { _id: ObjectId(userId)},
         { $set: { 
-                    location: location,
-                    organization: organization,
-                    currently_infected: currently_infected
+                    username: userInfo.username,
+                    password: userInfo.password,
+                    email: userInfo.email,
             } },
         )
 

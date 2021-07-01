@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { 
     Grid,
     Paper,
@@ -43,6 +43,11 @@ const useStyles = makeStyles((theme)=>({
 }))
 const SignUp=()=>{
     const classes = useStyles();
+    const [userInfo, setuserInfo] = useState({
+        username:'',
+        email:'',
+        password:''
+    })
 
     return (
         <Grid className={classes.root}>
@@ -52,6 +57,7 @@ const SignUp=()=>{
                 </Grid>
                <h2>Sign Up </h2>
                <TextField  label='Username' placeholder='Enter user name' fullWidth required/>
+               <TextField  label='Email' placeholder='Enter Email' fullWidth required/>
                <TextField  label='Password' placeholder='Enter password' type='password' fullWidth required/>
                <TextField  label='Confirm Password' placeholder='Re-Enter password' type='password' fullWidth required/>
 

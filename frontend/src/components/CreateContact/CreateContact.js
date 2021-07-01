@@ -99,7 +99,7 @@ const Todo=()=>{
                 <Avatar classname={classes.icon}><ContactsIcon/></Avatar>
                 </Grid>
                <h2>Add your contacts </h2>
-               <TextField  label='Username' placeholder='Enter name' fullWidth required
+               <TextField  label='Name' placeholder='Enter name' fullWidth required
                
                     value={inputContact}  
                     onChange={(e)=>setinputContact(e.target.value)}             
