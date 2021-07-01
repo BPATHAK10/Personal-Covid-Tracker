@@ -1,6 +1,7 @@
 import {React, useState, useEffect} from 'react'
 import { Grid, makeStyles } from "@material-ui/core"
 import AppBar_custom from '../../components/AppBar/AppBar'
+import CreateContact from '../../components/CreateContact/CreateContact'
 
 const useStyles = makeStyles((theme)=>({
     homepage:{
@@ -17,7 +18,7 @@ function Homepage() {
     return (
         <div className={classes.homepage}>
             <AppBar_custom />
-
+            <CreateContact />
         </div>
     )
 }
