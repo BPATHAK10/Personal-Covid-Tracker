@@ -9,7 +9,8 @@ import {
     from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Link } from 'react-router-dom';
-import backgroundImg from "../../assets/images/signIn_background.jpg"
+import backgroundImg from "../../assets/signin_bg.jpg"
+
 
 const useStyles = makeStyles((theme)=>({
     root:{

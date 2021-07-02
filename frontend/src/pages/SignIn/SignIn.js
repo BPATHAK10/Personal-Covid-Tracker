@@ -18,9 +18,9 @@ import {
  } from 'react-router-dom';
 import {useDispatch} from 'react-redux'
 import {GoogleLogin} from "react-google-login"
-import Icon from './icon';
+import Icon from './Icon';
 
-import backgroundImg from "../../assets/images/signIn_background.jpg"
+import backgroundImg from "../../assets/signin_bg.jpg"
 
 const useStyles = makeStyles((theme)=>({
     root:{
