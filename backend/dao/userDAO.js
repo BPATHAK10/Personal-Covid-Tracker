@@ -59,7 +59,41 @@ export default class UserDAO {
             }
         }      
 
-    
+        static async getUserByID(id) {
+            try {
+                const pipeline = [
+                    {
+                        $match: {
+                            _id: ObjectId(id)
+                        }
+                    }, 
+                    {
+                        $lookup: {
+                            from: 'contacts',
+                            let:{
+                                  id: "$_id"
+                            },
+
+                        pipeline:[
+                        {
+                            $match:{
+                                $expr:{
+                                    $eq:["$owner","$$id"]
+                                }
+                            }
+                        }
+                        ],
+                    as: 'contacts'
+                  }}]
+                  
+              return await user.aggregate(pipeline).next()
+            } catch (e) {
+              console.error(`Something went wrong in getUserByID: ${e}`)
+              throw e
+            }
+          }
+
+
     static async addUser(userInfo) {
 
         try {

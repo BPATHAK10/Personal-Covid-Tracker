@@ -25,7 +25,7 @@ export default class ContactsDAO {
   ) {
     try {
       const ContactDoc = { 
-          owner: userInfo._id,
+          owner: ObjectId(userInfo._id),
           relation: relation,
           status: status,
           name: name,
@@ -50,7 +50,7 @@ export default class ContactsDAO {
   ) {
     try {
       const updateResponse = await contacts.updateOne(
-        {owner: userInfo._id, _id: ObjectId(contact_id)},
+        {owner: ObjectId(userInfo._id), _id: ObjectId(contact_id)},
         { $set: { 
             relation: relation,
             status: status,
