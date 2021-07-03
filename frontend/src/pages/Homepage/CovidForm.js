@@ -124,7 +124,7 @@ export default function ContactForm(props) {
                     />
                     <Controls.Checkbox
                         name="isVaccinated"
-                        label="Vaccinated?"
+                        label="Vaccinated"
                         value={values.isVaccinated}
                         onChange={handleInputChange}
                     />

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import CovidForm from "./CovidForm";
 import PageHeader from "../../components/PageHeader";
-import PeopleOutlineTwoToneIcon from '@material-ui/icons/PeopleOutlineTwoTone';
+import DeviceHubIcon from '@material-ui/icons/DeviceHub';
 import { Paper, makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment } from '@material-ui/core';
 import useTable from "../../components/useTable";
 import * as contactService from "./Service";
@@ -32,7 +32,10 @@ const headCells = [
     { id: 'fullName', label: 'Contact Name' },
     { id: 'email', label: 'Email Address (Personal)' },
     { id: 'mobile', label: 'Mobile Number' },
+    { id: 'relation', label: 'Relation' },
     { id: 'status', label: 'Status' },
+    { id: 'isVaccinated', label: 'Vaccination' },
+    { id: 'dateOfInfection', label: 'Date' },
     { id: 'actions', label: 'Actions', disableSorting: true }
 ]
 
@@ -58,7 +61,7 @@ export default function Homepage() {
                 if (target.value == "")
                     return items;
                 else
-                    return items.filter(x => x.fullName.toLowerCase().includes(target.value))
+                    return items.filter(x => x.fullName.toLowerCase().includes(target.value) || x.fullName.toUpperCase().includes(target.value) || x.fullName.includes(target.value))
             }
         })
     }
@@ -88,9 +91,9 @@ export default function Homepage() {
         <>
             <AppBar />
             <PageHeader
-                title="New Contact"
-                subTitle="Form design with validation"
-                icon={<PeopleOutlineTwoToneIcon fontSize="large" />}
+                title="Personal covid Tracker"
+                subTitle="Directory"
+                icon={<DeviceHubIcon fontSize="large" />}
             />
             <Paper className={classes.pageContent}>
 
@@ -122,7 +125,10 @@ export default function Homepage() {
                                     <TableCell>{item.fullName}</TableCell>
                                     <TableCell>{item.email}</TableCell>
                                     <TableCell>{item.mobile}</TableCell>
+                                    <TableCell>{item.relation}</TableCell>
                                     <TableCell>{item.status}</TableCell>
+                                    <TableCell>{item.isVaccinated==true?"Yes":"No"}</TableCell>
+                                    <TableCell>{item.dateOfInfection}</TableCell>
                                     <TableCell>
                                         <Controls.ActionButton
                                             color="primary"
