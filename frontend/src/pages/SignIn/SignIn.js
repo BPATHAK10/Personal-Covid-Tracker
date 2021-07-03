@@ -19,6 +19,8 @@ import {
 import {useDispatch} from 'react-redux'
 import {GoogleLogin} from "react-google-login"
 import Icon from './Icon';
+import {AUTH} from "../../redux/actionTypes"
+import { signin} from '../../actions/auth';
 
 import backgroundImg from "../../assets/signin_bg.jpg"
 
@@ -61,6 +63,25 @@ const SignIn=()=>{
     const classes = useStyles();
     const dispatch = useDispatch()
     const history = useHistory()
+    const [formData, setformData] = useState({
+        username:'',
+        password:'',
+    })
+    const handleChange= (e)=>{
+        setformData({
+            ...formData,
+            [e.target.name]: e.target.value
+        })
+        console.log(formData)
+        }
+
+    const handleSubmit = (e)=>{
+        e.preventDefault()
+        dispatch(signin(formData,history))
+        console.log("ergerg")
+
+    }
+
 
 
     const googleSuccess = async (res) => {
@@ -68,7 +89,7 @@ const SignIn=()=>{
         const token = res?.tokenId;
     
         try {
-          dispatch({ type: "AUTH", data: { result, token } });
+          dispatch({ type: AUTH, data: { result, token } });
     
           history.push('/');
         } catch (error) {
@@ -85,8 +106,8 @@ const SignIn=()=>{
                 <Avatar classname={classes.icon}><LockOutlinedIcon/></Avatar>
                 </Grid>
                <h2>Sign In </h2>
-               <TextField  label='Username' placeholder='Enter user name' fullWidth required/>
-               <TextField  label='Password' placeholder='Enter password' type='password' fullWidth required/>
+               <TextField  name="username" label='Username' placeholder='Enter user name' fullWidth required onChange={handleChange} />
+               <TextField  name="password" label='Password' placeholder='Enter password' type='password' fullWidth required onChange={handleChange} />
                <FormControlLabel
                     control={
                     <Checkbox
@@ -97,7 +118,7 @@ const SignIn=()=>{
                     }
                     label="Remember me"
                 />
-                <Button type='submit' className={classes.button} color='primary' variant='contained' fullWidth>Sign in</Button>
+                <Button type='submit' className={classes.button} color='primary' variant='contained' onClick={handleSubmit} fullWidth>Sign in</Button>
                 
                 <GoogleLogin
                     clientId="272320939949-3ck8prt1jlrkabkua3rn8eqnjdvans36.apps.googleusercontent.com"

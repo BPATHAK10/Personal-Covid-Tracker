@@ -4,14 +4,14 @@ import PageHeader from "../../components/PageHeader";
 import DeviceHubIcon from '@material-ui/icons/DeviceHub';
 import { Paper, makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment } from '@material-ui/core';
 import useTable from "../../components/useTable";
-import * as contactService from "../../services/Service";
+import * as contactService from "../../actions/contacts";
 import Controls from "../../components/controls/Controls";
 import { Search } from "@material-ui/icons";
 import AddIcon from '@material-ui/icons/Add';
 import Popup from "../../components/Popup";
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import CloseIcon from '@material-ui/icons/Close';
-import AppBar from '../../components/AppBar/AppBar';
+import AppBar from '../../components/AppBar';
 
 const useStyles = makeStyles(theme => ({
     pageContent: {

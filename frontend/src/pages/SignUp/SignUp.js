@@ -8,8 +8,10 @@ import {
     Button } 
     from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import backgroundImg from "../../assets/signin_bg.jpg"
+import {useDispatch} from "react-redux"
+import { signin, signup } from '../../actions/auth';
 
 
 const useStyles = makeStyles((theme)=>({
@@ -44,11 +46,25 @@ const useStyles = makeStyles((theme)=>({
 }))
 const SignUp=()=>{
     const classes = useStyles();
-    const [userInfo, setuserInfo] = useState({
+    const dispatch = useDispatch()
+    const history = useHistory()
+    const [formData, setformData] = useState({
         username:'',
         email:'',
-        password:''
+        password:'',
+        confirmPassword: ''
     })
+    const handleChange= (e)=>{
+        setformData({
+            ...formData,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const handleSubmit = (e)=>{
+        e.preventDefault()
+        dispatch(signup(formData,history))
+    }
 
     return (
         <Grid className={classes.root}>
@@ -57,13 +73,13 @@ const SignUp=()=>{
                 <Avatar className={classes.icon}><LockOutlinedIcon/></Avatar>
                 </Grid>
                <h2>Sign Up </h2>
-               <TextField  label='Username' placeholder='Enter user name' fullWidth required/>
-               <TextField  label='Email' placeholder='Enter Email' fullWidth required/>
-               <TextField  label='Password' placeholder='Enter password' type='password' fullWidth required/>
-               <TextField  label='Confirm Password' placeholder='Re-Enter password' type='password' fullWidth required/>
+               <TextField  name="username" label='Username' placeholder='Enter user name' onChange={handleChange} fullWidth required/>
+               <TextField  name="email" label='Email' placeholder='Enter Email' fullWidth required onChange={handleChange}/>
+               <TextField  name="password" label='Password' placeholder='Enter password' type='password' fullWidth required onChange={handleChange}/>
+               <TextField  name="confirmPassword" label='Confirm Password' placeholder='Re-Enter password' type='password' fullWidth required onChange={handleChange}/>
 
         
-                <Button type='submit' className={classes.button} color='primary' variant='contained' fullWidth>Sign Up</Button>
+                <Button type='submit' className={classes.button} color='primary' variant='contained' fullWidth onClick={handleSubmit}>Sign Up</Button>
                 <Link to="/sign-in" className={classes.link}>
                          Back to SignIn Page
                 </Link>

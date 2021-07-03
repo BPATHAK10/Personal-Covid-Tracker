@@ -57,9 +57,15 @@ export default class UserDAO {
                 )
                 return {usersList: [], totalNumUsers:0}
             }
-        }      
+        } 
 
-        static async getUserByID(id) {
+        static async getUserId(username){
+            const cursor = await user.findOne({"username": {$eq:username}})
+            return cursor
+
+        }     
+
+        static async getUserContactsByID(id) {
             try {
                 const pipeline = [
                     {

@@ -17,7 +17,7 @@ import {
   useScrollTrigger
  } from "@material-ui/core"
  import { useDispatch } from 'react-redux';
- import * as actionType from "../../redux/user/authActionTypes"
+ import * as actionType from "../redux/actionTypes"
 
  import { useHistory } from 'react-router-dom';
 

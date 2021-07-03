@@ -1,4 +1,5 @@
 import ContactsDAO from "../dao/contactsDAO.js"
+import UserDAO from "../dao/userDAO.js"
 
 export default class ContactsController {
   static async apiPostContact(req, res, next) {
@@ -65,6 +66,21 @@ export default class ContactsController {
       res.json({ status: "success" })
     } catch (e) {
       res.status(500).json({ error: e.message })
+    }
+  }
+
+  static async apiGetContacts(req, res, next){
+    try {
+      let id = req.params.id || {}
+      let userContacts  = await UserDAO.getUserContactsById(id)
+      if (!userContacts) {
+        res.status(404).json({ error: "Not found" })
+        return
+      }
+      res.json(userContacts)
+    } catch (e) {
+      console.log(`api, ${e}`)
+      res.status(500).json({ error: e })
     }
   }
 

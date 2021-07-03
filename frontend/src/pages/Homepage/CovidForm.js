@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Grid, } from '@material-ui/core';
 import Controls from "../../components/controls/Controls";
 import { useForm, Form } from '../../components/useForm';
-import * as employeeService from "../../services/Service";
+import * as contactService from "../../actions/contacts";
 
 
 const genderItems = [
@@ -113,7 +113,7 @@ export default function ContactForm(props) {
                         label="Status"
                         value={values.statusId}
                         onChange={handleInputChange}
-                        options={employeeService.getStatusCollection()}
+                        options={contactService.getStatusCollection()}
                         error={errors.statusId}
                     />
                     <Controls.DatePicker
