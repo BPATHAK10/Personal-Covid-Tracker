@@ -4,7 +4,7 @@ import PageHeader from "../../components/PageHeader";
 import DeviceHubIcon from '@material-ui/icons/DeviceHub';
 import { Paper, makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment } from '@material-ui/core';
 import useTable from "../../components/useTable";
-import * as contactService from "./Service";
+import * as contactService from "../../services/Service";
 import Controls from "../../components/controls/Controls";
 import { Search } from "@material-ui/icons";
 import AddIcon from '@material-ui/icons/Add';

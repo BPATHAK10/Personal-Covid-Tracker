@@ -59,21 +59,48 @@ export default class UserDAO {
             }
         }      
 
-    
-    static async addUser(
-        userInfo,
-        location, 
-        currently_infected, 
-        organization) {
+        static async getUserByID(id) {
+            try {
+                const pipeline = [
+                    {
+                        $match: {
+                            _id: ObjectId(id)
+                        }
+                    }, 
+                    {
+                        $lookup: {
+                            from: 'contacts',
+                            let:{
+                                  id: "$_id"
+                            },
+
+                        pipeline:[
+                        {
+                            $match:{
+                                $expr:{
+                                    $eq:["$owner","$$id"]
+                                }
+                            }
+                        }
+                        ],
+                    as: 'contacts'
+                  }}]
+                  
+              return await user.aggregate(pipeline).next()
+            } catch (e) {
+              console.error(`Something went wrong in getUserByID: ${e}`)
+              throw e
+            }
+          }
+
+
+    static async addUser(userInfo) {
 
         try {
             const userDoc = { 
                 username: userInfo.username,
                 password: userInfo.password,
                 email: userInfo.email,
-                location: location,
-                currently_infected: currently_infected,
-                organization: organization
             }
             return await user.insertOne(userDoc)
         } 
@@ -83,14 +110,14 @@ export default class UserDAO {
         }
     }
     
-    static async updateUser(userId,location, currently_infected, organization) {
+    static async updateUser(userId,userInfo) {
     try {
         const updateResponse = await user.updateOne(
         { _id: ObjectId(userId)},
         { $set: { 
-                    location: location,
-                    organization: organization,
-                    currently_infected: currently_infected
+                    username: userInfo.username,
+                    password: userInfo.password,
+                    email: userInfo.email,
             } },
         )
 
@@ -100,20 +127,5 @@ export default class UserDAO {
         return { error: e }
         }
     }
-        
-        //   static async deleteReview(reviewId, userId) {
-        
-        //     try {
-        //       const deleteResponse = await reviews.deleteOne({
-        //         _id: ObjectId(reviewId),
-        //         user_id: userId,
-        //       })
-        
-        //       return deleteResponse
-        //     } catch (e) {
-        //       console.error(`Unable to delete review: ${e}`)
-        //       return { error: e }
-        //     }
-        //   }
 }
         

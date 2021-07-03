@@ -29,37 +29,31 @@ export default class UsersController {
     res.json(response)
   }
 
-//   static async apiGetUserById(req, res, next) {
-//     try {
-//         let id = req.params.id || {}
-//         let user = await UserDAO.getUserByID(id)
-//         if (!user) {
-//           res.status(404).json({ error: "Not found" })
-//           return
-//         }
-//         res.json(user)
-//     } catch (e) {
-//         console.log(`api, ${e}`)
-//         res.status(500).json({ error: e })
-//     }
-// }
+  static async apiGetUserById(req, res, next) {
+    try {
+        let id = req.params.id || {}
+        let user = await UserDAO.getUserByID(id)
+        if (!user) {
+          res.status(404).json({ error: "Not found" })
+          return
+        }
+        res.json(user)
+    } catch (e) {
+        console.log(`api, ${e}`)
+        res.status(500).json({ error: e })
+    }
+}
 
   static async apiPostUser(req, res, next) {
     try {
-      const location = req.body.location
-      const currently_infected = req.body.currently_infected
       const userInfo = {
-        username: req.body.name,
+        username: req.body.username,
         password: req.body.password,
         email: req.body.email
       }
-      const organization = req.body.organization
 
       const UserResponse = await UserDAO.addUser(
-        userInfo, 
-        location, 
-        currently_infected, 
-        organization
+        userInfo
       )
       res.json({ status: "success" })
     } catch (e) {
@@ -67,18 +61,17 @@ export default class UsersController {
     }
   }
 
-  static async apiUpdateReview(req, res, next) {
+  static async apiUpdateUser(req, res, next) {
     try {
       const userId = req.body.userId
-      const location = req.body.location
-      const currently_infected = req.body.currently_infected
-      const organization = req.body.organization
-
+      const userInfo = {
+        username: req.body.username,
+        password: req.body.password,
+        email: req.body.email
+      }
       const updateResponse = await UserDAO.updateUser(
         userId,
-        location, 
-        currently_infected, 
-        organization
+        userInfo
       )
 
       var { error } = updateResponse
