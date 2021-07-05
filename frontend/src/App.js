@@ -5,9 +5,7 @@ import Homepage from "./pages/Homepage/Homepage";
 
 import './App.css';
 import React,{useState, useEffect} from "react";
-import { Provider } from 'react-redux'
 import { makeStyles, CssBaseline, createMuiTheme, ThemeProvider } from '@material-ui/core';
-import store from "./redux/store"
 import {
     BrowserRouter as Router, 
     Switch, 
@@ -50,7 +48,6 @@ function App(props) {
 
   return (
     <ThemeProvider theme={theme}>
-    <Provider store={store}>
       <Router>
         <div className="App">
           <Switch>
@@ -63,7 +60,6 @@ function App(props) {
           </Switch> 
         </div>
       </Router>
-    </Provider>
     <CssBaseline />
   </ThemeProvider>
   );

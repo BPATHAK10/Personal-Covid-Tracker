@@ -21,7 +21,7 @@ export default class ContactsDAO {
     status,
     name,
     vaccinationStatus,
-    date,
+    dateOfInfection,
   ) {
     try {
       const ContactDoc = { 
@@ -29,10 +29,11 @@ export default class ContactsDAO {
           relation: relation,
           status: status,
           name: name,
-          dateOfInfection: date,
+          dateOfInfection: dateOfInfection,
           vaccinationStatus: vaccinationStatus}
 
       return await contacts.insertOne(ContactDoc)
+
     } catch (e) {
       console.error(`Unable to post review: ${e}`)
       return { error: e }
@@ -67,12 +68,11 @@ export default class ContactsDAO {
     }
   }
 
-  static async deleteContact(contactId, owner) {
+  static async deleteContact(contactId) {
 
     try {
       const deleteResponse = await contacts.deleteOne({
-        _id: ObjectId(contactId),
-        owner: owner,
+        _id: ObjectId(contactId)
       })
         
       return deleteResponse

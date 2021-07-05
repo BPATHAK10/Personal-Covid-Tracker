@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Grid, } from '@material-ui/core';
+import { Grid,Input } from '@material-ui/core';
 import Controls from "../../components/controls/Controls";
 import { useForm, Form } from '../../components/useForm';
 import * as contactService from "../../actions/contacts";
+import { TextField } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 
 
 const genderItems = [
@@ -12,19 +14,20 @@ const genderItems = [
 ]
 
 const initialFValues = {
-    id: 0,
-    fullName: '',
-    email: '',
-    mobile: '',
+    name: '',
+    // email: '',
+    // mobile: '',
     relation: '',
-    gender: 'male',
-    statusId: '',
+    // gender: 'male',
+    owner:`${JSON.parse(localStorage.getItem("userInfo"))?.user._id}`,
+    status: '',
     dateOfInfection: new Date(),
-    isVaccinated: false,
+    vaccinationStatus: false,
 }
 
 export default function ContactForm(props) {
     const { addOrEdit, recordForEdit } = props
+    
 
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
@@ -55,6 +58,8 @@ export default function ContactForm(props) {
 
     const handleSubmit = e => {
         e.preventDefault()
+        console.log("add form data::",values)
+        
         if (validate()) {
             addOrEdit(values, resetForm);
         }
@@ -72,26 +77,26 @@ export default function ContactForm(props) {
             <Grid container>
                 <Grid item xs={6}>
                     <Controls.Input
-                        name="fullName"
+                        name="name"
                         label="Full Name"
                         value={values.fullName}
                         onChange={handleInputChange}
                         error={errors.fullName}
                     />
-                    <Controls.Input
+                    {/* <Controls.Input
                         label="Email"
                         name="email"
                         value={values.email}
                         onChange={handleInputChange}
                         error={errors.email}
-                    />
-                    <Controls.Input
+                    /> */}
+                    {/* <Controls.Input
                         label="Mobile"
                         name="mobile"
                         value={values.mobile}
                         onChange={handleInputChange}
                         error={errors.mobile}
-                    />
+                    /> */}
                     <Controls.Input
                         label="Relation"
                         name="relation"
@@ -101,15 +106,15 @@ export default function ContactForm(props) {
 
                 </Grid>
                 <Grid item xs={6}>
-                    <Controls.RadioGroup
+                    {/* <Controls.RadioGroup
                         name="gender"
                         label="Gender"
                         value={values.gender}
                         onChange={handleInputChange}
                         items={genderItems}
-                    />
+                    /> */}
                     <Controls.Select
-                        name="statusId"
+                        name="status"
                         label="Status"
                         value={values.statusId}
                         onChange={handleInputChange}
@@ -123,7 +128,7 @@ export default function ContactForm(props) {
                         onChange={handleInputChange}
                     />
                     <Controls.Checkbox
-                        name="isVaccinated"
+                        name="vaccinationStatus"
                         label="Vaccinated"
                         value={values.isVaccinated}
                         onChange={handleInputChange}

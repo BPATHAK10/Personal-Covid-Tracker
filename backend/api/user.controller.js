@@ -37,7 +37,8 @@ export default class UsersController {
   static async apiSignIn(req, res, next) {
     try {
       const {username,password} = req.body
-      const user =await UserDAO.getUserId(username)
+      const user = await UserDAO.getUserId(username)
+      // console.log(username,password)
       // console.log(user)
         if (!user) {
           res.status(404).json({ error: "Not found" })

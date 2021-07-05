@@ -3,12 +3,13 @@ import UserDAO from "../dao/userDAO.js"
 
 export default class ContactsController {
   static async apiPostContact(req, res, next) {
+    // console.log(req.body)
 
     try {
       const relation = req.body.relation
-      const status = req.body.status
+      const status = req.body.status  
       const name = req.body.name
-      const date = req.body.date
+      const dateOfInfection = req.body.dateOfInfection
       const vaccinationStatus = req.body.vaccinationStatus
 
       const userInfo = {
@@ -21,9 +22,12 @@ export default class ContactsController {
         status,
         name,
         vaccinationStatus,
-        date,
+        dateOfInfection,
       )
-      res.json({ status: "success" })
+      
+      // console.log(ContactResponse.ops[0])
+
+      res.json(ContactResponse.ops[0])
     } catch (e) {
       res.status(500).json({ error: e.message })
     }
@@ -72,7 +76,8 @@ export default class ContactsController {
   static async apiGetContacts(req, res, next){
     try {
       let id = req.params.id || {}
-      let userContacts  = await UserDAO.getUserContactsById(id)
+      // console.log(id)
+      let userContacts  = await UserDAO.getUserContactsByID(id)
       if (!userContacts) {
         res.status(404).json({ error: "Not found" })
         return
@@ -86,14 +91,14 @@ export default class ContactsController {
 
   static async apiDeleteContact(req, res, next) {
     try {
-      const contactId = req.body.contact_id
-      const owner = req.body.owner
+      const contactId = req.params.id
+      // const owner = req.body.owner
+      // console.log("in deleteContact of contact controller::", contactId)
 
-      const ContactResponse = await ContactsDAO.deleteContact(
-        contactId,
-        owner
-      )
 
+      const ContactResponse = await ContactsDAO.deleteContact(contactId)
+
+      // console.log("contact delete response", ContactResponse)
 
       res.json({ status: "success" })
     } 

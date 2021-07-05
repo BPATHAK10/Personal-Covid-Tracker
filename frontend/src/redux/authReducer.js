@@ -6,7 +6,7 @@ const authReducer = (state = { authData: null }, action) => {
       localStorage.setItem('userInfo', JSON.stringify({ ...action?.data }));
       
 
-      return { ...state, authData: action?.data };
+      return { ...state, authData: action.data };
     case actionType.LOGOUT:
       localStorage.clear();
 

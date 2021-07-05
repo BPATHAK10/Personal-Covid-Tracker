@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Table, TableHead, TableRow, TableCell, makeStyles, TablePagination, TableSortLabel } from '@material-ui/core'
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
     table: {
@@ -19,15 +20,27 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
-export default function useTable(records, headCells,filterFn) {
+export default function useTable(headCells,filterFn) {
 
     const classes = useStyles();
 
+    const [records, setRecords] = useState([])
+    // console.log("records:::",records)
     const pages = [5, 10, 25]
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(pages[page])
     const [order, setOrder] = useState()
     const [orderBy, setOrderBy] = useState()
+
+    const contacts = useSelector((state)=> state.contactReducer)
+    // console.log("contacts in useTable", contacts)
+
+    useEffect(() => {
+        // console.log("inside useeffect of useTable")
+        setRecords(contacts)
+
+    }, [contacts])
+
 
     const TblContainer = props => (
         <Table className={classes.table}>
@@ -117,6 +130,7 @@ export default function useTable(records, headCells,filterFn) {
         TblContainer,
         TblHead,
         TblPagination,
-        recordsAfterPagingAndSorting
+        recordsAfterPagingAndSorting,
+        setRecords
     }
 }

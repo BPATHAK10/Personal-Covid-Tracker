@@ -61,6 +61,8 @@ export default class UserDAO {
 
         static async getUserId(username){
             const cursor = await user.findOne({"username": {$eq:username}})
+            // const data = this.getUserContactsByID(cursor._id)
+
             return cursor
 
         }     
@@ -92,7 +94,10 @@ export default class UserDAO {
                     as: 'contacts'
                   }}]
                   
-              return await user.aggregate(pipeline).next()
+              const userAgg = await user.aggregate(pipeline).next()
+            //   console.log(userAgg.contacts)
+
+              return userAgg.contacts
             } catch (e) {
               console.error(`Something went wrong in getUserByID: ${e}`)
               throw e
