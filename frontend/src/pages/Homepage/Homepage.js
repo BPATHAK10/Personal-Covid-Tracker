@@ -31,8 +31,8 @@ const useStyles = makeStyles(theme => ({
 
 const headCells = [
     { id: 'name', label: 'Contact Name' },
-    { id: 'email', label: 'Email Address (Personal)' },
-    { id: 'mobile', label: 'Mobile Number' },
+    // { id: 'email', label: 'Email Address (Personal)' },
+    // { id: 'mobile', label: 'Mobile Number' },
     { id: 'relation', label: 'Relation' },
     { id: 'status', label: 'Status' },
     { id: 'vaccinationStatus', label: 'Vaccination' },
@@ -79,12 +79,22 @@ export default function Homepage() {
         })
     }
 
-    const addOrEdit = (contact, resetForm) => {
-        console.log("inside add or edit")
-        // if (contact.id == 0)
-       dispatch(contactService.createContact(contact))
-        // else
-            // contactService.updateContact(contact)
+    const addOrEdit = (contact, resetForm) => {   
+        // console.log("inside add or edit with contact:::",contact)
+
+        const isAdd = contact._id === undefined
+        // console.log(isAdd)
+
+        if (isAdd){   // use item.id to decide add or edit
+            console.log("inside add")
+
+            dispatch(contactService.createContact(contact))
+        }
+        else{
+            console.log("inside edit with data:::",contact)
+
+            dispatch(contactService.updateContact(contact))
+        }
         resetForm()
         setRecordForEdit(null)
         setOpenPopup(false)
@@ -95,7 +105,7 @@ export default function Homepage() {
     }
 
     const deleteContact = item => {
-        console.log("in delete contact::", item)
+        // console.log("in delete contact::", item)
         const deleteData = {
             owner:item.owner,
             id: item._id
@@ -109,6 +119,7 @@ export default function Homepage() {
     }
 
     const openInPopup = item => {
+        // console.log("inside openInPopup with item::",item)
         setRecordForEdit(item)
         setOpenPopup(true)
     }

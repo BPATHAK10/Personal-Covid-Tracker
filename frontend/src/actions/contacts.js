@@ -7,24 +7,24 @@ const KEYS = {
     contactId: 'contactId'
 }
 
-export function getAllLocalContacts() {
-    // if (localStorage.getItem(KEYS.userInfo) == null)
-    //     localStorage.setItem(KEYS.contacts, JSON.stringify([]))
-    let contacts = JSON.parse(localStorage.getItem(KEYS.userInfo)).user.contacts;
-    //map statusID to status title
-    let statuss = getStatusCollection();
+// export function getAllLocalContacts() {
+//     // if (localStorage.getItem(KEYS.userInfo) == null)
+//     //     localStorage.setItem(KEYS.contacts, JSON.stringify([]))
+//     let contacts = JSON.parse(localStorage.getItem(KEYS.userInfo)).user.contacts;
+//     //map statusID to status title
+//     let statuss = getStatusCollection();
 
-    console.log(contacts)
+//     console.log(contacts)
 
-    // const user = JSON.parse(localStorage.getItem("userInfo")).user._id
-    // console.log(user)
+//     // const user = JSON.parse(localStorage.getItem("userInfo")).user._id
+//     // console.log(user)
 
-    return contacts.map(contact => ({
-        ...contact,
-        status: statuss[contact.status - 1].title
-    }))
+//     return contacts.map(contact => ({
+//         ...contact,
+//         status: statuss[contact.status - 1].title
+//     }))
 
-}
+// }
 
 export const getAllContacts = () => async (dispatch) => {
   try {
@@ -55,20 +55,20 @@ export const createContact = (contact) => async (dispatch) => {
   }
 };
 
-// export const updatePost = (id, post) => async (dispatch) => {
-//   try {
-//     const { data } = await api.updatePost(id, post);
+export const updateContact = (contact) => async (dispatch) => {
+  try {
+    const { data } = await api.updateContact(contact);
 
-//     dispatch({ type: UPDATE, payload: data });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+    dispatch({ type: UPDATE, payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 
 export const deleteContact = (id) => async (dispatch) => {
   try {
-    await api.deletePost(id);
+    await api.deleteContact(id);
 
     dispatch({ type: DELETE, payload: id });
   } catch (error) {
@@ -84,12 +84,12 @@ export const getStatusCollection = () => ([
 ])
 
 
-export function updateContact(data) {
-    let contacts = getAllContacts();
-    let recordIndex = contacts.findIndex(x => x.id == data.id);
-    contacts[recordIndex] = { ...data }
-    localStorage.setItem(KEYS.contacts, JSON.stringify(contacts));
-}
+// export function updateContact(data) {
+//     let contacts = getAllContacts();
+//     let recordIndex = contacts.findIndex(x => x.id == data.id);
+//     contacts[recordIndex] = { ...data }
+//     localStorage.setItem(KEYS.contacts, JSON.stringify(contacts));
+// }
 
 export function generateContactId() {
     if (localStorage.getItem(KEYS.contactId) == null)
@@ -99,10 +99,10 @@ export function generateContactId() {
     return id;
 }
 
-export function deleteContactId(data) {
-    let contacts = getAllContacts();
-    let recordIndex = contacts.findIndex(x => x.id == data.id);
-    // contacts[recordIndex] = { ...data }
-    localStorage.removeItem(KEYS.contacts[recordIndex]);
-}
+// export function deleteContactId(data) {
+//     let contacts = getAllContacts();
+//     let recordIndex = contacts.findIndex(x => x.id == data.id);
+//     // contacts[recordIndex] = { ...data }
+//     localStorage.removeItem(KEYS.contacts[recordIndex]);
+// }
 

@@ -15,7 +15,8 @@ MongoClient.connect(
     {
         poolSize: 50,   //50 people can connect at a time
         wtimeout: 2500, // req timeouts every 2500ms
-        useNewUrlParser: true
+        useNewUrlParser: true,
+        useUnifiedTopology: true
     }
 )
 .catch(err =>{

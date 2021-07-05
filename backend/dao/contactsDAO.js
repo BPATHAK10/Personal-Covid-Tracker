@@ -41,24 +41,27 @@ export default class ContactsDAO {
   }
 
   static async updateContact(
-    userInfo,
-    contact_id,
+    owner,
+    _id,
     relation,
     status,
     name,
     vaccinationStatus,
-    date,
+    dateOfInfection,
   ) {
     try {
-      const updateResponse = await contacts.updateOne(
-        {owner: ObjectId(userInfo._id), _id: ObjectId(contact_id)},
+      const updateResponse = await contacts.findOneAndUpdate(
+        {owner: ObjectId(owner), _id: ObjectId(_id)},
         { $set: { 
             relation: relation,
             status: status,
             name: name,
-            dateOfInfection: date,
+            dateOfInfection: dateOfInfection,
             vaccinationStatus: vaccinationStatus
           } },
+          {
+            returnOriginal: false
+          }
       )
 
       return updateResponse

@@ -35,24 +35,37 @@ export default class ContactsController {
 
   static async apiUpdateContact(req, res, next) {
     try {
-        const contact_id = req.body.contact_id
-        const relation = req.body.relation
-        const status = req.body.status
-        const name = req.body.name
-        const date = req.body.date
-        const vaccinationStatus = req.body.vaccinationStatus
+        // const updatedContact = req.body.updatedContact
+
+        // console.log(updatedContact)
+
+        const {
+          relation,
+          name,
+          status,
+          dateOfInfection,
+          vaccinationStatus,
+          owner,
+          _id
+        } = req.body
+
+        // const relation = req.body.relation
+        // const status = req.body.status
+        // const name = req.body.name
+        // const date = req.body.date
+        // const vaccinationStatus = req.body.vaccinationStatus
   
-        const userInfo = {
-          _id: req.body.owner
-        }  
+        // const userInfo = {
+        //   _id: req.body.owner
+        // }  
         const ContactResponse = await ContactsDAO.updateContact(
-          userInfo,
-          contact_id,
+          owner,
+          _id,
           relation,
           status,
           name,
           vaccinationStatus,
-          date,
+          dateOfInfection
         )
 
 
@@ -66,8 +79,9 @@ export default class ContactsController {
           "unable to update review - user may not be original poster",
         )
       }
+      // console.log(ContactResponse)
 
-      res.json({ status: "success" })
+      res.json(ContactResponse.value)
     } catch (e) {
       res.status(500).json({ error: e.message })
     }

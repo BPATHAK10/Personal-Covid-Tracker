@@ -27,6 +27,8 @@ const initialFValues = {
 
 export default function ContactForm(props) {
     const { addOrEdit, recordForEdit } = props
+
+    // console.log("recordForEdit in form::",recordForEdit)
     
 
     const validate = (fieldValues = values) => {
@@ -58,7 +60,7 @@ export default function ContactForm(props) {
 
     const handleSubmit = e => {
         e.preventDefault()
-        console.log("add form data::",values)
+        // console.log("add form data::",values)
         
         if (validate()) {
             addOrEdit(values, resetForm);
@@ -79,7 +81,7 @@ export default function ContactForm(props) {
                     <Controls.Input
                         name="name"
                         label="Full Name"
-                        value={values.fullName}
+                        value={values.name}
                         onChange={handleInputChange}
                         error={errors.fullName}
                     />
@@ -116,7 +118,7 @@ export default function ContactForm(props) {
                     <Controls.Select
                         name="status"
                         label="Status"
-                        value={values.statusId}
+                        value={values.status}
                         onChange={handleInputChange}
                         options={contactService.getStatusCollection()}
                         error={errors.statusId}
@@ -130,7 +132,7 @@ export default function ContactForm(props) {
                     <Controls.Checkbox
                         name="vaccinationStatus"
                         label="Vaccinated"
-                        value={values.isVaccinated}
+                        value={values.vaccinationStatus}
                         onChange={handleInputChange}
                     />
 
