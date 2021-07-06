@@ -46,8 +46,13 @@ export const getAllContacts = () => async (dispatch) => {
 export const createContact = (contact) => async (dispatch) => {
   try {
     // console.log("in create contact", contact)
-    const { data } = await api.createContact(contact);
-    console.log(data)
+    let { data } = await api.createContact(contact);
+    let statuss = getStatusCollection();
+    data = {
+        ...data,
+        status: statuss[data.status - 1].title
+    }
+    // console.log(data)
 
     dispatch({ type: CREATE, payload: data });
   } catch (error) {
@@ -57,7 +62,14 @@ export const createContact = (contact) => async (dispatch) => {
 
 export const updateContact = (contact) => async (dispatch) => {
   try {
-    const { data } = await api.updateContact(contact);
+    let { data } = await api.updateContact(contact);
+    let statuss = getStatusCollection();
+    // console.log("in update ::", data)
+
+    data = {
+        ...data,
+        status: statuss[data.status - 1].title
+    }
 
     dispatch({ type: UPDATE, payload: data });
   } catch (error) {

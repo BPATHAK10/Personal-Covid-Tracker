@@ -160,8 +160,8 @@ export default function Homepage() {
                             recordsAfterPagingAndSorting().map(item =>
                                 (<TableRow key={item.id}>
                                     <TableCell>{item.name}</TableCell>
-                                    <TableCell>{item.email}</TableCell>
-                                    <TableCell>{item.mobile}</TableCell>
+                                    {/* <TableCell>{item.email}</TableCell>
+                                    <TableCell>{item.mobile}</TableCell> */}
                                     <TableCell>{item.relation}</TableCell>
                                     <TableCell>{item.status}</TableCell>
                                     <TableCell>{item.vaccinationStatus==true?"Yes":"No"}</TableCell>

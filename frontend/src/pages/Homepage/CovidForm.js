@@ -33,14 +33,14 @@ export default function ContactForm(props) {
 
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
-        if ('fullName' in fieldValues)
-            temp.fullName = fieldValues.fullName ? "" : "This field is required."
-        if ('email' in fieldValues)
-            temp.email = (/$^|.+@.+..+/).test(fieldValues.email) ? "" : "Email is not valid."
-        if ('mobile' in fieldValues)
-            temp.mobile = fieldValues.mobile.length > 9 ? "" : "Minimum 10 numbers required."
-        if ('statusId' in fieldValues)
-            temp.statusId = fieldValues.statusId.length != 0 ? "" : "This field is required."
+        if ('name' in fieldValues)
+            temp.name = fieldValues.name ? "" : "This field is required."
+        // if ('email' in fieldValues)
+        //     temp.email = (/$^|.+@.+..+/).test(fieldValues.email) ? "" : "Email is not valid."
+        // if ('mobile' in fieldValues)
+        //     temp.mobile = fieldValues.mobile.length > 9 ? "" : "Minimum 10 numbers required."
+        if ('status' in fieldValues)
+            temp.status = fieldValues.status.length != 0 ? "" : "This field is required."
         setErrors({
             ...temp
         })
