@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import CovidForm from "./CovidForm";
 import PageHeader from "../../components/PageHeader";
+import BasicMap from "../../components/BasicMap";
+
 import DeviceHubIcon from '@material-ui/icons/DeviceHub';
 import { Paper, makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Grid } from '@material-ui/core';
 import useTable from "../../components/useTable";
@@ -208,21 +210,21 @@ export default function Homepage() {
                     <PageHeader
                         title="Personal covid Tracker"
                         onClick={toggleMap}
-                        subTitle="Records"
-                        icon={<DeviceHubIcon fontSize="large" />}
+                        // subTitle="Records"
+                        icon={<DeviceHubIcon fontSize="medium" />}
                     />
                 </Grid>
                 <Grid item xs={6}>
                     <PageHeader
                         title="Map"
                         onClick={toggleMap}
-                        subTitle=""
-                        icon={<MapIcon fontSize="large" />}
+                        // subTitle=""
+                        icon={<MapIcon fontSize="medium" />}
                     />
                 </Grid>
             </Grid>
             <Paper className={classes.pageContent}>
-                { pageContent == "table" ? <PageTable/> : null}
+                { pageContent == "table" ? <PageTable/> : <BasicMap/>}
                 
             </Paper> 
             
