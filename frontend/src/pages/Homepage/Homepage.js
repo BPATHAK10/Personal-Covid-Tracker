@@ -134,12 +134,19 @@ export default function Homepage() {
         return date.substring(0,10)
     }
 
-    const toggleMap = ()=>{
-        if (pageContent == "table"){
-            console.log("map")
-            setpageContent("map")   
+    const togglePageContent = (e)=>{
+        const isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
+        let data
+        if (isChrome){
+            data = e.target.outerText    
         }
         else{
+            data = e.target.innerText
+        }
+        if (data == "Map"){
+            setpageContent("map")   
+        }
+        else if (data== "Records"){
             setpageContent("table")
         }
     }
@@ -208,17 +215,15 @@ export default function Homepage() {
             <Grid container spacing={1}>
                 <Grid item xs={6}>
                     <PageHeader
-                        title="Personal covid Tracker"
-                        onClick={toggleMap}
-                        // subTitle="Records"
+                        title="Records"
+                        onClick={togglePageContent}
                         icon={<DeviceHubIcon fontSize="medium" />}
                     />
                 </Grid>
                 <Grid item xs={6}>
                     <PageHeader
                         title="Map"
-                        onClick={toggleMap}
-                        // subTitle=""
+                        onClick={togglePageContent}
                         icon={<MapIcon fontSize="medium" />}
                     />
                 </Grid>
