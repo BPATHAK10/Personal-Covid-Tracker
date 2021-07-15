@@ -1,4 +1,3 @@
-
 import SignIn from './pages/SignIn/SignIn'
 import SignUp from './pages/SignUp/SignUp'
 import Homepage from "./pages/Homepage/Homepage";
@@ -13,6 +12,7 @@ import {
     Redirect,
     useLocation
      } from "react-router-dom";
+import { add } from 'date-fns';
 
   const theme = createMuiTheme({
   palette: {
@@ -43,11 +43,11 @@ import {
 })
     
 
-
 function App(props) {
 
   return (
     <ThemeProvider theme={theme}>
+            <CssBaseline />
       <Router>
         <div className="App">
           <Switch>
@@ -60,7 +60,6 @@ function App(props) {
           </Switch> 
         </div>
       </Router>
-    <CssBaseline />
   </ThemeProvider>
   );
 }

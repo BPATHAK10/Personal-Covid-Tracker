@@ -84,20 +84,20 @@ const SignIn=()=>{
 
 
 
-    const googleSuccess = async (res) => {
-        const result = res?.profileObj;
-        const token = res?.tokenId;
+    // const googleSuccess = async (res) => {
+    //     const result = res?.profileObj;
+    //     const token = res?.tokenId;
     
-        try {
-          dispatch({ type: AUTH, data: { result, token } });
+    //     try {
+    //       dispatch({ type: AUTH, data: { result, token } });
     
-          history.push('/');
-        } catch (error) {
-          console.log(error);
-        }
-      };
+    //       history.push('/');
+    //     } catch (error) {
+    //       console.log(error);
+    //     }
+    //   };
     
-    const googleError = () => console.log('Google Sign In was unsuccessful. Try again later');
+    // const googleError = () => console.log('Google Sign In was unsuccessful. Try again later');
 
     return (
         <Grid className={classes.root}>
@@ -108,7 +108,7 @@ const SignIn=()=>{
                <h2>Sign In </h2>
                <TextField  name="username" label='Username' placeholder='Enter user name' fullWidth required onChange={handleChange} />
                <TextField  name="password" label='Password' placeholder='Enter password' type='password' fullWidth required onChange={handleChange} />
-               <FormControlLabel
+               {/* <FormControlLabel
                     control={
                     <Checkbox
                         
@@ -117,10 +117,10 @@ const SignIn=()=>{
                     />
                     }
                     label="Remember me"
-                />
+                /> */}
                 <Button type='submit' className={classes.button} color='primary' variant='contained' onClick={handleSubmit} fullWidth>Sign in</Button>
                 
-                <GoogleLogin
+                {/* <GoogleLogin
                     clientId="272320939949-3ck8prt1jlrkabkua3rn8eqnjdvans36.apps.googleusercontent.com"
                     render={(renderProps) => (
                     <Button 
@@ -137,12 +137,12 @@ const SignIn=()=>{
                     onSuccess={googleSuccess}
                     onFailure={googleError}
                     cookiePolicy="single_host_origin"
-                />
+                /> */}
 
-                <Link to="#" className={classes.link} >
+                {/* <Link to="#" className={classes.link} >
                     Forgot Password
                 </Link>
-              
+               */}
                
                 <Typography >New here?
                     <Link to="/sign-up" className={classes.link}>

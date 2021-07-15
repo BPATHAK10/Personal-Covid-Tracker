@@ -3,6 +3,7 @@ import { Grid,Input } from '@material-ui/core';
 import Controls from "../../components/controls/Controls";
 import { useForm, Form } from '../../components/useForm';
 import * as contactService from "../../actions/contacts";
+import { getStatusCollection } from '../../actions/contacts';
 import { TextField } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 
@@ -26,7 +27,7 @@ const initialFValues = {
 }
 
 export default function ContactForm(props) {
-    const { addOrEdit, recordForEdit } = props
+    const { addOrEdit, recordForEdit, setRecordForEdit } = props
 
     // console.log("recordForEdit in form::",recordForEdit)
     
@@ -66,13 +67,30 @@ export default function ContactForm(props) {
             addOrEdit(values, resetForm);
         }
     }
+    useEffect(() => {
+        if(recordForEdit != null) {
+            let statuss = getStatusCollection();
+            statuss = statuss.filter(element => element.title == recordForEdit?.status)
+            const id = statuss[0]?.id
+
+            setRecordForEdit({
+                ...recordForEdit,
+                status: id ? id : ""
+            })
+    }
+        
+    }, [])
 
     useEffect(() => {
-        if (recordForEdit != null)
+        if (recordForEdit != null){
             setValues({
                 ...recordForEdit
             })
+        }
+
     }, [recordForEdit])
+
+
 
     return (
         <Form onSubmit={handleSubmit}>

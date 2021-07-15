@@ -9,12 +9,13 @@ export default class ContactsController {
       const relation = req.body.relation
       const status = req.body.status  
       const name = req.body.name
-      const dateOfInfection = req.body.dateOfInfection
+      const dateOfInfection = new Date(req.body.dateOfInfection)
       const vaccinationStatus = req.body.vaccinationStatus
 
       const userInfo = {
         _id: req.body.owner
       }
+      // console.log(dateOfInfection)
 
       const ContactResponse = await ContactsDAO.addContact(
         userInfo,
@@ -96,6 +97,7 @@ export default class ContactsController {
         res.status(404).json({ error: "Not found" })
         return
       }
+      // console.log(JSON.stringify(userContacts))
       res.json(userContacts)
     } catch (e) {
       console.log(`api, ${e}`)

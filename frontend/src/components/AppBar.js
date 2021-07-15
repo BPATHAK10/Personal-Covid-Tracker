@@ -98,7 +98,6 @@ function AppBar_custom(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem  >Profile</MenuItem>
       <MenuItem >My account</MenuItem>
       <MenuItem onClick={handleLogout}>Log Out</MenuItem>
     </Menu>
@@ -108,7 +107,7 @@ function AppBar_custom(props) {
     <React.Fragment>
         <AppBar
           position="fixed"
-          style={{backgroundColor:"#5F88A1"}}
+          color="primary"
           // className={classes.appBar}
         >
           <Toolbar>

@@ -29,13 +29,18 @@ const KEYS = {
 export const getAllContacts = () => async (dispatch) => {
   try {
     let { data } = await api.fetchContacts();
+    // console.log("before   in getallcontacats::",data)
     let statuss = getStatusCollection();
-    data = data.map(dt => ({
-        ...dt,
-        status: statuss[dt.status - 1].title
-    }))
 
-    // console.log("in getallcontacats::",data)
+    data = data.map(dt => ({
+      ...dt,
+      status: statuss[dt.status - 1].title,
+      daysFromInfection: new Date(dt.dateOfInfection)
+    }))
+    
+    // console.log("after  in getallcontacats::",data)
+
+    //refactor date
     
     dispatch({ type: FETCH_ALL, payload: data });
 
@@ -50,7 +55,8 @@ export const createContact = (contact) => async (dispatch) => {
     let statuss = getStatusCollection();
     data = {
         ...data,
-        status: statuss[data.status - 1].title
+        status: statuss[data.status - 1].title,
+      daysFromInfection: new Date(data.dateOfInfection)
     }
     // console.log(data)
 
@@ -68,7 +74,8 @@ export const updateContact = (contact) => async (dispatch) => {
 
     data = {
         ...data,
-        status: statuss[data.status - 1].title
+        status: statuss[data.status - 1].title,
+      daysFromInfection: new Date(data.dateOfInfection)
     }
 
     dispatch({ type: UPDATE, payload: data });
@@ -95,14 +102,6 @@ export const getStatusCollection = () => ([
     { id: '4', title: 'Death' },
 ])
 
-
-// export function updateContact(data) {
-//     let contacts = getAllContacts();
-//     let recordIndex = contacts.findIndex(x => x.id == data.id);
-//     contacts[recordIndex] = { ...data }
-//     localStorage.setItem(KEYS.contacts, JSON.stringify(contacts));
-// }
-
 export function generateContactId() {
     if (localStorage.getItem(KEYS.contactId) == null)
         localStorage.setItem(KEYS.contactId, '0')
@@ -110,11 +109,4 @@ export function generateContactId() {
     localStorage.setItem(KEYS.contactId, (++id).toString())
     return id;
 }
-
-// export function deleteContactId(data) {
-//     let contacts = getAllContacts();
-//     let recordIndex = contacts.findIndex(x => x.id == data.id);
-//     // contacts[recordIndex] = { ...data }
-//     localStorage.removeItem(KEYS.contacts[recordIndex]);
-// }
 

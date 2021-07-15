@@ -121,9 +121,38 @@ export default function useTable(headCells,filterFn) {
         return 0;
     }
 
+    function refactorDate(date){
+        const dateOfInfection = date
+        // console.log("item ko date ::",dateOfInfection )
+        const today = new Date()
+        // console.log("today:::",today)
+        // To calculate the time difference of two dates
+        var Difference_In_Time = today.getTime() - dateOfInfection.getTime() 
+
+        // To calculate the no. of days between two dates
+        var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);   
+
+        // console.log(Difference_In_Days)
+
+        const daysStr = Difference_In_Days.toFixed(0) + " days"
+        // console.log(daysStr) 
+
+        return daysStr
+    }
+
     const recordsAfterPagingAndSorting = () => {
-        return stableSort(filterFn.fn(records), getComparator(order, orderBy))
+        const afterPaginationAndSorting = stableSort(filterFn.fn(records), getComparator(order, orderBy))
             .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
+
+        const afterDateRefactor = afterPaginationAndSorting.map(item=>({
+            ...item,
+            daysFromInfection: refactorDate(item.daysFromInfection)
+        })
+        )
+
+        // console.log(afterDateRefactor)
+        
+        return afterDateRefactor
     }
 
     return {

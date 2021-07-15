@@ -26,11 +26,11 @@ const useStyles = makeStyles(theme => ({
 export default function PageHeader(props) {
 
     const classes = useStyles();
-    const { title, subTitle, icon } = props;
+    const { title, subTitle, icon, onClick } = props;
     return (
-        <Paper elevation={0} square className={classes.root}>
+        <Paper elevation={0} square  onClick={onClick} className={classes.root}>
             <div className={classes.pageHeader}>
-                <Card className={classes.pageIcon}>
+                <Card className={classes.pageIcon} >
                     {icon}
                 </Card>
                 <div className={classes.pageTitle}>
