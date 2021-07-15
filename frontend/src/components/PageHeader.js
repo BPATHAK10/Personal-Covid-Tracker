@@ -3,7 +3,8 @@ import { Paper, Card, Typography, makeStyles, Button } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
     root: {
-        backgroundColor: '#fdfdff'
+        backgroundColor: '#fdfdff',
+        cursor: "pointer"
     },
     pageHeader:{
         padding:theme.spacing(4),
@@ -28,7 +29,7 @@ export default function PageHeader(props) {
     const classes = useStyles();
     const { title, subTitle, icon, onClick } = props;
     return (
-        <Paper elevation={0} square  onClick={onClick} className={classes.root}>
+        <Paper elevation={0} square  onClick={onClick} className={classes.root} >
             <div className={classes.pageHeader}>
                 <Card className={classes.pageIcon} >
                     {icon}
