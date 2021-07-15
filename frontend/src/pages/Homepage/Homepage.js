@@ -43,6 +43,7 @@ const headCells = [
 ]
 
 export default function Homepage() {
+    
 
     const classes = useStyles();
     const dispatch = useDispatch()
@@ -61,6 +62,7 @@ export default function Homepage() {
     }, [dispatch])
 
     // console.log(records)
+    
 
     const {
         TblContainer,
@@ -132,12 +134,12 @@ export default function Homepage() {
         return date.substring(0,10)
     }
 
-    const toggleMap = ()=>{
-        if (pageContent == "table"){
-            console.log("map")
+    const togglePageContent = (e)=>{
+        const data = e.target.outerText
+        if (data == "Map"){
             setpageContent("map")   
         }
-        else{
+        else if(data == "Records") {
             setpageContent("table")
         }
     }
@@ -206,18 +208,16 @@ export default function Homepage() {
             <Grid container spacing={1}>
                 <Grid item xs={6}>
                     <PageHeader
-                        title="Personal covid Tracker"
-                        onClick={toggleMap}
-                        subTitle="Records"
-                        icon={<DeviceHubIcon fontSize="large" />}
+                        title="Records"
+                        onClick={togglePageContent}
+                        icon={<DeviceHubIcon fontSize="medium" />}
                     />
                 </Grid>
                 <Grid item xs={6}>
                     <PageHeader
                         title="Map"
-                        onClick={toggleMap}
-                        subTitle=""
-                        icon={<MapIcon fontSize="large" />}
+                        onClick={togglePageContent}
+                        icon={<MapIcon fontSize="medium" />}
                     />
                 </Grid>
             </Grid>
