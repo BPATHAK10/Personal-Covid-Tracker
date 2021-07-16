@@ -232,7 +232,6 @@ export default function Homepage() {
             </Grid>
             <Paper className={classes.pageContent}>
                 { pageContent == "table" ? <PageTable/> : <BasicMap/>}
-                
             </Paper> 
             
             <Popup
