@@ -1,121 +1,57 @@
 import React,{ useState,useRef,useEffect } from 'react';
-import {Map,TileLayer,Marker,Popup} from 'react-leaflet';
-import "leaflet/dist/leaflet.css";
+import {MapContainer,TileLayer,Marker,Popup,useMapEvents} from 'react-leaflet';
 import L from 'leaflet';
+import "./BasicMap.css";
+import {makeStyles, Button} from "@material-ui/core"
 import np from'../assets/np.json';  
-
-const Userlocation = () => {
-    const[location,setLocation]=useState({ 
-        loaded:false,
-        coordinates: { lat:'', lng:''}
-    });
-
-    const onSuccess=location=>{
-
-        setLocation({
-
-            loaded:true,
-            coordinates: {
-                lat:location.coords.latitude,
-                lng:location.coords.longitude,
-            }
-        })
-    };
-    const onError=error=>{
-        
-        setLocation({
-
-            loaded:true,
-            error,
-        })
-    }
-
-    useEffect(() => {
-        if(!("geolocation" in navigator) ){
-            onError({
-                code:0,
-                message:"Geolocation not supported",
-            })
-
-        }
-            navigator.geolocation.getCurrentPosition(onSuccess,onError)
-        
-    }, []);
-
-    return location;
- 
-}
-
-const OsmProviders ={ maptiler: {
-    url:'https://api.maptiler.com/maps/basic/?key=jwds92Px2goFL0ztcaCb#9.2/27.75467/85.23806',
-    attribution:'<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
-    }
-}
 
 const markerIcon =new L.icon(
     {
-        iconUrl:require("../assets/download.png").default,
+        iconUrl:require("../assets/redMark.png").default,
         iconSize:[35,45],
         iconAnchor:[17,45],
         popupAnchor:[3,-46],
     }
 );
-const myIcon =new L.icon(
-    {
-        iconUrl:require("../assets/mark.png").default,
-        iconSize:[35,45],
-        iconAnchor:[17,45],
-        popupAnchor:[3,-46],
-    }
-);
+
+function LocationMarker() {
+    const [position, setPosition] = useState(null)
+    const map = useMapEvents({
+      click() {
+        map.locate()
+      },
+      locationfound(e) {
+        setPosition(e.latlng)
+        map.flyTo(e.latlng, (map.getZoom()+5) > 18  ? 18 : map.getZoom()+5)
+      },
+    })
+  
+    return position === null ? null : (
+      <Marker position={position} icon={markerIcon}>
+        <Popup>You are here</Popup>
+      </Marker>
+    )
+  }
 
 const BasicMap=()=> {
-
-    const [center,setCenter]=useState({ lat:29.5239, lng:82.0788});
-    const ZOOM_LEVEL=9;
-    const mapRef=useRef();
-    const location=Userlocation(); 
-
-    const showMylocation=() =>{
-
-        if(location.loaded && !location.error){
-
-            mapRef.current.leafletElement.flyTo([location.coordinates.lat,location.coordinates.lng],ZOOM_LEVEL,{animate:true})
-        }
-        else{
-            alert(location.error.message)
-        }
-    }
-
+    // const classes = useStyles();
+    
+    const [center,setCenter]=useState({ lat:27.68120419340318, lng:85.31848276858595});
+    const ZOOM_LEVEL=10;
 
     return (
-        <div>
-            <Map
+        <div className="map">
+            <MapContainer
                 center={center}
                 zoom={ZOOM_LEVEL}
-                ref={mapRef}
             >
-            <TileLayer url={OsmProviders.maptiler.url} attribution={OsmProviders.maptiler.attribution} />
-            
-            {location.loaded && !location.error && (
-                <Marker 
-                 icon ={myIcon} 
-                 position={[location.coordinates.lat,location.coordinates.lng]}>
-
-                 <Popup>
-                    <b>You are here dammit</b>
-                </Popup>
-
-
-                </Marker>
-            )
-            
-            
-            
-            }
+            <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                            />
+            <LocationMarker />
             {np.map((city,idx)=><Marker
              position={[city.lat,city.lng]} 
-             icon={markerIcon}
              key={idx}
              >
                 <Popup>
@@ -124,8 +60,7 @@ const BasicMap=()=> {
 
             </Marker>)}
 
-            </Map>
-            <button onClick={showMylocation}></button>
+            </MapContainer>
 
         </div>
     )

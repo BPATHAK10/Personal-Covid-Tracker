@@ -54,6 +54,7 @@ export default function Homepage() {
     const [filterFn, setFilterFn] = useState({ fn: items => { return items; } })
     const [openPopup, setOpenPopup] = useState(false)
     const [pageContent, setpageContent] = useState("table")
+    const [searchQuery, setsearchQuery] = useState("")
 
     const contacts = useSelector((state)=> state.contactReducer)
     // console.log("contacts of homepage:::", contacts)
@@ -79,26 +80,27 @@ export default function Homepage() {
         setFilterFn({
             fn: items => {
                 if (target.value == "")
-                    return items;
+                return items;
                 else
-                    return items.filter(x => x.name.toLowerCase().includes(target.value) || x.name.toUpperCase().includes(target.value) || x.name.includes(target.value))
+                return items.filter(x => x.name.toLowerCase().includes(target.value) || x.name.toUpperCase().includes(target.value) || x.name.includes(target.value))
             }
         })
+        setsearchQuery(target.value)
     }
 
     const addOrEdit = (contact, resetForm) => {   
         // console.log("inside add or edit with contact:::",contact)
 
         const isAdd = contact._id === undefined
-        // console.log(isAdd)
+        console.log(isAdd)
 
         if (isAdd){   // use item.id to decide add or edit
-            console.log("inside add")
+            // console.log("inside add",contact)
 
             dispatch(contactService.createContact(contact))
         }
         else{
-            console.log("inside edit with data:::",contact)
+            // console.log("inside edit with data:::",contact)
 
             dispatch(contactService.updateContact(contact))
         }
@@ -160,6 +162,7 @@ export default function Homepage() {
             <Controls.Input
                 label="Search Contacts"
                 className={classes.searchInput}
+                value={searchQuery}
                 InputProps={{
                     startAdornment: (<InputAdornment position="start">
                         <Search />

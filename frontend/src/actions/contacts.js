@@ -1,5 +1,6 @@
 import { FETCH_ALL, CREATE, UPDATE, DELETE } from '../redux/actionTypes';
 import * as api from '../api/index.js';
+import np from "../assets/np.json"
 
 const KEYS = {
     userInfo: 'userInfo',
@@ -101,6 +102,18 @@ export const getStatusCollection = () => ([
     { id: '3', title: 'Recovered' },
     { id: '4', title: 'Death' },
 ])
+
+export const getLocation = () => {
+  // const cityOptions = []
+  const cityOptions = np.map((city,idx)=>({
+    title: city.city,
+    id: idx.toString(),
+    lat: city.lat,
+    lng: city.lng
+  })
+  )
+  return cityOptions
+}
 
 export function generateContactId() {
     if (localStorage.getItem(KEYS.contactId) == null)

@@ -113,7 +113,7 @@ function AppBar_custom(props) {
           <Toolbar>
                 <Typography variant="h5" component="h5">
                   <Link to="/" className={classes.appBarTitle}>
-                    Covid Tracker
+                    Personal Covid Tracker
                   </Link>
                 </Typography>
             <div className={classes.grow} />

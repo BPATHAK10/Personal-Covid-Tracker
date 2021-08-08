@@ -19,6 +19,7 @@ const initialFValues = {
     // email: '',
     // mobile: '',
     relation: '',
+    location: '',
     // gender: 'male',
     owner:`${JSON.parse(localStorage.getItem("userInfo"))?.user._id}`,
     status: '',
@@ -123,6 +124,15 @@ export default function ContactForm(props) {
                         value={values.relation}
                         onChange={handleInputChange}
                     />
+{/* 
+                    <Controls.Select
+                        name="location"
+                        label="Location"
+                        value={values.location}
+                        onChange={handleInputChange}
+                        options={contactService.getLocation()}
+                        error={errors.locationId}
+                    /> */}
 
                 </Grid>
                 <Grid item xs={6}>
