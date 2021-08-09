@@ -84,6 +84,8 @@ function AppBar_custom(props) {
     setanchorEl(null);
 
     setuser(null);
+    props.setcontactOwner("");
+
     history.push('/sign-in');
 
   };

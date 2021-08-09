@@ -53,11 +53,16 @@ export default function Homepage() {
     // const [records, setRecords] = useState(useSelector(state=>state.contactReducer))
     const [filterFn, setFilterFn] = useState({ fn: items => { return items; } })
     const [openPopup, setOpenPopup] = useState(false)
-    const [pageContent, setpageContent] = useState("table")
+    // const [pageContent, setpageContent] = useState("table")
     const [searchQuery, setsearchQuery] = useState("")
+    const [contactOwner, setcontactOwner] = useState("")
 
     const contacts = useSelector((state)=> state.contactReducer)
     // console.log("contacts of homepage:::", contacts)
+
+    useEffect(() => {
+        setcontactOwner(JSON.parse(localStorage.getItem("userInfo")).user._id)
+    }, [])
     
     useEffect(() => {
         dispatch(contactService.getAllContacts())
@@ -92,10 +97,10 @@ export default function Homepage() {
         // console.log("inside add or edit with contact:::",contact)
 
         const isAdd = contact._id === undefined
-        console.log(isAdd)
+        // console.log(isAdd)
 
         if (isAdd){   // use item.id to decide add or edit
-            // console.log("inside add",contact)
+            console.log("inside add",contact)
 
             dispatch(contactService.createContact(contact))
         }
@@ -147,12 +152,12 @@ export default function Homepage() {
         else{
             data = e.target.innerText
         }
-        if (data == "Map"){
-            setpageContent("map")   
-        }
-        else if (data== "Records"){
-            setpageContent("table")
-        }
+        // if (data == "Map"){
+        //     setpageContent("map")   
+        // }
+        // else if (data== "Records"){
+        //     setpageContent("table")
+        // }
     }
 
     const PageTable = ()=> {
@@ -216,7 +221,7 @@ export default function Homepage() {
 
     return (
         <>
-            <AppBar />
+            <AppBar setcontactOwner={setcontactOwner} />
             <Grid container spacing={1}>
                 <Grid item xs={6}>
                     <PageHeader
@@ -225,16 +230,17 @@ export default function Homepage() {
                         icon={<DeviceHubIcon fontSize="medium" />}
                     />
                 </Grid>
-                <Grid item xs={6}>
+                {/* <Grid item xs={6}>
                     <PageHeader
                         title="Map"
                         onClick={togglePageContent}
                         icon={<MapIcon fontSize="medium" />}
                     />
-                </Grid>
+                </Grid> */}
             </Grid>
             <Paper className={classes.pageContent}>
-                { pageContent == "table" ? <PageTable/> : <BasicMap/>}
+                {/* { pageContent == "table" ? <PageTable/> : <BasicMap/>} */}
+                <PageTable/>
             </Paper> 
             
             <Popup
@@ -244,6 +250,7 @@ export default function Homepage() {
             >
                 <CovidForm
                     recordForEdit={recordForEdit}
+                    contactOwner={contactOwner}
                     addOrEdit={addOrEdit}
                     setRecordForEdit={setRecordForEdit} />
             </Popup>

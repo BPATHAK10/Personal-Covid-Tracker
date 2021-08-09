@@ -14,22 +14,19 @@ const genderItems = [
     { id: 'other', title: 'Other' },
 ]
 
-const initialFValues = {
-    name: '',
-    // email: '',
-    // mobile: '',
-    relation: '',
-    location: '',
-    // gender: 'male',
-    owner:`${JSON.parse(localStorage.getItem("userInfo"))?.user._id}`,
-    status: '',
-    dateOfInfection: new Date(),
-    vaccinationStatus: false,
-}
 
 export default function ContactForm(props) {
     const { addOrEdit, recordForEdit, setRecordForEdit } = props
 
+    const initialFValues = {
+        name: '',
+        relation: '',
+        location: '',
+        owner:`${props.contactOwner}`,
+        status: '',
+        dateOfInfection: new Date(),
+        vaccinationStatus: false,
+    }
     // console.log("recordForEdit in form::",recordForEdit)
     
 
