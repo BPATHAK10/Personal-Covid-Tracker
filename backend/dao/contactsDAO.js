@@ -22,6 +22,7 @@ export default class ContactsDAO {
     name,
     vaccinationStatus,
     dateOfInfection,
+    mobileNumber,
   ) {
     try {
       const ContactDoc = { 
@@ -30,6 +31,7 @@ export default class ContactsDAO {
           status: status,
           name: name,
           dateOfInfection: dateOfInfection,
+          mobileNumber: mobileNumber,
           vaccinationStatus: vaccinationStatus}
 
       return await contacts.insertOne(ContactDoc)
@@ -47,6 +49,7 @@ export default class ContactsDAO {
     status,
     name,
     vaccinationStatus,
+    mobileNumber,
     dateOfInfection,
   ) {
     try {
@@ -57,7 +60,8 @@ export default class ContactsDAO {
             status: status,
             name: name,
             dateOfInfection: dateOfInfection,
-            vaccinationStatus: vaccinationStatus
+            vaccinationStatus: vaccinationStatus,
+            mobileNumber: mobileNumber,
           } },
           {
             returnOriginal: false

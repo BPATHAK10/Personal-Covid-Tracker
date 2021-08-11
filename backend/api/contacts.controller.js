@@ -11,6 +11,7 @@ export default class ContactsController {
       const name = req.body.name
       const dateOfInfection = new Date(req.body.dateOfInfection)
       const vaccinationStatus = req.body.vaccinationStatus
+      const mobileNumber = req.body.mobileNumber
 
       const userInfo = {
         _id: req.body.owner
@@ -24,6 +25,7 @@ export default class ContactsController {
         name,
         vaccinationStatus,
         dateOfInfection,
+        mobileNumber,
       )
       
       // console.log(ContactResponse.ops[0])
@@ -45,6 +47,7 @@ export default class ContactsController {
           name,
           status,
           dateOfInfection,
+          mobileNumber,
           vaccinationStatus,
           owner,
           _id
@@ -66,6 +69,7 @@ export default class ContactsController {
           status,
           name,
           vaccinationStatus,
+          mobileNumber,
           dateOfInfection
         )
 

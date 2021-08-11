@@ -38,8 +38,9 @@ const headCells = [
     // { id: 'mobile', label: 'Mobile Number' },
     { id: 'relation', label: 'Relation' },
     { id: 'status', label: 'Status' },
+    {id: 'mobileNumber', label: 'Mobile Number'},
     { id: 'vaccinationStatus', label: 'Vaccination' },
-    { id: 'dateOfInfection', label: 'Date' },
+    // { id: 'dateOfInfection', label: 'Date' },
     {id: 'daysFromInfection', label: 'Days'},
     { id: 'actions', label: 'Actions', disableSorting: true }
 ]
@@ -100,7 +101,7 @@ export default function Homepage() {
         // console.log(isAdd)
 
         if (isAdd){   // use item.id to decide add or edit
-            console.log("inside add",contact)
+            // console.log("inside add",contact)
 
             dispatch(contactService.createContact(contact))
         }
@@ -190,12 +191,12 @@ export default function Homepage() {
                     recordsAfterPagingAndSorting().map(item =>
                         (<TableRow key={item.id}>
                             <TableCell>{item.name}</TableCell>
-                            {/* <TableCell>{item.email}</TableCell>
-                            <TableCell>{item.mobile}</TableCell> */}
+                            {/* <TableCell>{item.email}</TableCell> */}
                             <TableCell>{item.relation}</TableCell>
                             <TableCell>{item.status}</TableCell>
-                            <TableCell>{item.vaccinationStatus==true?"Yes":"No"}</TableCell>
-                            <TableCell>{formatDateToDisplay(item.dateOfInfection)}</TableCell>
+                            <TableCell>{item.mobileNumber}</TableCell>
+                            <TableCell>{item.vaccinationStatus}</TableCell>
+                            {/* <TableCell>{formatDateToDisplay(item.dateOfInfection)}</TableCell> */}
                             <TableCell>{item.daysFromInfection}</TableCell>
                             <TableCell>
                                 <Controls.ActionButton

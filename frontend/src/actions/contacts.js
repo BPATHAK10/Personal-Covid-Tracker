@@ -51,7 +51,7 @@ export const getAllContacts = () => async (dispatch) => {
 
 export const createContact = (contact) => async (dispatch) => {
   try {
-    // console.log("in create contact", contact)
+    console.log("in create contact", contact)
     let { data } = await api.createContact(contact);
     let statuss = getStatusCollection();
     data = {

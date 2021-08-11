@@ -8,10 +8,16 @@ import { TextField } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 
 
-const genderItems = [
-    { id: 'male', title: 'Male' },
-    { id: 'female', title: 'Female' },
-    { id: 'other', title: 'Other' },
+// const genderItems = [
+//     { id: 'male', title: 'Male' },
+//     { id: 'female', title: 'Female' },
+//     { id: 'other', title: 'Other' },
+// ]
+
+const vaccinationStatusItems = [
+    { id: 'vaccinated', title: 'Vaccinated'},
+    { id: 'not Vaccinated', title: 'Not Vaccinated'},
+    { id: 'unknown', title: 'unknown'},
 ]
 
 
@@ -21,28 +27,31 @@ export default function ContactForm(props) {
     const initialFValues = {
         name: '',
         relation: '',
-        location: '',
         owner:`${props.contactOwner}`,
         status: '',
+        mobileNumber: '',
         dateOfInfection: new Date(),
-        vaccinationStatus: false,
+        vaccinationStatus: 'unknown',
     }
     // console.log("recordForEdit in form::",recordForEdit)
     
 
     const validate = (fieldValues = values) => {
+        // console.log("inside validate::", fieldValues)
         let temp = { ...errors }
         if ('name' in fieldValues)
             temp.name = fieldValues.name ? "" : "This field is required."
         // if ('email' in fieldValues)
         //     temp.email = (/$^|.+@.+..+/).test(fieldValues.email) ? "" : "Email is not valid."
-        // if ('mobile' in fieldValues)
-        //     temp.mobile = fieldValues.mobile.length > 9 ? "" : "Minimum 10 numbers required."
+        if ('mobile' in fieldValues)
+            temp.mobile = fieldValues.mobile.length > 9 || fieldValues.mobile.length == 0 ? "" : "Minimum 10 numbers required."
         if ('status' in fieldValues)
             temp.status = fieldValues.status.length != 0 ? "" : "This field is required."
         setErrors({
             ...temp
         })
+        // console.log(errors)
+        // console.log(temp)
 
         if (fieldValues == values)
             return Object.values(temp).every(x => x == "")
@@ -99,7 +108,7 @@ export default function ContactForm(props) {
                         label="Full Name"
                         value={values.name}
                         onChange={handleInputChange}
-                        error={errors.fullName}
+                        error={errors.name}
                     />
                     {/* <Controls.Input
                         label="Email"
@@ -108,13 +117,13 @@ export default function ContactForm(props) {
                         onChange={handleInputChange}
                         error={errors.email}
                     /> */}
-                    {/* <Controls.Input
+                    <Controls.Input
                         label="Mobile"
-                        name="mobile"
+                        name="mobileNumber"
                         value={values.mobile}
                         onChange={handleInputChange}
                         error={errors.mobile}
-                    /> */}
+                    />
                     <Controls.Input
                         label="Relation"
                         name="relation"
@@ -133,20 +142,13 @@ export default function ContactForm(props) {
 
                 </Grid>
                 <Grid item xs={6}>
-                    {/* <Controls.RadioGroup
-                        name="gender"
-                        label="Gender"
-                        value={values.gender}
-                        onChange={handleInputChange}
-                        items={genderItems}
-                    /> */}
                     <Controls.Select
                         name="status"
                         label="Status"
                         value={values.status}
                         onChange={handleInputChange}
                         options={contactService.getStatusCollection()}
-                        error={errors.statusId}
+                        error={errors.status}
                     />
                     <Controls.DatePicker
                         name="dateOfInfection"
@@ -154,12 +156,19 @@ export default function ContactForm(props) {
                         value={values.dateOfInfection}
                         onChange={handleInputChange}
                     />
-                    <Controls.Checkbox
+                    <Controls.RadioGroup
+                        name="vaccinationStatus"
+                        label="Vaccination Status"
+                        value={values.vaccinationStatus}
+                        onChange={handleInputChange}
+                        items={vaccinationStatusItems}
+                    />
+                    {/* <Controls.Checkbox
                         name="vaccinationStatus"
                         label="Vaccinated"
                         value={values.vaccinationStatus}
                         onChange={handleInputChange}
-                    />
+                    /> */}
 
                     <div>
                         <Controls.Button
