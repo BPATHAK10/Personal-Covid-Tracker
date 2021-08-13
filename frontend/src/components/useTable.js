@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Table, TableHead, TableRow, TableCell, makeStyles, TablePagination, TableSortLabel } from '@material-ui/core'
 import { useSelector } from 'react-redux';
+import { FilterNoneSharp } from '@material-ui/icons';
+import * as selectOptions from "../components/selectOptions"
 
 const useStyles = makeStyles(theme => ({
     table: {
@@ -20,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
-export default function useTable(headCells,filterFn) {
+export default function useTable(headCells,filterFn, filters, initialFilterValues) {
 
     const classes = useStyles();
 
@@ -31,9 +33,11 @@ export default function useTable(headCells,filterFn) {
     const [rowsPerPage, setRowsPerPage] = useState(pages[page])
     const [order, setOrder] = useState()
     const [orderBy, setOrderBy] = useState()
+    const [recordsLength, setrecordsLength] = useState(records.length)
 
     const contacts = useSelector((state)=> state.contactReducer)
-    // console.log("contacts in useTable", contacts)
+    console.log("contacts in useTable", contacts)
+    console.log("filters in useTable", filters)
 
     useEffect(() => {
         // console.log("inside useeffect of useTable")
@@ -90,7 +94,7 @@ export default function useTable(headCells,filterFn) {
         page={page}
         rowsPerPageOptions={pages}
         rowsPerPage={rowsPerPage}
-        count={records.length}
+        count={recordsLength}
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
     />)
@@ -140,19 +144,75 @@ export default function useTable(headCells,filterFn) {
         return daysStr
     }
 
-    const recordsAfterPagingAndSorting = () => {
-        const afterPaginationAndSorting = stableSort(filterFn.fn(records), getComparator(order, orderBy))
-            .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
+    function filterCategories(records,filters){
+        var filtered = []
+        var filteredBasedOnStatus = []
+        var filteredBasedOnVaccination = []
 
-        const afterDateRefactor = afterPaginationAndSorting.map(item=>({
+        if(filters == initialFilterValues)
+            return records
+
+        else {
+
+            filtered = records.filter(contact=>{
+                for(var key in filters){
+                    if(key == "status" && filters.status != initialFilterValues.status){
+                        if(contact.status != selectOptions.status[filters.status-1]?.title)
+                            return false
+                    }
+                    if(key == "vaccinationStatus" && filters.vaccinationStatus != initialFilterValues.vaccinationStatus){
+                        if(contact.vaccinationStatus != filters.vaccinationStatus)
+                            return false
+                    }
+                    if(key == "daysFromInfection" && filters.daysFromInfection != initialFilterValues.daysFromInfection){
+                        var length = contact.daysFromInfection.length - 5
+                        const days = contact.daysFromInfection.substr(0,length)
+                        // console.log(days)
+                        const lowerBound = selectOptions.daysFromInfection[filters.daysFromInfection].array[0]
+                        const upperBound = selectOptions.daysFromInfection[filters.daysFromInfection].array[1]
+                        // console.log(lowerBound,upperBound)
+
+                        // check for >= lowerBound and < upperBound
+                        if(days < lowerBound || days >= upperBound)
+                           return false
+                    }
+                }
+                return true
+            })
+
+
+            // if(filters.status != initialFilterValues.status || filters.vaccinationStatus != initialFilterValues.vaccinationStatus){
+            //     // filter based on status
+            //     filtered = records.filter(contact=>contact.status == selectOptions.status[filters.status-1].title && contact.vaccinationStatus == filters.vaccinationStatus)
+            // }
+            // if(filters.vaccinationStatus != initialFilterValues.vaccinationStatus){
+            //     // filter based on vaccinationStatus
+            //     filteredBasedOnVaccination = records.filter(contact=>contact.vaccinationStatus == filters.vaccinationStatus)
+            // }
+        }
+        // filtered = filteredBasedOnStatus.concat(filteredBasedOnVaccination)
+
+        return filtered
+    }
+
+    const recordsAfterPagingAndSorting = () => {
+        const afterDateRefactor = records.map(item=>({
             ...item,
             daysFromInfection: refactorDate(item.daysFromInfection)
         })
         )
-
-        // console.log(afterDateRefactor)
+        // console.log("after date refactor::",afterDateRefactor)
         
-        return afterDateRefactor
+        const afterFiltering = filterCategories(afterDateRefactor,filters)
+        setrecordsLength(afterFiltering.length)
+        console.log("after filtering::",afterFiltering)
+        
+        const afterPaginationAndSorting = stableSort(filterFn.fn(afterFiltering), getComparator(order, orderBy))
+            .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
+
+
+        
+        return afterPaginationAndSorting
     }
 
     return {

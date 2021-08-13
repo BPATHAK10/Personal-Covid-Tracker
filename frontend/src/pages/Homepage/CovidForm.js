@@ -3,7 +3,8 @@ import { Grid,Input } from '@material-ui/core';
 import Controls from "../../components/controls/Controls";
 import { useForm, Form } from '../../components/useForm';
 import * as contactService from "../../actions/contacts";
-import { getStatusCollection } from '../../actions/contacts';
+// import { getStatusCollection } from '../../actions/contacts';
+import * as selectOptions from "../../components/selectOptions"
 import { TextField } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 
@@ -14,11 +15,7 @@ import { useSelector } from 'react-redux';
 //     { id: 'other', title: 'Other' },
 // ]
 
-const vaccinationStatusItems = [
-    { id: 'vaccinated', title: 'Vaccinated'},
-    { id: 'not Vaccinated', title: 'Not Vaccinated'},
-    { id: 'unknown', title: 'unknown'},
-]
+
 
 
 export default function ContactForm(props) {
@@ -43,8 +40,12 @@ export default function ContactForm(props) {
             temp.name = fieldValues.name ? "" : "This field is required."
         // if ('email' in fieldValues)
         //     temp.email = (/$^|.+@.+..+/).test(fieldValues.email) ? "" : "Email is not valid."
-        if ('mobile' in fieldValues)
-            temp.mobile = fieldValues.mobile.length > 9 || fieldValues.mobile.length == 0 ? "" : "Minimum 10 numbers required."
+        if ('mobileNumber' in fieldValues){
+            temp.mobile = fieldValues.mobileNumber.length > 9 || fieldValues.mobileNumber.length == 0 ? "" : "Minimum 10 numbers required."
+            if(fieldValues.mobileNumber.length != 0){
+                temp.mobile = (/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/).test(fieldValues.mobileNumber) ? "" : "Invalid format."
+            }
+        }
         if ('status' in fieldValues)
             temp.status = fieldValues.status.length != 0 ? "" : "This field is required."
         setErrors({
@@ -76,7 +77,7 @@ export default function ContactForm(props) {
     }
     useEffect(() => {
         if(recordForEdit != null) {
-            let statuss = getStatusCollection();
+            let statuss = selectOptions.status;  // imported from selectOptions.js
             statuss = statuss.filter(element => element.title == recordForEdit?.status)
             const id = statuss[0]?.id
 
@@ -109,6 +110,7 @@ export default function ContactForm(props) {
                         value={values.name}
                         onChange={handleInputChange}
                         error={errors.name}
+                        required={true}
                     />
                     {/* <Controls.Input
                         label="Email"
@@ -120,7 +122,7 @@ export default function ContactForm(props) {
                     <Controls.Input
                         label="Mobile"
                         name="mobileNumber"
-                        value={values.mobile}
+                        value={values.mobileNumber}
                         onChange={handleInputChange}
                         error={errors.mobile}
                     />
@@ -147,8 +149,10 @@ export default function ContactForm(props) {
                         label="Status"
                         value={values.status}
                         onChange={handleInputChange}
-                        options={contactService.getStatusCollection()}
+                        options={selectOptions.status}
                         error={errors.status}
+                        required={true}
+
                     />
                     <Controls.DatePicker
                         name="dateOfInfection"
@@ -161,7 +165,7 @@ export default function ContactForm(props) {
                         label="Vaccination Status"
                         value={values.vaccinationStatus}
                         onChange={handleInputChange}
-                        items={vaccinationStatusItems}
+                        items={selectOptions.vaccinationStatus}
                     />
                     {/* <Controls.Checkbox
                         name="vaccinationStatus"

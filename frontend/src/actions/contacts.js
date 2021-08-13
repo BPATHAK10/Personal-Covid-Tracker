@@ -1,6 +1,8 @@
 import { FETCH_ALL, CREATE, UPDATE, DELETE } from '../redux/actionTypes';
 import * as api from '../api/index.js';
 import np from "../assets/np.json"
+import * as selectOptions from "../components/selectOptions"
+
 
 const KEYS = {
     userInfo: 'userInfo',
@@ -13,7 +15,7 @@ const KEYS = {
 //     //     localStorage.setItem(KEYS.contacts, JSON.stringify([]))
 //     let contacts = JSON.parse(localStorage.getItem(KEYS.userInfo)).user.contacts;
 //     //map statusID to status title
-//     let statuss = getStatusCollection();
+//     let statuss = selectOptions.status;
 
 //     console.log(contacts)
 
@@ -31,7 +33,7 @@ export const getAllContacts = () => async (dispatch) => {
   try {
     let { data } = await api.fetchContacts();
     // console.log("before   in getallcontacats::",data)
-    let statuss = getStatusCollection();
+    let statuss = selectOptions.status;
 
     data = data.map(dt => ({
       ...dt,
@@ -53,7 +55,7 @@ export const createContact = (contact) => async (dispatch) => {
   try {
     console.log("in create contact", contact)
     let { data } = await api.createContact(contact);
-    let statuss = getStatusCollection();
+    let statuss = selectOptions.status;
     data = {
         ...data,
         status: statuss[data.status - 1].title,
@@ -70,7 +72,7 @@ export const createContact = (contact) => async (dispatch) => {
 export const updateContact = (contact) => async (dispatch) => {
   try {
     let { data } = await api.updateContact(contact);
-    let statuss = getStatusCollection();
+    let statuss = selectOptions.status;
     // console.log("in update ::", data)
 
     data = {
@@ -96,24 +98,19 @@ export const deleteContact = (id) => async (dispatch) => {
   }
 };
 
-export const getStatusCollection = () => ([
-    { id: '1', title: 'Infected' },
-    { id: '2', title: 'Isolation' },
-    { id: '3', title: 'Recovered' },
-    { id: '4', title: 'Death' },
-])
 
-export const getLocation = () => {
-  // const cityOptions = []
-  const cityOptions = np.map((city,idx)=>({
-    title: city.city,
-    id: idx.toString(),
-    lat: city.lat,
-    lng: city.lng
-  })
-  )
-  return cityOptions
-}
+
+// export const getLocation = () => {
+//   // const cityOptions = []
+//   const cityOptions = np.map((city,idx)=>({
+//     title: city.city,
+//     id: idx.toString(),
+//     lat: city.lat,
+//     lng: city.lng
+//   })
+//   )
+//   return cityOptions
+// }
 
 export function generateContactId() {
     if (localStorage.getItem(KEYS.contactId) == null)

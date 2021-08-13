@@ -14,6 +14,7 @@ import Popup from "../../components/Popup";
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import CloseIcon from '@material-ui/icons/Close';
 import AppBar from '../../components/AppBar';
+import FilterAccordian from '../../components/Accordian';
 import MapIcon from '@material-ui/icons/Map';
 import { useDispatch,useSelector } from 'react-redux';
 
@@ -45,6 +46,12 @@ const headCells = [
     { id: 'actions', label: 'Actions', disableSorting: true }
 ]
 
+const initialFilterValues = {
+        status: '', 
+        vaccinationStatus: '',
+        daysFromInfection: '',
+    }
+
 export default function Homepage() {
     
 
@@ -60,6 +67,13 @@ export default function Homepage() {
 
     const contacts = useSelector((state)=> state.contactReducer)
     // console.log("contacts of homepage:::", contacts)
+
+    const [filters, setfilters] = useState(initialFilterValues)
+    // console.log(filters)
+
+    // useEffect(() => {
+    //     console.log("filters changed")
+    // }, [filters])
 
     useEffect(() => {
         setcontactOwner(JSON.parse(localStorage.getItem("userInfo")).user._id)
@@ -79,7 +93,7 @@ export default function Homepage() {
         TblPagination,
         recordsAfterPagingAndSorting,
         setRecords
-    } = useTable(headCells, filterFn);
+    } = useTable(headCells, filterFn, filters, initialFilterValues);
 
     const handleSearch = e => {
         let target = e.target;
@@ -139,10 +153,10 @@ export default function Homepage() {
         setOpenPopup(true)
     }
 
-    const formatDateToDisplay = date => {
+    // const formatDateToDisplay = date => {
         
-        return date.substring(0,10)
-    }
+    //     return date.substring(0,10)
+    // }
 
     const togglePageContent = (e)=>{
         const isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
@@ -183,12 +197,18 @@ export default function Homepage() {
                 className={classes.newButton}
                 onClick={() => { setOpenPopup(true); setRecordForEdit(null); }}
             />
+            {/* add filter accordian */}
         </Toolbar>
+            <FilterAccordian 
+                initialFilterValues={initialFilterValues}
+                filterCategories={filters}
+                setfilterCategories={setfilters} 
+            />
         <TblContainer>
             <TblHead />
             <TableBody>
                 {
-                    recordsAfterPagingAndSorting().map(item =>
+                    recordsAfterPagingAndSorting().length==0 ? "No records found":recordsAfterPagingAndSorting().map(item =>
                         (<TableRow key={item.id}>
                             <TableCell>{item.name}</TableCell>
                             {/* <TableCell>{item.email}</TableCell> */}
