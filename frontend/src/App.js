@@ -54,7 +54,7 @@ function App(props) {
               <Route exact path="/" render={props=>{
                 let user = JSON.parse(localStorage.getItem("userInfo"))
                 console.log("in app",user)
-                return user ? <Homepage /> : <Redirect to="/sign-in" />
+                return user ? <Homepage user={user} /> : <Redirect to="/sign-in" />
               }} />
               <Route path="/sign-in" exact strict component={SignIn} />
               <Route path="/sign-up" exact strict component={SignUp} />

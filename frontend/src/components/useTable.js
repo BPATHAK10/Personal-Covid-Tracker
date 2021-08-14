@@ -36,8 +36,8 @@ export default function useTable(headCells,filterFn, filters, initialFilterValue
     const [recordsLength, setrecordsLength] = useState(records.length)
 
     const contacts = useSelector((state)=> state.contactReducer)
-    console.log("contacts in useTable", contacts)
-    console.log("filters in useTable", filters)
+    // console.log("contacts in useTable", contacts)
+    // console.log("filters in useTable", filters)
 
     useEffect(() => {
         // console.log("inside useeffect of useTable")
@@ -205,7 +205,7 @@ export default function useTable(headCells,filterFn, filters, initialFilterValue
         
         const afterFiltering = filterCategories(afterDateRefactor,filters)
         setrecordsLength(afterFiltering.length)
-        console.log("after filtering::",afterFiltering)
+        // console.log("after filtering::",afterFiltering)
         
         const afterPaginationAndSorting = stableSort(filterFn.fn(afterFiltering), getComparator(order, orderBy))
             .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
@@ -220,6 +220,7 @@ export default function useTable(headCells,filterFn, filters, initialFilterValue
         TblHead,
         TblPagination,
         recordsAfterPagingAndSorting,
-        setRecords
+        setRecords,
+        refactorDate,
     }
 }
