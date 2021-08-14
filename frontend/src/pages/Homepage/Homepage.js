@@ -41,7 +41,7 @@ const headCells = [
     {id: 'mobileNumber', label: 'Mobile Number'},
     { id: 'vaccinationStatus', label: 'Vaccination' },
     // { id: 'dateOfInfection', label: 'Date' },
-    {id: 'daysFromInfection', label: 'Days'},
+    {id: 'daysFromInfection', label: 'Days since last update'},
     { id: 'actions', label: 'Actions', disableSorting: true }
 ]
 
@@ -51,7 +51,7 @@ const initialFilterValues = {
         daysFromInfection: '',
     }
 
-export default function Homepage(props) {
+export default function Homepage() {
     
     const classes = useStyles();
     const dispatch = useDispatch()
@@ -59,16 +59,16 @@ export default function Homepage(props) {
     // const [records, setRecords] = useState(useSelector(state=>state.contactReducer))
     const [filterFn, setFilterFn] = useState({ fn: items => { return items; } })
     const [openPopup, setOpenPopup] = useState(false)
-    // const [openNotifyPopup, setOpenNotifyPopup] = useState(false)
+    const [openNotifyPopup, setOpenNotifyPopup] = useState(false)
     // const [pageContent, setpageContent] = useState("table")
     const [searchQuery, setsearchQuery] = useState("")
     const [contactOwner, setcontactOwner] = useState("")
-    // const [firstLoad, setfirstLoad] = useState(true)
-
+    const [loading, setloading] = useState(true)
+    // console.log("loading is:::", loading)
 
     const contacts = useSelector((state)=> state.contactReducer)
-    const [notRecentlyUpdatedContacts, setnotRecentlyUpdatedContacts] = useState([])
     // console.log("contacts of homepage:::", contacts)
+    const [notRecentlyUpdatedContacts, setnotRecentlyUpdatedContacts] = useState([])
     
     const [filters, setfilters] = useState(initialFilterValues)
     // console.log(filters)
@@ -81,8 +81,7 @@ export default function Homepage(props) {
         // console.log("in use effect on mount")
         // console.log("contacts::", contacts)
         // console.log("not updated contacts::", notRecentlyUpdatedContacts)
-        setcontactOwner(JSON.parse(localStorage.getItem("userInfo")).user._id)
-        // setfirstLoad(false)
+        setcontactOwner(JSON.parse(localStorage.getItem("userInfo")).user?._id)
     }, [])
     
     useEffect(() => {
@@ -99,7 +98,9 @@ export default function Homepage(props) {
         // console.log("contacts::", contacts)
         // console.log("not updated contacts::", notRecentlyUpdatedContacts)
 
-        // if(contacts.length !=0){
+        if(contacts.length !=0 && loading){
+            setloading(false)
+        }
 
             // fllter our the not updated records
             const afterDateRefactor = contacts.map(item=>({
@@ -121,11 +122,10 @@ export default function Homepage(props) {
             })
             setnotRecentlyUpdatedContacts(notRecentlyUpdated)
             // console.log("not updates contacts::", notRecentlyUpdated)
-            // if(notRecentlyUpdated.length != 0 && firstLoad){
-            //     setOpenNotifyPopup(true)
-            //     console.log("pop up opened")
-            // }
-        // }
+            if(notRecentlyUpdated.length != 0 && loading){
+                setOpenNotifyPopup(true)
+                // console.log("pop up opened")
+            }
         
     }, [contacts])
     
@@ -336,7 +336,7 @@ export default function Homepage(props) {
 
     return (
         <>
-            {/* <Popup
+            <Popup
                 title="Need Attention"
                 openPopup={openNotifyPopup}
                 setOpenPopup={setOpenNotifyPopup} 
@@ -344,7 +344,7 @@ export default function Homepage(props) {
                 <Typography>
                     You have records that need attention
                 </Typography>   
-            </Popup> */}
+            </Popup>
             <AppBar setcontactOwner={setcontactOwner} />
             <Grid container spacing={1}>
                 <Grid item xs={6}>

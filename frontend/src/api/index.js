@@ -10,10 +10,10 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-export const fetchContacts = () => API.get(`/user/contacts/all/${JSON.parse(localStorage.getItem("userInfo")).user._id}`);
-export const createContact = (newContact) => API.post('/contact/add', newContact);
-export const updateContact = (updatedContact) => API.put(`/contact/edit`, updatedContact);
-export const deleteContact = (id) => API.delete(`/contact/delete/${id}`);
+export const fetchContacts = async() => await API.get(`/user/contacts/all/${JSON.parse(localStorage.getItem("userInfo")).user._id}`);
+export const createContact = async(newContact) => await API.post('/contact/add', newContact);
+export const updateContact = async(updatedContact) => await API.put(`/contact/edit`, updatedContact);
+export const deleteContact = async(id) => await API.delete(`/contact/delete/${id}`);
 
-export const signIn = (formData) => API.post('/sign-in', formData);
-export const signUp = (formData) => API.post('/sign-up', formData);
+export const signIn = async (formData) =>await API.post('/sign-in', formData);
+export const signUp = async(formData) =>await API.post('/sign-up', formData);
