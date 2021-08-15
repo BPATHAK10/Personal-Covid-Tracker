@@ -20,10 +20,20 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%"
   },
+  filterCategories:{
+    display: "flex",
+    justifyContent:"space-between",
+    alignItems: "center"
+  },
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular
   },
+  selectFilters:{
+    width: "-webkit-fill-available",
+    marginLeft: "2%",
+    marginRight: "2%"
+  }
   // formControl: {
   //   margin: theme.spacing(1),
   //   minWidth: 120
@@ -108,14 +118,15 @@ export default function Accordion_filter({initialFilterValues,filterCategories,s
                     /> */}
 
 <form className={classes.root} >
-            <div>
+            <div className={classes.filterCategories}>
             <TextField
+                        className={classes.selectFilters}
                         name="status"
                         select
                         label="Status"
                         value={filterCategories.status}
                         onChange={handleChange}
-                        helperText="Please select your status"
+                        // helperText="Please select your status"
                         
                     >
                     {selectOptions.status.map((option) => (
@@ -126,6 +137,7 @@ export default function Accordion_filter({initialFilterValues,filterCategories,s
                       
                        </TextField>
           <TextField
+                        className={classes.selectFilters}
                          
                         name="vaccinationStatus"
                         select
@@ -133,7 +145,7 @@ export default function Accordion_filter({initialFilterValues,filterCategories,s
                         value={filterCategories.vaccinationStatus}
                         onChange={handleChange}
                         options={selectOptions.vaccinationStatus}
-                        helperText="Please select your vaccination status"
+                        // helperText="Please select your vaccination status"
                         >
                           {selectOptions.vaccinationStatus.map((option) => (
                     <MenuItem key={option.id} value={option.id}>
@@ -145,11 +157,13 @@ export default function Accordion_filter({initialFilterValues,filterCategories,s
                        
                         name="daysFromInfection"
                         select
+                        className={classes.selectFilters}
+
                         label="Days From Infection"
                         value={filterCategories.daysFromInfection}
                         onChange={handleChange}
                         options={selectOptions.daysFromInfection}
-                        helperText="Please select your days from infection "
+                        // helperText="Please select your days from infection "
                      >
                     {selectOptions.daysFromInfection.map((option) => (
                     <MenuItem key={option.id} value={option.id}>
