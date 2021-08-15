@@ -66,7 +66,7 @@ export default function useTable(headCells,filterFn, filters, initialFilterValue
                     headCells.map(headCell => (
                         <TableCell key={headCell.id}
                             sortDirection={orderBy === headCell.id ? order : false}>
-                            {headCell.disableSorting ? headCell.label :
+                            {headCell.disableSorting || props.disableSorting ? headCell.label :
                                 <TableSortLabel
                                     active={orderBy === headCell.id}
                                     direction={orderBy === headCell.id ? order : 'asc'}
@@ -179,18 +179,7 @@ export default function useTable(headCells,filterFn, filters, initialFilterValue
                 }
                 return true
             })
-
-
-            // if(filters.status != initialFilterValues.status || filters.vaccinationStatus != initialFilterValues.vaccinationStatus){
-            //     // filter based on status
-            //     filtered = records.filter(contact=>contact.status == selectOptions.status[filters.status-1].title && contact.vaccinationStatus == filters.vaccinationStatus)
-            // }
-            // if(filters.vaccinationStatus != initialFilterValues.vaccinationStatus){
-            //     // filter based on vaccinationStatus
-            //     filteredBasedOnVaccination = records.filter(contact=>contact.vaccinationStatus == filters.vaccinationStatus)
-            // }
         }
-        // filtered = filteredBasedOnStatus.concat(filteredBasedOnVaccination)
 
         return filtered
     }

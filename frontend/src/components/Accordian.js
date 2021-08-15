@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
+import { TextField } from "@material-ui/core";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
@@ -77,7 +78,7 @@ export default function Accordion_filter({initialFilterValues,filterCategories,s
             <MenuItem value={30}>Thirty</MenuItem>
             </Select>
           </FormControl> */}
-          <Controls.Select
+          {/* <Controls.Select
                         name="status"
                         label="Status"
                         value={filterCategories.status}
@@ -106,10 +107,69 @@ export default function Accordion_filter({initialFilterValues,filterCategories,s
                         items={selectOptions.daysFromInfection}
                     /> */}
 
+<form className={classes.root} >
+            <div>
+            <TextField
+                        name="status"
+                        select
+                        label="Status"
+                        value={filterCategories.status}
+                        onChange={handleChange}
+                        helperText="Please select your status"
+                        
+                    >
+                    {selectOptions.status.map((option) => (
+                    <MenuItem key={option.id} value={option.id}>
+                    {option.title}
+                  </MenuItem>
+          ))}
+                      
+                       </TextField>
+          <TextField
+                         
+                        name="vaccinationStatus"
+                        select
+                        label="Vaccination Status"
+                        value={filterCategories.vaccinationStatus}
+                        onChange={handleChange}
+                        options={selectOptions.vaccinationStatus}
+                        helperText="Please select your vaccination status"
+                        >
+                          {selectOptions.vaccinationStatus.map((option) => (
+                    <MenuItem key={option.id} value={option.id}>
+                    {option.title}
+                  </MenuItem>
+          ))}
+                    </TextField>
+          <TextField
+                       
+                        name="daysFromInfection"
+                        select
+                        label="Days From Infection"
+                        value={filterCategories.daysFromInfection}
+                        onChange={handleChange}
+                        options={selectOptions.daysFromInfection}
+                        helperText="Please select your days from infection "
+                     >
+                    {selectOptions.daysFromInfection.map((option) => (
+                    <MenuItem key={option.id} value={option.id}>
+                    {option.title}
+                  </MenuItem>
+          ))}
+                      
+                       </TextField>
+
           <Controls.Button
                           text="Reset"
                           color="default"
                           onClick={resetFilters} />
+                          </div>
+                          </form>
+          
+          {/* <Controls.Button
+                          text="Reset"
+                          color="default"
+                          onClick={resetFilters} />  */}
         </AccordionDetails>
       </Accordion>
     </div>

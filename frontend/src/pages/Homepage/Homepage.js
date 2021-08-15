@@ -16,6 +16,7 @@ import AppBar from '../../components/AppBar';
 import FilterAccordian from '../../components/Accordian';
 // import MapIcon from '@material-ui/icons/Map';
 import { useDispatch,useSelector } from 'react-redux';
+import Button from '../../components/controls/Button';
 
 const useStyles = makeStyles(theme => ({
     pageContent: {
@@ -28,6 +29,12 @@ const useStyles = makeStyles(theme => ({
     newButton: {
         position: 'absolute',
         right: '10px'
+    },
+
+    secondaryTableTop: {
+        alignItems: "center",
+        display: "flex",
+        justifyContent: "space-between",
     }
 }))
 
@@ -38,10 +45,10 @@ const headCells = [
     // { id: 'mobile', label: 'Mobile Number' },
     { id: 'relation', label: 'Relation' },
     { id: 'status', label: 'Status' },
-    {id: 'mobileNumber', label: 'Mobile Number'},
+    {id: 'mobileNumber', label: 'Mobile Number', disableSorting: true},
     { id: 'vaccinationStatus', label: 'Vaccination' },
     // { id: 'dateOfInfection', label: 'Date' },
-    {id: 'daysFromInfection', label: 'Days since last update'},
+    {id: 'daysFromInfection', label: 'Days since last update', disableSorting: true},
     { id: 'actions', label: 'Actions', disableSorting: true }
 ]
 
@@ -64,6 +71,7 @@ export default function Homepage() {
     const [searchQuery, setsearchQuery] = useState("")
     const [contactOwner, setcontactOwner] = useState("")
     const [loading, setloading] = useState(true)
+    const [showNotUpdatedTable, setshowNotUpdatedTable] = useState(true)
     // console.log("loading is:::", loading)
 
     const contacts = useSelector((state)=> state.contactReducer)
@@ -215,6 +223,10 @@ export default function Homepage() {
     //     return date.substring(0,10)
     // }
 
+    const handleCloseTable = ()=>{
+        setshowNotUpdatedTable(false)
+    }
+
     const togglePageContent = (e)=>{
         const isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
         let data
@@ -297,10 +309,11 @@ export default function Homepage() {
         )
     }
     const NotUpdatedTable = ()=>{
+        
         return (
             <>
         <TblContainer>
-            <TblHead />
+            <TblHead disableSorting={true} />
             <TableBody>
                 {
                      notRecentlyUpdatedContacts.map(item =>
@@ -362,9 +375,27 @@ export default function Homepage() {
                     />
                 </Grid> */}
             </Grid>
-            {notRecentlyUpdatedContacts.length!=0 && 
+            {(notRecentlyUpdatedContacts.length!=0 && showNotUpdatedTable) && 
                 <Paper className={classes.pageContent}>
-                    <Typography>Need Attention!!!</Typography>
+                   {/* <Grid
+                        container
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        > */}
+                        {/* <Grid item xs={6}> */}
+                        <div className={classes.secondaryTableTop}>
+                            <Typography>Need Attention!!!</Typography>
+                        {/* ></Grid> */}
+                        {/* <Grid item xs={6}> */}
+                            <Controls.ActionButton
+                                color="primary"
+                                onClick={handleCloseTable}>
+                                <CloseIcon fontSize="small" />
+                            </Controls.ActionButton>
+                        </div>
+                        {/* </Grid> */}
+                    {/* </Grid> */}
                     <NotUpdatedTable />
                 </Paper>}    
             <Paper className={classes.pageContent}>
