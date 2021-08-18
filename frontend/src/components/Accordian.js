@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   // }
 }));
 
-export default function Accordion_filter({initialFilterValues,filterCategories,setfilterCategories}) {
+export default function Accordion_filter({initialFilterValues,filterCategories,setfilterCategories,relationsList}) {
   const classes = useStyles();
   // const [accordionExpand, setaccordionExpand] = useState(false)
   
@@ -72,23 +72,9 @@ export default function Accordion_filter({initialFilterValues,filterCategories,s
           <Typography className={classes.heading}>Filters</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {/* <FormControl variant="outlined" className={classes.formControl}>
-            <Select
-            labelId="demo-simple-select-outlined-label"
-            id="demo-simple-select-outlined"
-            value={age}
-            onChange={handleChange}
-            label="Age"
-            >
-            <MenuItem value="">
-            <em>None</em>
-            </MenuItem>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </FormControl> */}
-          {/* <Controls.Select
+        {/* <div className={classes.filterCategories}>        
+          <Controls.Select
+                className={classes.selectFilters}
                         name="status"
                         label="Status"
                         value={filterCategories.status}
@@ -96,6 +82,8 @@ export default function Accordion_filter({initialFilterValues,filterCategories,s
                         options={selectOptions.status}
                     />
           <Controls.Select
+                className={classes.selectFilters}
+
                         name="vaccinationStatus"
                         label="Vaccination Status"
                         value={filterCategories.vaccinationStatus}
@@ -103,19 +91,15 @@ export default function Accordion_filter({initialFilterValues,filterCategories,s
                         options={selectOptions.vaccinationStatus}
                     />
           <Controls.Select
+                className={classes.selectFilters}
+
                         name="daysFromInfection"
                         label="Days From Infection"
                         value={filterCategories.daysFromInfection}
                         onChange={handleChange}
                         options={selectOptions.daysFromInfection}
                     />
-          {/* <Controls.RadioGroup
-                        name="daysFromInfection"
-                        label="Days From Infection"
-                        value={filterCategories.daysFromInfection}
-                        onChange={handleChange}
-                        items={selectOptions.daysFromInfection}
-                    /> */}
+                    </div> */}
 
 <form className={classes.root} >
             <div className={classes.filterCategories}>
@@ -129,6 +113,7 @@ export default function Accordion_filter({initialFilterValues,filterCategories,s
                         // helperText="Please select your status"
                         
                     >
+                <MenuItem value="">None</MenuItem>
                     {selectOptions.status.map((option) => (
                     <MenuItem key={option.id} value={option.id}>
                     {option.title}
@@ -147,6 +132,8 @@ export default function Accordion_filter({initialFilterValues,filterCategories,s
                         options={selectOptions.vaccinationStatus}
                         // helperText="Please select your vaccination status"
                         >
+                <MenuItem value="">None</MenuItem>
+                          
                           {selectOptions.vaccinationStatus.map((option) => (
                     <MenuItem key={option.id} value={option.id}>
                     {option.title}
@@ -165,7 +152,30 @@ export default function Accordion_filter({initialFilterValues,filterCategories,s
                         options={selectOptions.daysFromInfection}
                         // helperText="Please select your days from infection "
                      >
+                <MenuItem value="">None</MenuItem>
+
                     {selectOptions.daysFromInfection.map((option) => (
+                    <MenuItem key={option.id} value={option.id}>
+                    {option.title}
+                  </MenuItem>
+          ))}
+                      
+                       </TextField>
+          <TextField
+                       
+                        name="relatedThrough"
+                        select
+                        className={classes.selectFilters}
+
+                        label="Related Through"
+                        value={filterCategories.relatedThrough}
+                        onChange={handleChange}
+                        options={relationsList}
+                        // helperText="Please select your days from infection "
+                     >
+                <MenuItem value="">None</MenuItem>
+
+                    {relationsList.map((option) => (
                     <MenuItem key={option.id} value={option.id}>
                     {option.title}
                   </MenuItem>
@@ -179,11 +189,11 @@ export default function Accordion_filter({initialFilterValues,filterCategories,s
                           onClick={resetFilters} />
                           </div>
                           </form>
-          
-          {/* <Controls.Button
+                              
+           {/* <Controls.Button
                           text="Reset"
                           color="default"
-                          onClick={resetFilters} />  */}
+                          onClick={resetFilters} />   */}
         </AccordionDetails>
       </Accordion>
     </div>

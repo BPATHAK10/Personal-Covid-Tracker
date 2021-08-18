@@ -37,6 +37,7 @@ export const getAllContacts = () => async (dispatch) => {
 
     data = data.map(dt => ({
       ...dt,
+      relatedThrough: (dt.relatedThrough ===undefined || dt.relatedThrough==="")? "self" : dt.relatedThrough,
       status: statuss[dt.status - 1].title,
       daysFromInfection: new Date(dt.dateOfInfection)
     }))
@@ -53,7 +54,7 @@ export const getAllContacts = () => async (dispatch) => {
 
 export const createContact = (contact) => async (dispatch) => {
   try {
-    console.log("in create contact", contact)
+    // console.log("in create contact", contact)
     let { data } = await api.createContact(contact);
     let statuss = selectOptions.status;
     data = {

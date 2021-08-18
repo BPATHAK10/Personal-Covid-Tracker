@@ -6,6 +6,7 @@ import DeviceHubIcon from '@material-ui/icons/DeviceHub';
 import { Paper, makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Grid, Typography } from '@material-ui/core';
 import useTable from "../../components/useTable";
 import * as contactService from "../../actions/contacts";
+import * as relationsService from "../../actions/relations";
 import Controls from "../../components/controls/Controls";
 import { Search } from "@material-ui/icons";
 import AddIcon from '@material-ui/icons/Add';
@@ -43,6 +44,7 @@ const headCells = [
     { id: 'name', label: 'Contact Name' },
     // { id: 'email', label: 'Email Address (Personal)' },
     // { id: 'mobile', label: 'Mobile Number' },
+    { id: 'relatedThrough', label: 'Related Through' },
     { id: 'relation', label: 'Relation' },
     { id: 'status', label: 'Status' },
     {id: 'mobileNumber', label: 'Mobile Number', disableSorting: true},
@@ -56,6 +58,7 @@ const initialFilterValues = {
         status: '', 
         vaccinationStatus: '',
         daysFromInfection: '',
+        relatedThrough: '',
     }
 
 export default function Homepage() {
@@ -75,7 +78,9 @@ export default function Homepage() {
     // console.log("loading is:::", loading)
 
     const contacts = useSelector((state)=> state.contactReducer)
-    // console.log("contacts of homepage:::", contacts)
+    // console.log("contacts in homepage::", contacts)
+    const relations = useSelector((state)=> state.relationReducer)
+    // console.log("relations in homepage::",relations)
     const [notRecentlyUpdatedContacts, setnotRecentlyUpdatedContacts] = useState([])
     
     const [filters, setfilters] = useState(initialFilterValues)
@@ -102,22 +107,30 @@ export default function Homepage() {
     }, [dispatch])
 
     useEffect(() => {
+        dispatch(relationsService.getAllRelations())
+    }, [dispatch,contacts])
+
+    useEffect(() => {
         // console.log("in use effect on contacts")
         // console.log("contacts::", contacts)
         // console.log("not updated contacts::", notRecentlyUpdatedContacts)
-
+        
         if(contacts.length !=0 && loading){
             setloading(false)
         }
+            const afterManagingRelationThrough = contacts.map(item=>({
+                ...item,
+                relatedThrough: (item.relatedThrough ===undefined || item.relatedThrough==="")? "self" : item.relatedThrough,
+            }))
 
             // fllter our the not updated records
-            const afterDateRefactor = contacts.map(item=>({
+            const afterDateRefactor = afterManagingRelationThrough.map(item=>({
                 ...item,
                 daysFromInfection: refactorDate(item.daysFromInfection)
             }))
             // console.log("after date refactor::",afterDateRefactor)
             
-            var notRecentlyUpdated = afterDateRefactor.filter(contact=> {
+            let notRecentlyUpdated = afterDateRefactor.filter(contact=> {
                 
                 var length = contact.daysFromInfection.length - 5
                 const days = contact.daysFromInfection.substr(0,length)
@@ -128,8 +141,9 @@ export default function Homepage() {
                 }
     
             })
-            setnotRecentlyUpdatedContacts(notRecentlyUpdated)
             // console.log("not updates contacts::", notRecentlyUpdated)
+            // console.log("not updated state::", notRecentlyUpdatedContacts)
+            setnotRecentlyUpdatedContacts(notRecentlyUpdated)
             if(notRecentlyUpdated.length != 0 && loading){
                 setOpenNotifyPopup(true)
                 // console.log("pop up opened")
@@ -180,7 +194,24 @@ export default function Homepage() {
         // console.log(isAdd)
 
         if (isAdd){   // use item.id to decide add or edit
+            const relation = contact.relation.toLowerCase()
+            contact = {...contact, relation: relation }
+            
             // console.log("inside add",contact)
+            // console.log("relations list::",relations)
+
+            let updateRelationsDatabase = true
+
+            relations.forEach(element => {
+                if(element.id==contact.relation){
+                    updateRelationsDatabase = false
+                }
+            });
+
+            if(updateRelationsDatabase){
+                // console.log("dispatch relations post")
+                dispatch(relationsService.createRelation({relationName:contact.relation}))
+            }
 
             dispatch(contactService.createContact(contact))
         }
@@ -272,15 +303,17 @@ export default function Homepage() {
                 initialFilterValues={initialFilterValues}
                 filterCategories={filters}
                 setfilterCategories={setfilters} 
+                relationsList={relations}
             />
         <TblContainer>
             <TblHead />
             <TableBody>
                 {
-                    recordsAfterPagingAndSorting().length==0 ? "No records found" : recordsAfterPagingAndSorting().map(item =>
+                    recordsAfterPagingAndSorting().length==0 ? <Typography>No records found</Typography> : recordsAfterPagingAndSorting().map(item =>
                         (<TableRow key={item.id}>
                             <TableCell>{item.name}</TableCell>
                             {/* <TableCell>{item.email}</TableCell> */}
+                            <TableCell>{item.relatedThrough}</TableCell>
                             <TableCell>{item.relation}</TableCell>
                             <TableCell>{item.status}</TableCell>
                             <TableCell>{item.mobileNumber}</TableCell>
@@ -320,6 +353,7 @@ export default function Homepage() {
                         (<TableRow key={item.id}>
                             <TableCell>{item.name}</TableCell>
                             {/* <TableCell>{item.email}</TableCell> */}
+                            <TableCell>{item.relatedThrough}</TableCell>
                             <TableCell>{item.relation}</TableCell>
                             <TableCell>{item.status}</TableCell>
                             <TableCell>{item.mobileNumber}</TableCell>
@@ -358,7 +392,9 @@ export default function Homepage() {
                     You have records that need attention
                 </Typography>   
             </Popup>
-            <AppBar setcontactOwner={setcontactOwner} />
+            <AppBar setcontactOwner={setcontactOwner} 
+                    setloading={setloading} 
+                    setnotRecentlyUpdatedContacts={setnotRecentlyUpdatedContacts}/>
             <Grid container spacing={1}>
                 <Grid item xs={6}>
                     <PageHeader
@@ -409,6 +445,7 @@ export default function Homepage() {
                 setOpenPopup={setOpenPopup}
             >
                 <CovidForm
+                    relations={relations}
                     recordForEdit={recordForEdit}
                     contactOwner={contactOwner}
                     addOrEdit={addOrEdit}

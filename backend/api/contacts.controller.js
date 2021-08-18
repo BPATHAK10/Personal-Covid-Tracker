@@ -7,6 +7,7 @@ export default class ContactsController {
 
     try {
       const relation = req.body.relation
+      const relatedThrough = req.body.relatedThrough
       const status = req.body.status  
       const name = req.body.name
       const dateOfInfection = new Date(req.body.dateOfInfection)
@@ -21,6 +22,7 @@ export default class ContactsController {
       const ContactResponse = await ContactsDAO.addContact(
         userInfo,
         relation,
+        relatedThrough,
         status,
         name,
         vaccinationStatus,
@@ -44,6 +46,7 @@ export default class ContactsController {
 
         const {
           relation,
+          relatedThrough,
           name,
           status,
           dateOfInfection,
@@ -66,6 +69,7 @@ export default class ContactsController {
           owner,
           _id,
           relation,
+          relatedThrough,
           status,
           name,
           vaccinationStatus,

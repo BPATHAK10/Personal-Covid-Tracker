@@ -146,8 +146,6 @@ export default function useTable(headCells,filterFn, filters, initialFilterValue
 
     function filterCategories(records,filters){
         var filtered = []
-        var filteredBasedOnStatus = []
-        var filteredBasedOnVaccination = []
 
         if(filters == initialFilterValues)
             return records
@@ -162,6 +160,10 @@ export default function useTable(headCells,filterFn, filters, initialFilterValue
                     }
                     if(key == "vaccinationStatus" && filters.vaccinationStatus != initialFilterValues.vaccinationStatus){
                         if(contact.vaccinationStatus != filters.vaccinationStatus)
+                            return false
+                    }
+                    if(key == "relatedThrough" && filters.relatedThrough != initialFilterValues.relatedThrough){
+                        if(contact.relatedThrough != filters.relatedThrough)
                             return false
                     }
                     if(key == "daysFromInfection" && filters.daysFromInfection != initialFilterValues.daysFromInfection){
@@ -185,7 +187,13 @@ export default function useTable(headCells,filterFn, filters, initialFilterValue
     }
 
     const recordsAfterPagingAndSorting = () => {
-        const afterDateRefactor = records.map(item=>({
+
+        const afterManagingRelationThrough = records.map(item=>({
+            ...item,
+            relatedThrough: (item.relatedThrough ===undefined || item.relatedThrough==="")? "self" : item.relatedThrough,
+        }))
+
+        const afterDateRefactor = afterManagingRelationThrough.map(item=>({
             ...item,
             daysFromInfection: refactorDate(item.daysFromInfection)
         })

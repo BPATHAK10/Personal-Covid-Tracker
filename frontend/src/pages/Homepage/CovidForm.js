@@ -18,12 +18,15 @@ import { useSelector } from 'react-redux';
 
 
 
-export default function ContactForm(props) {
+export default function CovidForm(props) {
     const { addOrEdit, recordForEdit, setRecordForEdit } = props
+
+    const isAdd = recordForEdit ===  null
 
     const initialFValues = {
         name: '',
         relation: '',
+        relatedThrough: '',
         owner:`${props.contactOwner}`,
         status: '',
         mobileNumber: '',
@@ -132,15 +135,15 @@ export default function ContactForm(props) {
                         value={values.relation}
                         onChange={handleInputChange}
                     />
-{/* 
+
                     <Controls.Select
-                        name="location"
-                        label="Location"
-                        value={values.location}
+                        name="relatedThrough"
+                        label="Related Through"
+                        value={values.relatedThrough}
                         onChange={handleInputChange}
-                        options={contactService.getLocation()}
-                        error={errors.locationId}
-                    /> */}
+                        options={props.relations}
+                        // error={errors.locationId}
+                    />
 
                 </Grid>
                 <Grid item xs={6}>
@@ -156,7 +159,7 @@ export default function ContactForm(props) {
                     />
                     <Controls.DatePicker
                         name="dateOfInfection"
-                        label="Date Of Infection"
+                        label={isAdd ? "Date Of Infection" : "Date of status update"}
                         value={values.dateOfInfection}
                         onChange={handleInputChange}
                     />

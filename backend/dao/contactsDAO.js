@@ -18,6 +18,7 @@ export default class ContactsDAO {
   static async addContact(
     userInfo,
     relation,
+    relatedThrough,
     status,
     name,
     vaccinationStatus,
@@ -28,6 +29,7 @@ export default class ContactsDAO {
       const ContactDoc = { 
           owner: ObjectId(userInfo._id),
           relation: relation,
+          relatedThrough: relatedThrough,
           status: status,
           name: name,
           dateOfInfection: dateOfInfection,
@@ -46,6 +48,7 @@ export default class ContactsDAO {
     owner,
     _id,
     relation,
+    relatedThrough,
     status,
     name,
     vaccinationStatus,
@@ -57,6 +60,7 @@ export default class ContactsDAO {
         {owner: ObjectId(owner), _id: ObjectId(_id)},
         { $set: { 
             relation: relation,
+            relatedThrough: relatedThrough,
             status: status,
             name: name,
             dateOfInfection: dateOfInfection,
