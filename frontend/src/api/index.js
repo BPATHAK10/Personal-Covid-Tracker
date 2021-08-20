@@ -18,5 +18,11 @@ export const deleteContact = async(id) => await API.delete(`/contact/delete/${id
 export const fetchRelations = async()=> await API.get('/relations/all');
 export const createRelation = async(relation)=> await API.post('/relations/add', relation)
 
-export const signIn = async (formData) =>await API.post('/sign-in', formData);
+export const signIn = async (formData) =>{
+  return await API.post('/sign-in', formData)
+          .catch(err=>{
+            // console.log(err.response)
+            return err.response
+          })
+}
 export const signUp = async(formData) =>await API.post('/sign-up', formData);

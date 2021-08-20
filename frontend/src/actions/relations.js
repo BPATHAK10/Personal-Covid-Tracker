@@ -12,6 +12,7 @@ export const getAllRelations = () => async (dispatch) => {
         id: item.relation_name,
         title: item.relation_name
       }))
+      data.push({id:"self",title:"self"})
       // console.log("relations in get all relations after refactor::",data)
 
       

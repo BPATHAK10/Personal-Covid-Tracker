@@ -1,4 +1,5 @@
 export const AUTH = 'AUTH';
+export const INVALID_AUTH = 'INVALID_AUTH'
 export const LOGOUT = 'LOGOUT';
 
 export const CREATE = 'CREATE';

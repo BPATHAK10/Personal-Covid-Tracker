@@ -97,6 +97,7 @@ function AppBar_custom(props) {
     // props.setnotRecentlyUpdatedContacts([])
 
     history.push('/sign-in');
+    // window.location.reload(true)
 
   };
 

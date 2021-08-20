@@ -10,8 +10,11 @@ import {
 import { 
   Grid,
   makeStyles,
+  Typography,
 } 
 from '@material-ui/core'
+import Button from "../controls/Button";
+
 import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
 import { Link,useHistory } from 'react-router-dom';
@@ -44,6 +47,8 @@ export function SignupForm(props) {
         password:'',
         confirmPassword: ''
     })
+    const [passwordMismatch, setpasswordMismatch] = useState(null)
+    
     const handleChange= (e)=>{
         setformData({
             ...formData,
@@ -53,7 +58,10 @@ export function SignupForm(props) {
 
     const handleSubmit = (e)=>{
         e.preventDefault()
-        dispatch(signup(formData,history))
+
+        formData.password === formData.confirmPassword 
+              ? dispatch(signup(formData,history)) 
+              : setpasswordMismatch("Password doesnt match")
     }
 
   return (
@@ -63,14 +71,18 @@ export function SignupForm(props) {
         <Input name="email" label='Email' placeholder='Enter Email' fullWidth required onChange={handleChange}/>
         <Input  name="password" label='Password' placeholder='Enter password' type='password' fullWidth required onChange={handleChange}/>
         <Input name="confirmPassword" label='Confirm Password' placeholder='Re-Enter password' type='password' fullWidth required onChange={handleChange}/>
+        <Typography>{passwordMismatch}</Typography>
       </FormContainer>
       <Marginer direction="vertical" margin={10} />
       <SubmitButton type="submit" onClick={handleSubmit}>SignUp</SubmitButton>
       <Marginer direction="vertical" margin="1em" />
+      <Button onClick={switchToSignin}
+              text={"Already have an account?"}
+              variant="outlined" />
+        
+        {/* <Link to="/sign-in"  className={classes.link} onClick={switchToSignin}>
         <h4>Already have an account?</h4>
-        <Link to="/sign-in"  className={classes.link} onClick={switchToSignin}>
-          SignIn
-        </Link>
+        </Link> */}
     
     </BoxContainer>
   );

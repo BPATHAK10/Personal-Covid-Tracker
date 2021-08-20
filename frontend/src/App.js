@@ -61,7 +61,7 @@ function App(props) {
     setLoading(true)
     setTimeout(()=>{
       setLoading(false)
-    },5000)
+    },1000)      // 2 sec load time
 
   },[])
 
@@ -70,8 +70,9 @@ function App(props) {
     
     <ThemeProvider theme={theme}>
             <CssBaseline />
-      <Router>
-        <div className="App">
+      <Router forceRefresh={true}>
+      {/* <Router> */}
+        <div className="App" style={{width:"100%"}}>
           {
            loading ?
            <div className="loader">
@@ -93,7 +94,7 @@ function App(props) {
               }} />
               <AccountBox />
               <Route path="/sign-in" exact strict component={LoginForm} />
-              <Route path="/sign-up" exact strict component={SignupForm} />
+              {/* <Route path="/sign-up" exact strict component={SignupForm} /> */}
               
 
           </Switch>

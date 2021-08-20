@@ -1,4 +1,4 @@
-import React, { useState,useContext } from "react";
+import React, { useState,useContext,useEffect } from "react";
 import {
   BoldLink,
   BoxContainer,
@@ -8,7 +8,7 @@ import {
   SubmitButton,
 } from "./common";
 import { 
-  makeStyles,
+  makeStyles, Typography,
 } 
 from '@material-ui/core'
 import { Marginer } from "../marginer";
@@ -17,11 +17,12 @@ import {
   Link, 
   useHistory,
 } from 'react-router-dom';
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 
 import { signin } from '../../actions/auth';
 
 import backgroundImg from "../../assets/signin_bg.jpg"
+import Button from "../controls/Button";
 
 
 const useStyles = makeStyles((theme)=>({
@@ -43,6 +44,8 @@ const useStyles = makeStyles((theme)=>({
 
 
 export function LoginForm(props) {
+  let authState = useSelector((state)=> state.authReducer)
+
   const { switchToSignup } = useContext(AccountContext);
   const classes = useStyles();
     const dispatch = useDispatch()
@@ -56,32 +59,31 @@ export function LoginForm(props) {
             ...formData,
             [e.target.name]: e.target.value
         })
-        // console.log(formData)
         }
 
     const handleSubmit = (e)=>{
         e.preventDefault()
         dispatch(signin(formData,history))
-        // console.log("ergerg")
 
     }
-
 
   return (
     <BoxContainer >
       <FormContainer>
+        {authState?.authError && <Typography>{authState?.authError.error}</Typography>}
         <Input name="username" label='Username' placeholder='Enter user name' fullWidth required onChange={handleChange}/>
         <Input  name="password" label='Password' placeholder='Enter password' type='password' fullWidth required onChange={handleChange} />
       </FormContainer>
       <Marginer direction="vertical" margin={10} />
-      <MutedLink href="#">Forget your password?</MutedLink>
       <Marginer direction="vertical" margin="1.6em" />
       <SubmitButton type="submit" onClick={handleSubmit} fullWidth>SignIn</SubmitButton>
       <Marginer direction="vertical" margin="1em" />
-        <h4>Don't have an accoun?{" "}</h4>
-        <Link to="/sign-up" className={classes.link} onClick={switchToSignup}>
-          SignUp
-        </Link>
+          <Button onClick={switchToSignup}
+                  text={"Dont have an account?"}
+                  variant="outlined"/>
+        {/* <Link to="/sign-up" className={classes.link} onClick={switchToSignup}>
+          <h4>Don't have an accoun?{" "}</h4>
+        </Link> */}
       
     </BoxContainer>
   );

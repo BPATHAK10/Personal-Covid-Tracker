@@ -41,12 +41,19 @@ export default class UsersController {
       // console.log(username,password)
       // console.log(user)
         if (!user) {
-          res.status(404).json({ error: "Not found" })
+          res.status(404).json({ error: "Invalid credentials" })
           return
         }
 
         const isPasswordCorrect = await bcrypt.compare(password, user.password);
-        if (!isPasswordCorrect) return res.status(400).json({ message: "Invalid credentials" });
+        // console.log("is password correct::",isPasswordCorrect)
+        
+        if (!isPasswordCorrect) {
+          // console.log("incorrect")
+          res.status(400).json({ error: "Invalid credentials" });
+          return 
+        }
+
         const token = jwt.sign({ username: user.username, id: user._id }, secret, { expiresIn: "1h" });
         
         res.status(200).json({ "user": user, token });

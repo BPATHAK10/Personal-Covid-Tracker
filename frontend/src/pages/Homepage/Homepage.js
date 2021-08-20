@@ -17,7 +17,8 @@ import AppBar from '../../components/AppBar';
 import FilterAccordian from '../../components/Accordian';
 // import MapIcon from '@material-ui/icons/Map';
 import { useDispatch,useSelector } from 'react-redux';
-import Button from '../../components/controls/Button';
+
+import notFoundImg from "../../assets/notFound.jpg"
 
 const useStyles = makeStyles(theme => ({
     pageContent: {
@@ -36,6 +37,9 @@ const useStyles = makeStyles(theme => ({
         alignItems: "center",
         display: "flex",
         justifyContent: "space-between",
+    },
+    noRecordsFound:{
+        width: "100%",
     }
 }))
 
@@ -174,7 +178,7 @@ export default function Homepage() {
         refactorDate
     } = useTable(headCells, filterFn, filters, initialFilterValues);
 
-    const handleSearch = e => {
+    function handleSearch(e) {
         let target = e.target;
         setFilterFn({
             fn: items => {
@@ -288,7 +292,7 @@ export default function Homepage() {
                         <Search />
                     </InputAdornment>)
                 }}
-                onChange={handleSearch}
+                onChange={(e)=>handleSearch(e)}
             />
             <Controls.Button
                 text="Add New"
@@ -306,10 +310,11 @@ export default function Homepage() {
                 relationsList={relations}
             />
         <TblContainer>
-            <TblHead />
+            {recordsAfterPagingAndSorting().length!=0 && <TblHead />}
             <TableBody>
                 {
-                    recordsAfterPagingAndSorting().length==0 ? <Typography>No records found</Typography> : recordsAfterPagingAndSorting().map(item =>
+                    recordsAfterPagingAndSorting().length==0 ? <TableRow><TableCell><img className={classes.noRecordsFound} src={notFoundImg} alt="records not found" /></TableCell></TableRow> 
+                                    : recordsAfterPagingAndSorting().map(item =>
                         (<TableRow key={item.id}>
                             <TableCell>{item.name}</TableCell>
                             {/* <TableCell>{item.email}</TableCell> */}
@@ -323,12 +328,14 @@ export default function Homepage() {
                             <TableCell>
                                 <Controls.ActionButton
                                     color="primary"
-                                    onClick={() => { openInPopup(item) }}>
+                                    onClick={() => { openInPopup(item) }}
+                                    >
                                     <EditOutlinedIcon fontSize="small" />
                                 </Controls.ActionButton>
                                 <Controls.ActionButton
                                     color="secondary"
-                                    onClick = {() => { deleteContact(item) }}>
+                                    onClick = {() => { deleteContact(item) }}
+                                    >
                                     <CloseIcon fontSize="small" />
                                 </Controls.ActionButton>
                             </TableCell>
@@ -350,7 +357,7 @@ export default function Homepage() {
             <TableBody>
                 {
                      notRecentlyUpdatedContacts.map(item =>
-                        (<TableRow key={item.id}>
+                        (<TableRow key={item._id}>
                             <TableCell>{item.name}</TableCell>
                             {/* <TableCell>{item.email}</TableCell> */}
                             <TableCell>{item.relatedThrough}</TableCell>
@@ -400,7 +407,7 @@ export default function Homepage() {
                     <PageHeader
                         title="Records"
                         onClick={togglePageContent}
-                        icon={<DeviceHubIcon fontSize="medium" />}
+                        icon={<DeviceHubIcon fontSize="small" />}
                     />
                 </Grid>
                 {/* <Grid item xs={6}>

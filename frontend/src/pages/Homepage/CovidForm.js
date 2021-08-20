@@ -9,15 +9,6 @@ import { TextField } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 
 
-// const genderItems = [
-//     { id: 'male', title: 'Male' },
-//     { id: 'female', title: 'Female' },
-//     { id: 'other', title: 'Other' },
-// ]
-
-
-
-
 export default function CovidForm(props) {
     const { addOrEdit, recordForEdit, setRecordForEdit } = props
 

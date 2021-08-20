@@ -1,13 +1,23 @@
-import { AUTH } from '../redux/actionTypes';
+import { AUTH, INVALID_AUTH } from '../redux/actionTypes';
 import * as api from '../api/index.js';
 
 export const signin = (formData, router) => async (dispatch) => {
   try {
-    const { data } = await api.signIn(formData);
+    // console.log("sign in formData::", formData)
+    const {data,status}  = await api.signIn(formData);
 
-    dispatch({ type: AUTH, data });
+    // console.log("sign in response::",data)
+    if(status==200){
+      // console.log("valid dispatched")
 
-    router.push('/');
+      dispatch({ type: AUTH, data });
+      router.push('/');
+    }else {
+      // console.log("invalid dispatched")
+      dispatch({type: INVALID_AUTH, data})
+    }
+
+    // window.location.reload(true)
   } catch (error) {
     console.log(error);
   }
