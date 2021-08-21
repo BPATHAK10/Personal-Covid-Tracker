@@ -16,7 +16,9 @@ import AppBar from '../../components/AppBar';
 import FilterAccordian from '../../components/Accordian';
 import { useDispatch,useSelector } from 'react-redux';
 
-import notFoundImg from "../../assets/notFound.jpg"
+// import notFoundImg from "../../assets/notFound.jpg"
+import notFoundImg from "../../assets/no_result.gif"
+
 
 const useStyles = makeStyles(theme => ({
     pageContent: {

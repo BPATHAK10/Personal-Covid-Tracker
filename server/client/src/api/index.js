@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: 'http://localhost:5000/api/v1/c_tracker' });
+// const API = axios.create({ baseURL: 'http://localhost:5000/api/v1/c_tracker' });
+const API = axios.create();
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem('userInfo')) {
