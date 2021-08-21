@@ -402,22 +402,11 @@ export default function Homepage() {
             <AppBar setcontactOwner={setcontactOwner} 
                     setloading={setloading} 
                     setnotRecentlyUpdatedContacts={setnotRecentlyUpdatedContacts}/>
-            <Grid container spacing={1}>
-                <Grid item xs={6}>
-                    <PageHeader
-                        title="Records"
-                        onClick={togglePageContent}
-                        icon={<DeviceHubIcon fontSize="small" />}
-                    />
-                </Grid>
-                {/* <Grid item xs={6}>
-                    <PageHeader
-                        title="Map"
-                        onClick={togglePageContent}
-                        icon={<MapIcon fontSize="medium" />}
-                    />
-                </Grid> */}
-            </Grid>
+            <PageHeader
+                title="Records"
+                onClick={togglePageContent}
+                icon={<DeviceHubIcon fontSize="small" />}
+            />
             {(notRecentlyUpdatedContacts.length!=0 && showNotUpdatedTable) && 
                 <Paper className={classes.pageContent}>
                    {/* <Grid

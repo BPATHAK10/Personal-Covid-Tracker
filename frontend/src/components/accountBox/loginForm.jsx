@@ -38,6 +38,10 @@ const useStyles = makeStyles((theme)=>({
       backgroundRepeat: 'no-repeat',
       zIndex: '-1', 
   },
+  invalid:{
+    color:"red",
+    fontSize: 12,
+  },
   link:{
     color:'#1831e2'
 },
@@ -69,11 +73,9 @@ export function LoginForm(props) {
     }
 
   return (
-    <div >
-   
     <BoxContainer >
       <FormContainer>
-        {authState?.authError && <Typography>{authState?.authError.error}</Typography>}
+        {authState?.authError && <Typography className={classes.invalid}>{authState?.authError.error}</Typography>}
         <Input name="username" label='Username' placeholder='Enter user name' fullWidth required onChange={handleChange}/>
         <Input  name="password" label='Password' placeholder='Enter password' type='password' fullWidth required onChange={handleChange} />
       </FormContainer>
@@ -83,12 +85,14 @@ export function LoginForm(props) {
       <Marginer direction="vertical" margin="1em" />
           <Button onClick={switchToSignup}
                   text={"Dont have an account?"}
-                  variant="outlined"/>
+                  variant="outlined"
+                  size = "small"
+                  color="black" />
         {/* <Link to="/sign-up" className={classes.link} onClick={switchToSignup}>
           <h4>Don't have an accoun?{" "}</h4>
         </Link> */}
       
     </BoxContainer>
-    </div>
+
   );
 }
