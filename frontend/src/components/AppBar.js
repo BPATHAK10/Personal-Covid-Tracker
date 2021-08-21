@@ -1,30 +1,17 @@
-import React,{ useState, useEffect } from 'react';
-import {withRouter, Link, useLocation} from "react-router-dom"
+import React,{ useState } from 'react';
+import {withRouter, Link} from "react-router-dom"
 import { 
   AppBar,
   Toolbar,
   Typography,
   IconButton,
-  FormControl,
-  Select,
-  Avatar,
   makeStyles,
-  fade,
-  InputBase,
-  Button,
-  Menu,
-  MenuItem,
-  useScrollTrigger
  } from "@material-ui/core"
  import { useDispatch } from 'react-redux';
  import * as actionType from "../redux/actionTypes"
  import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
  import { useHistory } from 'react-router-dom';
-
- import SearchIcon from '@material-ui/icons/Search';
- import AccountCircle from '@material-ui/icons/AccountCircle';
-
 
  const useStyles = makeStyles((theme)=>({
    grow: {

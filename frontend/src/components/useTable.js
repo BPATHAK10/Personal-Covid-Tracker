@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Table, TableHead, TableRow, TableCell, makeStyles, TablePagination, TableSortLabel } from '@material-ui/core'
 import { useSelector } from 'react-redux';
-import { FilterNoneSharp } from '@material-ui/icons';
 import * as selectOptions from "../components/selectOptions"
 
 const useStyles = makeStyles(theme => ({
@@ -9,6 +8,7 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(3),
         '& thead th': {
             fontWeight: '600',
+            overflowX : 'auto',
             color: theme.palette.primary.main,
             backgroundColor: theme.palette.primary.light,
         },
@@ -147,26 +147,26 @@ export default function useTable(headCells,filterFn, filters, initialFilterValue
     function filterCategories(records,filters){
         var filtered = []
 
-        if(filters == initialFilterValues)
+        if(filters === initialFilterValues)
             return records
 
         else {
 
             filtered = records.filter(contact=>{
                 for(var key in filters){
-                    if(key == "status" && filters.status != initialFilterValues.status){
-                        if(contact.status != selectOptions.status[filters.status-1]?.title)
+                    if(key === "status" && filters.status !== initialFilterValues.status){
+                        if(contact.status !== selectOptions.status[filters.status-1]?.title)
                             return false
                     }
-                    if(key == "vaccinationStatus" && filters.vaccinationStatus != initialFilterValues.vaccinationStatus){
-                        if(contact.vaccinationStatus != filters.vaccinationStatus)
+                    if(key === "vaccinationStatus" && filters.vaccinationStatus !== initialFilterValues.vaccinationStatus){
+                        if(contact.vaccinationStatus !== filters.vaccinationStatus)
                             return false
                     }
-                    if(key == "relatedThrough" && filters.relatedThrough != initialFilterValues.relatedThrough){
-                        if(contact.relatedThrough != filters.relatedThrough)
+                    if(key === "relatedThrough" && filters.relatedThrough !== initialFilterValues.relatedThrough){
+                        if(contact.relatedThrough !== filters.relatedThrough)
                             return false
                     }
-                    if(key == "daysFromInfection" && filters.daysFromInfection != initialFilterValues.daysFromInfection){
+                    if(key === "daysFromInfection" && filters.daysFromInfection !== initialFilterValues.daysFromInfection){
                         var length = contact.daysFromInfection.length - 5
                         const days = contact.daysFromInfection.substr(0,length)
                         // console.log(days)

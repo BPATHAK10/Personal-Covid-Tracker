@@ -1,6 +1,5 @@
 import { FETCH_ALL, CREATE, UPDATE, DELETE } from '../redux/actionTypes';
 import * as api from '../api/index.js';
-import np from "../assets/np.json"
 import * as selectOptions from "../components/selectOptions"
 
 

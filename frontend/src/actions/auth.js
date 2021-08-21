@@ -7,7 +7,7 @@ export const signin = (formData, router) => async (dispatch) => {
     const {data,status}  = await api.signIn(formData);
 
     // console.log("sign in response::",data)
-    if(status==200){
+    if(status===200){
       // console.log("valid dispatched")
 
       dispatch({ type: AUTH, data });

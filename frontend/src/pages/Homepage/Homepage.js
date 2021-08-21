@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import CovidForm from "./CovidForm";
 import PageHeader from "../../components/PageHeader";
-// import BasicMap from "../../components/BasicMap";
 import DeviceHubIcon from '@material-ui/icons/DeviceHub';
-import { Paper, makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Grid, Typography } from '@material-ui/core';
+import { Paper, makeStyles, TableBody, TableRow, TableCell, Toolbar, InputAdornment, Typography } from '@material-ui/core';
 import useTable from "../../components/useTable";
 import * as contactService from "../../actions/contacts";
 import * as relationsService from "../../actions/relations";
@@ -15,7 +14,6 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import CloseIcon from '@material-ui/icons/Close';
 import AppBar from '../../components/AppBar';
 import FilterAccordian from '../../components/Accordian';
-// import MapIcon from '@material-ui/icons/Map';
 import { useDispatch,useSelector } from 'react-redux';
 
 import notFoundImg from "../../assets/notFound.jpg"
@@ -23,7 +21,8 @@ import notFoundImg from "../../assets/notFound.jpg"
 const useStyles = makeStyles(theme => ({
     pageContent: {
         margin: theme.spacing(5),
-        padding: theme.spacing(3)
+        padding: theme.spacing(3),
+        overflowX: 'auto',
     },
     searchInput: {
         width: '75%'
@@ -119,7 +118,7 @@ export default function Homepage() {
         // console.log("contacts::", contacts)
         // console.log("not updated contacts::", notRecentlyUpdatedContacts)
         
-        if(contacts.length !=0 && loading){
+        if(contacts.length !== 0 && loading){
             setloading(false)
         }
             const afterManagingRelationThrough = contacts.map(item=>({
@@ -143,12 +142,13 @@ export default function Homepage() {
                 if(days > 14){
                     return true
                 }
+                return false
     
             })
             // console.log("not updates contacts::", notRecentlyUpdated)
             // console.log("not updated state::", notRecentlyUpdatedContacts)
             setnotRecentlyUpdatedContacts(notRecentlyUpdated)
-            if(notRecentlyUpdated.length != 0 && loading){
+            if(notRecentlyUpdated.length !== 0 && loading){
                 setOpenNotifyPopup(true)
                 // console.log("pop up opened")
             }
@@ -182,7 +182,7 @@ export default function Homepage() {
         let target = e.target;
         setFilterFn({
             fn: items => {
-                if (target.value == "")
+                if (target.value === "")
                 return items;
                 else
                 return items.filter(x => x.name.toLowerCase().includes(target.value) || x.name.toUpperCase().includes(target.value) || x.name.includes(target.value))
@@ -207,7 +207,7 @@ export default function Homepage() {
             let updateRelationsDatabase = true
 
             relations.forEach(element => {
-                if(element.id==contact.relation){
+                if(element.id === contact.relation){
                     updateRelationsDatabase = false
                 }
             });
@@ -262,22 +262,22 @@ export default function Homepage() {
         setshowNotUpdatedTable(false)
     }
 
-    const togglePageContent = (e)=>{
-        const isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
-        let data
-        if (isChrome){
-            data = e.target.outerText    
-        }
-        else{
-            data = e.target.innerText
-        }
-        // if (data == "Map"){
-        //     setpageContent("map")   
-        // }
-        // else if (data== "Records"){
-        //     setpageContent("table")
-        // }
-    }
+    // const togglePageContent = (e)=>{
+    //     const isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
+    //     let data
+    //     if (isChrome){
+    //         data = e.target.outerText    
+    //     }
+    //     else{
+    //         data = e.target.innerText
+    //     }
+    //     // if (data == "Map"){
+    //     //     setpageContent("map")   
+    //     // }
+    //     // else if (data== "Records"){
+    //     //     setpageContent("table")
+    //     // }
+    // }
 
     const MainTable = ()=>{
         return (
@@ -310,10 +310,10 @@ export default function Homepage() {
                 relationsList={relations}
             />
         <TblContainer>
-            {recordsAfterPagingAndSorting().length!=0 && <TblHead />}
+            {recordsAfterPagingAndSorting().length !== 0 && <TblHead />}
             <TableBody>
                 {
-                    recordsAfterPagingAndSorting().length==0 ? <TableRow><TableCell><img className={classes.noRecordsFound} src={notFoundImg} alt="records not found" /></TableCell></TableRow> 
+                    recordsAfterPagingAndSorting().length === 0 ? <TableRow><TableCell><img className={classes.noRecordsFound} src={notFoundImg} alt="records not found" /></TableCell></TableRow> 
                                     : recordsAfterPagingAndSorting().map(item =>
                         (<TableRow key={item.id}>
                             <TableCell>{item.name}</TableCell>
@@ -404,10 +404,9 @@ export default function Homepage() {
                     setnotRecentlyUpdatedContacts={setnotRecentlyUpdatedContacts}/>
             <PageHeader
                 title="Records"
-                onClick={togglePageContent}
                 icon={<DeviceHubIcon fontSize="small" />}
             />
-            {(notRecentlyUpdatedContacts.length!=0 && showNotUpdatedTable) && 
+            {(notRecentlyUpdatedContacts.length !== 0 && showNotUpdatedTable) && 
                 <Paper className={classes.pageContent}>
                    {/* <Grid
                         container

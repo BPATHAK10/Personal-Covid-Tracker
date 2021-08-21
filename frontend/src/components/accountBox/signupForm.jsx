@@ -1,14 +1,11 @@
 import React, { useState,useContext } from "react";
 import {
-  BoldLink,
   BoxContainer,
   FormContainer,
   Input,
-  MutedLink,
   SubmitButton,
 } from "./common";
 import { 
-  Grid,
   makeStyles,
   Typography,
 } 
@@ -17,7 +14,7 @@ import Button from "../controls/Button";
 
 import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
-import { Link,useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import backgroundImg from "../../assets/signin_bg.jpg"
 import {useDispatch} from "react-redux"
 import { signup } from '../../actions/auth';
@@ -84,7 +81,7 @@ export function SignupForm(props) {
               text={"Already have an account?"}
               variant="outlined"
               size="small"
-              color="black" />
+              color="inherit" />
         
         {/* <Link to="/sign-in"  className={classes.link} onClick={switchToSignin}>
         <h4>Already have an account?</h4>

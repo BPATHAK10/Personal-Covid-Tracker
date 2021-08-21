@@ -1,12 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import { Grid,Input } from '@material-ui/core';
+import React, {  useEffect } from 'react'
+import { Grid } from '@material-ui/core';
 import Controls from "../../components/controls/Controls";
 import { useForm, Form } from '../../components/useForm';
-import * as contactService from "../../actions/contacts";
-// import { getStatusCollection } from '../../actions/contacts';
 import * as selectOptions from "../../components/selectOptions"
-import { TextField } from '@material-ui/core';
-import { useSelector } from 'react-redux';
 
 
 export default function CovidForm(props) {
@@ -35,21 +31,21 @@ export default function CovidForm(props) {
         // if ('email' in fieldValues)
         //     temp.email = (/$^|.+@.+..+/).test(fieldValues.email) ? "" : "Email is not valid."
         if ('mobileNumber' in fieldValues){
-            temp.mobile = fieldValues.mobileNumber.length > 9 || fieldValues.mobileNumber.length == 0 ? "" : "Minimum 10 numbers required."
-            if(fieldValues.mobileNumber.length != 0){
+            temp.mobile = fieldValues.mobileNumber.length > 9 || fieldValues.mobileNumber.length === 0 ? "" : "Minimum 10 numbers required."
+            if(fieldValues.mobileNumber.length !== 0){
                 temp.mobile = (/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/).test(fieldValues.mobileNumber) ? "" : "Invalid format."
             }
         }
         if ('status' in fieldValues)
-            temp.status = fieldValues.status.length != 0 ? "" : "This field is required."
+            temp.status = fieldValues.status.length !== 0 ? "" : "This field is required."
         setErrors({
             ...temp
         })
         // console.log(errors)
         // console.log(temp)
 
-        if (fieldValues == values)
-            return Object.values(temp).every(x => x == "")
+        if (fieldValues === values)
+            return Object.values(temp).every(x => x === "")
     }
 
     const {
@@ -70,9 +66,9 @@ export default function CovidForm(props) {
         }
     }
     useEffect(() => {
-        if(recordForEdit != null) {
+        if(recordForEdit !== null) {
             let statuss = selectOptions.status;  // imported from selectOptions.js
-            statuss = statuss.filter(element => element.title == recordForEdit?.status)
+            statuss = statuss.filter(element => element.title === recordForEdit?.status)
             const id = statuss[0]?.id
 
             setRecordForEdit({
@@ -84,7 +80,7 @@ export default function CovidForm(props) {
     }, [])
 
     useEffect(() => {
-        if (recordForEdit != null){
+        if (recordForEdit !== null){
             setValues({
                 ...recordForEdit
             })

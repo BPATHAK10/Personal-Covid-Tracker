@@ -1,10 +1,8 @@
-import React, { useState,useContext,useEffect } from "react";
+import React, { useState,useContext } from "react";
 import {
-  BoldLink,
   BoxContainer,
   FormContainer,
   Input,
-  MutedLink,
   SubmitButton,
 } from "./common";
 import { 
@@ -15,7 +13,6 @@ from '@material-ui/core'
 import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
 import { 
-  Link, 
   useHistory,
 } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux'
@@ -87,7 +84,7 @@ export function LoginForm(props) {
                   text={"Dont have an account?"}
                   variant="outlined"
                   size = "small"
-                  color="black" />
+                  color="inherit" />
         {/* <Link to="/sign-up" className={classes.link} onClick={switchToSignup}>
           <h4>Don't have an accoun?{" "}</h4>
         </Link> */}

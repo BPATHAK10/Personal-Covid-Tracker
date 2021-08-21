@@ -1,24 +1,19 @@
-import React,{useState} from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import { TextField } from "@material-ui/core";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-// import Select from "./controls/Select";
 import Controls from "./controls/Controls";
 import * as selectOptions from "../components/selectOptions"
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100%"
+    width: "-webkit-fill-available"
   },
   filterCategories:{
     display: "flex",

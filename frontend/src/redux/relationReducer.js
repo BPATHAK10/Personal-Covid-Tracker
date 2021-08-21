@@ -1,7 +1,7 @@
 import * as actionType from './actionTypes';
 
 
-export default (relations = [], action) => {
+const relationsReducer = (relations = [], action) => {
     switch (action.type) {
       case actionType.FETCH_ALL_RELATIONS:
         // return [...relations,action.payload];
@@ -12,3 +12,5 @@ export default (relations = [], action) => {
         return relations;
     }
 };
+
+export default relationsReducer

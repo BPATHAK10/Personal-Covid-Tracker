@@ -1,7 +1,7 @@
 import * as actionType from './actionTypes';
 
 
-export default (contacts = [], action) => {
+const contactReducer = (contacts = [], action) => {
     switch (action.type) {
       case actionType.FETCH_ALL:
         return action.payload;
@@ -17,3 +17,4 @@ export default (contacts = [], action) => {
     }
 };
 
+export default contactReducer
