@@ -1,12 +1,27 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { LoginForm } from "./loginForm";
+import { makeStyles } from '@material-ui/core'
 import { motion } from "framer-motion";
 import { AccountContext } from "./accountContext";
+import backgroundImg from "../../assets/signin_bg.jpg"
 import { SignupForm } from "./signupForm";
 
+const useStyles = makeStyles((theme)=>({
+  root:{
+      backgroundImage:`url(${backgroundImg})`, 
+      position: 'fixed',
+      minWidth: '100%',
+      minHeight: '100%',
+      backgroundSize:'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      zIndex: '-1', 
+  }
+}))
+
 const BoxContainer = styled.div`
-  width: 280px;
+  width: 350px;
   min-height: 550px;
   display: flex;
   flex-direction: column;
@@ -16,11 +31,7 @@ const BoxContainer = styled.div`
   position: relative;
   overflow: hidden;
   align-items: center;
-  margin-top: 20px;
-  margin-bottom: 100px;
-  margin-right: 150px;
-  margin-left: 525px;
-
+  margin: 50px auto;
 `;
 
 const TopContainer = styled.div`
@@ -42,8 +53,8 @@ const BackDrop = styled(motion.div)`
   flex-direction: column;
   border-radius: 50%;
   transform: rotate(60deg);
-  top: -290px;
-  left: -70px;
+  top: -300px;
+  left: -150px;
   background: rgb(241, 196, 15);
   background: linear-gradient(
     58deg,
@@ -107,6 +118,7 @@ const expandingTransition = {
 
 export function AccountBox(props) {
   const [isExpanded, setExpanded] = useState(false);
+  const classes = useStyles();
   const [active, setActive] = useState("signin");
 
   const playExpandingAnimation = () => {
@@ -133,35 +145,38 @@ export function AccountBox(props) {
   const contextValue = { switchToSignup, switchToSignin };
 
   return (
-    <AccountContext.Provider value={contextValue}>
-      <BoxContainer>
-        <TopContainer>
-          <BackDrop
-            initial={false}
-            animate={isExpanded ? "expanded" : "collapsed"}
-            variants={backdropVariants}
-            transition={expandingTransition}
-          />
-          {active === "signin" && (
-            <HeaderContainer>
-              <HeaderText>Welcome</HeaderText>
-              <HeaderText>Back</HeaderText>
-              <SmallText>Please sign-in to continue!</SmallText>
-            </HeaderContainer>
-          )}
-          {active === "signup" && (
-            <HeaderContainer>
-              <HeaderText>Create</HeaderText>
-              <HeaderText>Account</HeaderText>
-              <SmallText>Please sign-up to continue!</SmallText>
-            </HeaderContainer>
-          )}
-        </TopContainer>
-        <InnerContainer>
-          {active === "signin" && <LoginForm />}
-          {active === "signup" && <SignupForm />}
-        </InnerContainer>
-      </BoxContainer>
-    </AccountContext.Provider>
+    <div className={classes.root}>
+      <AccountContext.Provider value={contextValue}>
+        <BoxContainer>
+          <TopContainer>
+            <BackDrop
+              initial={false}
+              animate={isExpanded ? "expanded" : "collapsed"}
+              variants={backdropVariants}
+              transition={expandingTransition}
+            />
+            {active === "signin" && (
+              <HeaderContainer>
+                <HeaderText>Welcome</HeaderText>
+                <HeaderText>Back</HeaderText>
+                <SmallText>Please sign-in to continue!</SmallText>
+              </HeaderContainer>
+            )}
+            {active === "signup" && (
+              <HeaderContainer>
+                <HeaderText>Create</HeaderText>
+                <HeaderText>Account</HeaderText>
+                <SmallText>Please sign-up to continue!</SmallText>
+              </HeaderContainer>
+            )}
+          </TopContainer>
+          <InnerContainer>
+            {active === "signin" && <LoginForm />}
+            {active === "signup" && <SignupForm />}
+          </InnerContainer>
+        </BoxContainer>      
+      </AccountContext.Provider>
+    </div>
+    
   );
 }

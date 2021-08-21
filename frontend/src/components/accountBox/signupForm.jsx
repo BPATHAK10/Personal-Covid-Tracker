@@ -31,6 +31,10 @@ const useStyles = makeStyles((theme)=>({
       backgroundRepeat: 'no-repeat',
       zIndex: '-1', 
   },
+  invalid:{
+    color:"red",
+    fontSize: 12,
+  },
   link:{
     color:'#1831e2'
 },
@@ -71,14 +75,16 @@ export function SignupForm(props) {
         <Input name="email" label='Email' placeholder='Enter Email' fullWidth required onChange={handleChange}/>
         <Input  name="password" label='Password' placeholder='Enter password' type='password' fullWidth required onChange={handleChange}/>
         <Input name="confirmPassword" label='Confirm Password' placeholder='Re-Enter password' type='password' fullWidth required onChange={handleChange}/>
-        <Typography>{passwordMismatch}</Typography>
+        <Typography className={classes.invalid}>{passwordMismatch}</Typography>
       </FormContainer>
       <Marginer direction="vertical" margin={10} />
       <SubmitButton type="submit" onClick={handleSubmit}>SignUp</SubmitButton>
       <Marginer direction="vertical" margin="1em" />
       <Button onClick={switchToSignin}
               text={"Already have an account?"}
-              variant="outlined" />
+              variant="outlined"
+              size="small"
+              color="black" />
         
         {/* <Link to="/sign-in"  className={classes.link} onClick={switchToSignin}>
         <h4>Already have an account?</h4>

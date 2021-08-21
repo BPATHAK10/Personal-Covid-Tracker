@@ -86,7 +86,7 @@ function App(props) {
     <ThemeProvider theme={theme}>
             <CssBaseline />
       <Router forceRefresh={true}>
-      {/* <Router> */}\
+      {/* <Router> */}
       
       
         <div style={{width:"100%"}}>
