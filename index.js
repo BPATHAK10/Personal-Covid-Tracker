@@ -37,7 +37,7 @@ MongoClient.connect(
         })
     }
 
-    app.listen(port,()=>{
+    app.listen(port, process.env.HOST || '::' ,()=>{
         console.log(`listening on port ${port}`)})
     }
 )
