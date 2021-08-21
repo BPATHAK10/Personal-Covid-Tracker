@@ -68,7 +68,7 @@ export default class ContactsDAO {
             mobileNumber: mobileNumber,
           } },
           {
-            returnOriginal: false
+            returnOriginal: false,
           }
       )
 
