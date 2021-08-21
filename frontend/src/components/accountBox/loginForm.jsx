@@ -10,6 +10,7 @@ import {
 import { 
   makeStyles, Typography,
 } 
+
 from '@material-ui/core'
 import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
@@ -68,6 +69,8 @@ export function LoginForm(props) {
     }
 
   return (
+    <div >
+   
     <BoxContainer >
       <FormContainer>
         {authState?.authError && <Typography>{authState?.authError.error}</Typography>}
@@ -86,5 +89,6 @@ export function LoginForm(props) {
         </Link> */}
       
     </BoxContainer>
+    </div>
   );
 }

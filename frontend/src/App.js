@@ -14,7 +14,7 @@ import {
     Redirect,
      } from "react-router-dom";
 
-
+import backgroundImg from './assets/signin_bg.jpg'
   const theme = createMuiTheme({
   palette: {
     primary: {
@@ -42,6 +42,20 @@ import {
     }
   }
 })
+
+const useStyles = makeStyles((theme)=>({
+  root:{
+      textAlign: 'center',
+      backgroundImage:`url(${backgroundImg})`, 
+      position: 'fixed',
+      minWidth: '100%',
+      minHeight: '100%',
+      backgroundSize:'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      zIndex: '-1', 
+  },
+}))
 const AppContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -64,15 +78,20 @@ function App(props) {
     },1000)      // 2 sec load time
 
   },[])
+  const classes = useStyles();
 
   return (
-    <AppContainer>
+    <AppContainer >
     
     <ThemeProvider theme={theme}>
             <CssBaseline />
       <Router forceRefresh={true}>
-      {/* <Router> */}
-        <div className="App" style={{width:"100%"}}>
+      {/* <Router> */}\
+      
+      
+        <div style={{width:"100%"}}>
+        
+        
           {
            loading ?
            <div className="loader">
