@@ -31,11 +31,7 @@ const BoxContainer = styled.div`
   position: relative;
   overflow: hidden;
   align-items: center;
-  margin-top: 50px;
-  margin-bottom: 100px;
-  margin-right: 150px;
-  margin-left: 600px;
-
+  margin: 50px auto;
 `;
 
 const TopContainer = styled.div`
