@@ -30,7 +30,8 @@ MongoClient.connect(
     await ContactsDAO.injectDB(client)
     await RelationDAO.injectDB(client)
 
-    if(process.env.NODE_ENV == "production"){
+    if(process.env.NODE_ENV === "production"){
+        console.log("inside")
         app.use(express.static("client/build"));
         const path = require("path");
         app.get("*",(req,res)=>{
