@@ -9,6 +9,7 @@ dotenv.config()     //load the env variables
 const MongoClient = mongodb.MongoClient
 
 const port = process.env.PORT || 5000   //get the port value from dotenv
+console.log("port is::", port)
 
 //connect to the db
 MongoClient.connect(
@@ -37,7 +38,7 @@ MongoClient.connect(
         })
     }
 
-    app.listen(process.env.PORT || 5000,"0.0.0.0" ,()=>{
+    app.listen(port ,()=>{
         console.log(`listening on port ${port}`)})
     }
 )
