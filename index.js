@@ -7,8 +7,9 @@ import RelationsController from "./api/relations.controller.js"
 import express from "express"
 import dotenv from "dotenv"
 
+import favicon from "serve-favicon"
+
 import cors from "cors"
-import c_tracker from "./api/c_tracker.route.js"    
 
 import mongodb from "mongodb"
 import UserDAO from "./dao/userDAO.js"
@@ -46,6 +47,8 @@ MongoClient.connect(
     app.use(cors())
     app.use(express.json())    // allows to accept json in the body of a request
     app.use(express.urlencoded())
+
+    app.use(favicon(path.join(path.resolve(), "client","public", "favicon.ico")));
     
     // console.log(process.env.NODE_ENV)
     app.route("/sign-in").post(UsersController.apiSignIn)
