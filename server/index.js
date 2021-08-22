@@ -1,14 +1,16 @@
 import app from "./server.js"
+import express from "express"
 import mongodb from "mongodb"
 import dotenv from "dotenv"
 import UserDAO from "./dao/userDAO.js"
 import ContactsDAO from "./dao/contactsDAO.js"
 import RelationDAO from "./dao/relationsDAO.js"
+import path from "path"
 
 dotenv.config()     //load the env variables
 const MongoClient = mongodb.MongoClient
 
-const port = process.env.PORT || 8000   //get the port value from dotenv
+const port = process.env.PORT || 5000   //get the port value from dotenv
 
 //connect to the db
 MongoClient.connect(
@@ -28,6 +30,15 @@ MongoClient.connect(
     await UserDAO.injectDB(client)
     await ContactsDAO.injectDB(client)
     await RelationDAO.injectDB(client)
+
+    if(process.env.NODE_ENV == "production"){
+        app.use(express.static("client/build"));
+        // const path = require("path")
+        app.get("*",(req,res)=>{
+            res.sendFile(path.resolve(__dirname,'client','build','index.html'))
+        })
+    }
+
     app.listen(port,()=>{
         console.log(`listening on port ${port}`)})
     }
