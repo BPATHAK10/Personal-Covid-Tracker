@@ -140,7 +140,6 @@ export default function Accordion_filter({initialFilterValues,filterCategories,s
                         name="daysFromInfection"
                         select
                         className={classes.selectFilters}
-
                         label="Days From Infection"
                         value={filterCategories.daysFromInfection}
                         onChange={handleChange}

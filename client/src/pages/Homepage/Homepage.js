@@ -16,7 +16,7 @@ import AppBar from '../../components/AppBar';
 import FilterAccordian from '../../components/Accordian';
 import { useDispatch,useSelector } from 'react-redux';
 
-import notFoundImg from "../../assets/notFound.jpg"
+import notFoundImg from "../../assets/notFound.png"
 
 const useStyles = makeStyles(theme => ({
     pageContent: {
@@ -38,7 +38,12 @@ const useStyles = makeStyles(theme => ({
         justifyContent: "space-between",
     },
     noRecordsFound:{
-        width: "100%",
+        
+    },
+    notFoundDiv:{
+        cursor: "default",
+        display: "flex",
+        justifyContent: "space-evenly"
     }
 }))
 
@@ -313,7 +318,7 @@ export default function Homepage() {
             {recordsAfterPagingAndSorting().length !== 0 && <TblHead />}
             <TableBody>
                 {
-                    recordsAfterPagingAndSorting().length === 0 ? <TableRow><TableCell><img className={classes.noRecordsFound} src={notFoundImg} alt="records not found" /></TableCell></TableRow> 
+                    recordsAfterPagingAndSorting().length === 0 ? <TableRow><TableCell><div className={classes.notFoundDiv}><img className={classes.noRecordsFound} src={notFoundImg} alt="records not found" /></div></TableCell></TableRow> 
                                     : recordsAfterPagingAndSorting().map(item =>
                         (<TableRow key={item.id}>
                             <TableCell>{item.name}</TableCell>
@@ -391,12 +396,12 @@ export default function Homepage() {
     return (
         <>
             <Popup
-                title="Need Attention"
+                title="Need Attention!!!"
                 openPopup={openNotifyPopup}
                 setOpenPopup={setOpenNotifyPopup} 
             >
                 <Typography>
-                    You have records that need attention
+                    You have records that haven't been updated since 14 days
                 </Typography>   
             </Popup>
             <AppBar setcontactOwner={setcontactOwner} 
