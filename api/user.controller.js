@@ -69,22 +69,28 @@ export default class UsersController {
       const userInfo = {
         username: req.body.username,
         password: req.body.password,
+        confirmPassword: req.body.confirmPassword,
         email: req.body.email
       }
       
-      const hashedPassword = await bcrypt.hash(userInfo.password, 12);
-      userInfo.password = hashedPassword;
-      
-      // console.log(userInfo)
-      
-      const UserResponse = await UserDAO.addUser(
-        userInfo
-      )
-      const newUser = UserResponse.ops[0]
-
-      const token = jwt.sign( { username: newUser.username, id: newUser._id}, secret, { expiresIn: "1h" } );
-      
-      res.status(201).json({ "user":newUser, token });
+      if(userInfo.password === userInfo.confirmPassword){
+        const hashedPassword = await bcrypt.hash(userInfo.password, 12);
+        userInfo.password = hashedPassword;
+        
+        // console.log(userInfo)
+        
+        const UserResponse = await UserDAO.addUser(
+          userInfo
+        )
+        const newUser = UserResponse.ops[0]
+  
+        const token = jwt.sign( { username: newUser.username, id: newUser._id}, secret, { expiresIn: "1h" } );
+        
+        res.status(201).json({ "user":newUser, token });
+      }
+      else{
+        res.status(400).json({"error":"password doesnt match"})
+      }
 
     } catch (e) {
       res.status(500).json({ error: e.message })

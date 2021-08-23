@@ -56,16 +56,47 @@ export function LoginForm(props) {
         username:'',
         password:'',
     })
+
+    const [errors, seterrors] = useState({})
+    
     const handleChange= (e)=>{
         setformData({
             ...formData,
             [e.target.name]: e.target.value
         })
-        }
+
+        validate({[e.target.name]:e.target.value})
+    }
+
+    const validate = (fieldValues=formData)=>{
+      let temp = {...errors}
+
+      if('username' in fieldValues){
+        temp.username = fieldValues.username ? "" : "This field is required."
+      }
+  
+      if('password' in fieldValues){
+        temp.password = fieldValues.password ? "" : "This field is required."
+      }
+      
+
+      seterrors({
+        ...temp
+      })
+
+
+      if (fieldValues === formData)
+            return Object.values(temp).every(x => x === "")
+
+    }
+
 
     const handleSubmit = (e)=>{
         e.preventDefault()
-        dispatch(signin(formData,history))
+        if(validate()){
+
+          dispatch(signin(formData,history))
+        }
 
     }
 
@@ -74,7 +105,11 @@ export function LoginForm(props) {
       <FormContainer>
         {authState?.authError && <Typography className={classes.invalid}>{authState?.authError.error}</Typography>}
         <Input name="username" label='Username' placeholder='Enter user name' fullWidth required onChange={handleChange}/>
+        <Typography className={classes.invalid}>{errors.username}</Typography>
+
         <Input  name="password" label='Password' placeholder='Enter password' type='password' fullWidth required onChange={handleChange} />
+        <Typography className={classes.invalid}>{errors.password}</Typography>
+
       </FormContainer>
       <Marginer direction="vertical" margin={10} />
       <Marginer direction="vertical" margin="1.6em" />
