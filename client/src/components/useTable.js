@@ -126,6 +126,8 @@ export default function useTable(headCells,filterFn, filters, initialFilterValue
     }
 
     function refactorDate(date){
+        var daysStr
+
         const dateOfInfection = date
         // console.log("item ko date ::",dateOfInfection )
         const today = new Date()
@@ -136,10 +138,11 @@ export default function useTable(headCells,filterFn, filters, initialFilterValue
         // To calculate the no. of days between two dates
         var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);   
 
-        // console.log(Difference_In_Days)
+        // console.log("difference in days",Difference_In_Days)
+        Difference_In_Days <= 0 ? daysStr = "0 days" : daysStr = Difference_In_Days.toFixed(0) + " days"
 
-        const daysStr = Difference_In_Days.toFixed(0) + " days"
-        // console.log(daysStr) 
+        // const daysStr = Difference_In_Days.toFixed(0) + " days"
+        // console.log("dayStr::",daysStr) 
 
         return daysStr
     }

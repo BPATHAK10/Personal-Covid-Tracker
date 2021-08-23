@@ -61,7 +61,7 @@ export const createContact = (contact) => async (dispatch) => {
         status: statuss[data.status - 1].title,
       daysFromInfection: new Date(data.dateOfInfection)
     }
-    // console.log(data)
+    // console.log("after changes::",data)
 
     dispatch({ type: CREATE, payload: data });
   } catch (error) {
@@ -80,6 +80,8 @@ export const updateContact = (contact) => async (dispatch) => {
         status: statuss[data.status - 1].title,
       daysFromInfection: new Date(data.dateOfInfection)
     }
+
+    // console.log("after changes::",data)
 
     dispatch({ type: UPDATE, payload: data });
   } catch (error) {
