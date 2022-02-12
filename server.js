@@ -6,7 +6,7 @@ const app = express()
 
 app.use(cors())
 app.use(express.json())    // allows to accept json in the body of a request
-app.use(express.urlencoded())
+app.use(express.urlencoded({extended: true}))
 
 
 app.use("/api/v1/c_tracker", c_tracker)
