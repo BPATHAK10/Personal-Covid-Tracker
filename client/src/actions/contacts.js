@@ -36,9 +36,9 @@ export const getAllContacts = () => async (dispatch) => {
 
     data = data.map(dt => ({
       ...dt,
-      relatedThrough: (dt.relatedThrough ===undefined || dt.relatedThrough==="")? "self" : dt.relatedThrough,
-      status: statuss[dt.status - 1].title,
-      daysFromInfection: new Date(dt.dateOfInfection)
+      relation_through: (dt['person'].relation_through ===undefined || dt.relatedThrough==="")? "self" : dt['person'].relation_through,
+      status: dt['covid'].status,
+      daysFromInfection: new Date(dt['covid'].infection_date),
     }))
     
     // console.log("after  in getallcontacats::",data)

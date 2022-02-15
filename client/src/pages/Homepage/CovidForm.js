@@ -59,7 +59,7 @@ export default function CovidForm(props) {
 
     const handleSubmit = e => {
         e.preventDefault()
-        // console.log("add form data::",values)
+        console.log("add form data::",values)
         
         if (validate()) {
             addOrEdit(values, resetForm);

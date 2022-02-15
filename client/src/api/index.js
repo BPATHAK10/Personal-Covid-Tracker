@@ -11,7 +11,7 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-export const fetchContacts = async() => await API.get(`/user/contacts/all/${JSON.parse(localStorage.getItem("userInfo")).user._id}`);
+export const fetchContacts = async() => await API.get(`/contact/all/${JSON.parse(localStorage.getItem("userInfo")).user._id}`);
 export const createContact = async(newContact) => await API.post('/contact/add', newContact);
 export const updateContact = async(updatedContact) => await API.put(`/contact/edit`, updatedContact);
 export const deleteContact = async(id) => await API.delete(`/contact/delete/${id}`);

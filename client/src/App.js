@@ -1,4 +1,5 @@
 import { LoginForm } from './components/accountBox/loginForm.jsx';
+import DetailedInfo from './pages/DetailedInfo/DetailedInfo.js';
 import Homepage from "./pages/Homepage/Homepage";
 import HashLoader from "react-spinners/HashLoader";
 import styled from "styled-components";
@@ -96,6 +97,7 @@ function App(props) {
                 // console.log("in app",user)
                 return user ? <Homepage /> : <Redirect to="/sign-in" />
               }} />
+              <Route path="/detailed-info/:_id" exact component={DetailedInfo} />
               <AccountBox />
               <Route path="/sign-in" exact strict component={LoginForm} />
               {/* <Route path="/sign-up" exact strict component={SignupForm} /> */}

@@ -18,6 +18,7 @@ import { useDispatch,useSelector } from 'react-redux';
 
 // import notFoundImg from "../../assets/notFound.jpg"
 import notFoundImg from "../../assets/no_result.gif"
+import { Link } from 'react-router-dom';
 
 
 const useStyles = makeStyles(theme => ({
@@ -315,9 +316,9 @@ export default function Homepage() {
             {recordsAfterPagingAndSorting().length !== 0 && <TblHead />}
             <TableBody>
                 {
-                    recordsAfterPagingAndSorting().length === 0 ? <TableRow><TableCell><img className={classes.noRecordsFound} src={notFoundImg} alt="records not found" /></TableCell></TableRow> 
+                    recordsAfterPagingAndSorting().length === 0 ?<TableRow><TableCell><img className={classes.noRecordsFound} src={notFoundImg} alt="records not found" /></TableCell></TableRow> 
                                     : recordsAfterPagingAndSorting().map(item =>
-                        (<TableRow key={item.id}>
+                        (<Link to={`/detailed-info/${item['person']._id}`}><TableRow key={item['person']._id}>
                             <TableCell>{item.name}</TableCell>
                             {/* <TableCell>{item.email}</TableCell> */}
                             <TableCell>{item.relatedThrough}</TableCell>
@@ -341,7 +342,7 @@ export default function Homepage() {
                                     <CloseIcon fontSize="small" />
                                 </Controls.ActionButton>
                             </TableCell>
-                        </TableRow>)
+                        </TableRow></Link>)
                     )
                 }
             </TableBody>
