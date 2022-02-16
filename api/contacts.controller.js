@@ -16,15 +16,15 @@ export default class ContactsController {
        "vaccinationStatus" : req.body.vaccinationStatus,
        "mobile_number" :req.body.mobileNumber,
        "_userId" : req.body.owner,
-       "covidVariant" : req.body.covidVariant,
+       "covidVariant" : req.body.variant,
        "country" : req.body.country,
        "province" : req.body.province,
        "city" : req.body.city,
        "district" : req.body.district,
        "ward" : req.body.ward,
-       "doseName" : req.body.doseName,
-       "vaccination_date" : new Date(req.body.vaccinationDate),
-       "vaccination_center" : req.body.vaccinationCenter,
+       "doseName" : req.body.dose_name,
+       "vaccination_date" : new Date(req.body.vaccination_date),
+       "vaccination_center" : req.body.vaccination_center,
       }
 
       
@@ -67,14 +67,18 @@ export default class ContactsController {
       'INSERT INTO "Person" (name,email,relation_type,relation_through,mobile_number,_addressid,_covidid,_vaccineid,_userid) VALUES($1, $2, $3, $4, $5, $6, $7,$8,$9) RETURNING *;',
       [contactInfo.name, contactInfo.email, contactInfo.relation_type, contactInfo.relation_through, contactInfo.mobile_number, AddressDetailsResponse.rows[0]._id, CovidDetailsResponse.rows[0]._id, vaccinationStatusResponse.rows[0]._id, contactInfo._userId]);
     
-    res.json({
+    const result = {
       "person": newContact.rows[0],
       "covid": CovidDetailsResponse.rows[0],
       "address": AddressDetailsResponse.rows[0],
       "vaccine": vaccinationStatusResponse.rows[0]
-    });
+    };
+    // console.log(result)
+
+    res.json(result);
     // res.json({"success":true})
     } catch (e) {
+      console.log(e)
       res.status(500).json({ error: e.message })
     }
   }
@@ -209,7 +213,7 @@ export default class ContactsController {
       // res.json(userContacts)
 
       const userContacts = await pool.query('SELECT * FROM "Person" WHERE "_userid"=$1;', [id])
-      console.log(userContacts.rows)
+      // console.log(userContacts.rows)
 
       const allContactDetails = await Promise.all(userContacts.rows.map(async function (contact) {
         // console.log(contact._covidid,contact._addressid,contact._vaccineid)
@@ -233,7 +237,7 @@ export default class ContactsController {
         res.status(404).json({ error: "Not found" })
         return
       }
-      // console.log(allContactDetails["person"].relation_through)
+      // console.log(allContactDetails)
       res.json(allContactDetails)
 
     } catch (e) {
@@ -252,8 +256,8 @@ export default class ContactsController {
       // const ContactResponse = await ContactsDAO.deleteContact(contactId)
 
       // console.log("contact delete response", ContactResponse)
-
-      const deleteContact = await pool.query('SELECT * FROM "Person" WHERE "_id"=$1;', [contactId])
+      
+      const deleteContact = await pool.query('DELETE FROM "Person" WHERE "_id"=$1 RETURNING *;', [contactId])
       // console.log(deleteContact)
 
       // delete from covid , address and vaccine tables
@@ -262,7 +266,6 @@ export default class ContactsController {
       await pool.query('DELETE FROM "VaccineDetails" WHERE "_id"=$1;', [deleteContact.rows[0]._vaccineid])
 
       // delete from person table
-      const deleteResponse = await pool.query('DELETE FROM "Person" WHERE "_id"=$1;', [contactId])
 
       res.json({ status: "success" })
     } 

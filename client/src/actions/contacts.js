@@ -53,16 +53,18 @@ export const getAllContacts = () => async (dispatch) => {
 
 export const createContact = (contact) => async (dispatch) => {
   try {
-    // console.log("in create contact", contact)
+    console.log("in create contact", contact)
     let { data } = await api.createContact(contact);
     let statuss = selectOptions.status;
-    data = {
-        ...data,
-        status: statuss[data.status - 1].title,
-      daysFromInfection: new Date(data.dateOfInfection)
-    }
     // console.log(data)
+    data = {
+      ...data,
+      relation_through: (data['person'].relation_through ===undefined || data.relatedThrough==="")? "self" : data['person'].relation_through,
+      status: data['covid'].status,
+      daysFromInfection: new Date(data['covid'].infection_date),
+    }
 
+    console.log(data)
     dispatch({ type: CREATE, payload: data });
   } catch (error) {
     console.log(error);

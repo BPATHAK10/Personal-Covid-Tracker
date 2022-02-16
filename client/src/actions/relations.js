@@ -8,7 +8,7 @@ export const getAllRelations = () => async (dispatch) => {
       // console.log("relations in get all relations::",data)
   
       //refactor data
-      data = data.relationsList.map(item=>({
+      data = data.map(item=>({
         id: item.relation_name,
         title: item.relation_name
       }))

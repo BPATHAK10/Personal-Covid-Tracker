@@ -37,7 +37,7 @@ export default class UsersController {
         'SELECT * FROM "User" WHERE username = $1 AND password = $2',
         [username, password]
       );
-      // console.log(user);
+      console.log(user);
 
       if (user.rows.length === 0) {
         res.status(404).json({ error: "Invalid credentials" });
