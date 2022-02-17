@@ -62,6 +62,15 @@ export function useForm(initialFValues, validateOnChange = false, validate) {
         },
       });
     }
+    if (name === "second_dose_date") {
+      setValues({
+        ...values,
+        vaccine: {
+          ...values.vaccine,
+          second_dose_date: value,
+        },
+      });
+    }
     if (name === "infection_date") {
       setValues({
         ...values,

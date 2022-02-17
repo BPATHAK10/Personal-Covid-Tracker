@@ -6,7 +6,7 @@ import RelationsController from "./relations.controller.js"
 const router = express.Router()  // create Router obj
 
 // router.route("/").get(UsersController.apiGetUsers) //creating a route
-router.route("/sign-in").post(UsersController.apiSignIn)
+router.route("/sign-in").post(UsersController.apiSignIn )
 
 router.route("/sign-up").post(UsersController.apiSignUp)
 router.route("/user/edit").put(UsersController.apiUpdateUser)

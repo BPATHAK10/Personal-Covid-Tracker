@@ -44,6 +44,7 @@ export default function Accordion_filter({initialFilterValues,filterCategories,s
   
   const handleChange = (e) => {
     const { name, value } = e.target
+    console.log(e.target)
     setfilterCategories({
         ...filterCategories,
         [name]: value
@@ -116,7 +117,7 @@ export default function Accordion_filter({initialFilterValues,filterCategories,s
           ))}
                       
                        </TextField>
-          <TextField
+          {/* <TextField
                         className={classes.selectFilters}
                          
                         name="vaccinationStatus"
@@ -134,7 +135,7 @@ export default function Accordion_filter({initialFilterValues,filterCategories,s
                     {option.title}
                   </MenuItem>
           ))}
-                    </TextField>
+                    </TextField> */}
           <TextField
                        
                         name="daysFromInfection"

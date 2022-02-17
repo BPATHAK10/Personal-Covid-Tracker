@@ -146,6 +146,8 @@ export default function useTable(headCells,filterFn, filters, initialFilterValue
 
     function filterCategories(records,filters){
         var filtered = []
+        console.log("records:::",records)
+        console.log("filters:::",filters)
 
         if(filters === initialFilterValues)
             return records
@@ -155,20 +157,20 @@ export default function useTable(headCells,filterFn, filters, initialFilterValue
             filtered = records.filter(contact=>{
                 for(var key in filters){
                     if(key === "status" && filters.status !== initialFilterValues.status){
-                        if(contact.status !== selectOptions.status[filters.status-1]?.title)
+                        if(contact['covid'].status !== selectOptions.status[filters.status-1]?.title)
                             return false
                     }
-                    if(key === "vaccinationStatus" && filters.vaccinationStatus !== initialFilterValues.vaccinationStatus){
-                        if(contact.vaccinationStatus !== filters.vaccinationStatus)
-                            return false
-                    }
+                    // if(key === "vaccinationStatus" && filters.vaccinationStatus !== initialFilterValues.vaccinationStatus){
+                    //     if(contact.vaccinationStatus !== filters.vaccinationStatus)
+                    //         return false
+                    // }
                     if(key === "relatedThrough" && filters.relatedThrough !== initialFilterValues.relatedThrough){
-                        if(contact.relatedThrough !== filters.relatedThrough)
+                        if(contact['person'].relation_through !== filters.relatedThrough)
                             return false
                     }
                     if(key === "daysFromInfection" && filters.daysFromInfection !== initialFilterValues.daysFromInfection){
-                        var length = contact.daysFromInfection.length - 5
-                        const days = contact.daysFromInfection.substr(0,length)
+                        var length = contact['covid'].daysFromInfection.length - 5
+                        const days = contact['covid'].daysFromInfection.substr(0,length)
                         // console.log(days)
                         const lowerBound = selectOptions.daysFromInfection[filters.daysFromInfection].array[0]
                         const upperBound = selectOptions.daysFromInfection[filters.daysFromInfection].array[1]

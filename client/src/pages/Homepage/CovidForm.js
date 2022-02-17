@@ -40,6 +40,8 @@ export default function CovidForm(props) {
       dose_name: "",
       vaccination_center: "",
       vaccination_date: new Date(),
+      second_dose_date: new Date(), 
+      second_dose_name: '',
     },
   };
   // console.log("recordForEdit in form::", recordForEdit);
@@ -272,6 +274,13 @@ export default function CovidForm(props) {
                 value={values['vaccine'].dose_name}
                 onChange={handleInputChange}
               />
+               <Controls.Input
+                name="second_dose_name"
+                id="vaccine"
+                label="Second Dose Name"
+                value={values['vaccine'].second_dose_name}
+                onChange={handleInputChange}
+              />
               <Controls.Input
                 name="vaccination_center"
                 id="vaccine"
@@ -286,6 +295,13 @@ export default function CovidForm(props) {
                 id="vaccine"
                 label="Date of vaccination"
                 value={values['vaccine'].vaccination_date}
+                onChange={handleInputChange}
+              />
+              <Controls.DatePicker
+                name="second_dose_date"
+                id="vaccine"
+                label="Date of second dose of vaccination"
+                value={values['vaccine'].second_dose_date}
                 onChange={handleInputChange}
               />
             </Grid>

@@ -48,7 +48,7 @@ import {
   },
   logoutButton:{
     paddingLeft: "15%",
-  }
+  },
   
  }));
 

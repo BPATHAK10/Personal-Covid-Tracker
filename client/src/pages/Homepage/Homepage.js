@@ -74,7 +74,7 @@ const headCells = [
 
 const initialFilterValues = {
   status: "",
-  vaccinationStatus: "",
+  // vaccinationStatus: "",
   daysFromInfection: "",
   relatedThrough: "",
 };
@@ -237,6 +237,13 @@ export default function Homepage() {
           relation_type: relation,
          }
         };
+
+        if(contact['vaccine'].dose_name === "" &&  contact['vaccine'].second_dose_name === "" && contact['vaccine'].vaccine_center === ""){
+            contact['vaccine'] = {
+                ...contact['vaccine'],
+                vaccination_date : '',
+                second_dose_date : '',
+            }}
 
       console.log("inside add",contact)
       console.log("relations list::",relations)
@@ -441,7 +448,14 @@ export default function Homepage() {
                 <TableCell>{item['person'].mobile_number}</TableCell>
                 <TableCell>{item['covid'].daysFromInfection}</TableCell>
                 <TableCell>
-                  <Controls.ActionButton
+                   <Controls.ActionButton
+                        color="primary"
+                        onClick={(e) => {
+                          history.push(`/detailed-info/${item["person"]._id}`);
+                        }}
+                      >
+                        <InfoOutlined />
+                      </Controls.ActionButton><Controls.ActionButton
                     color="primary"
                     onClick={() => {
                       openInPopup(item);
