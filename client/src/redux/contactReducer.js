@@ -8,7 +8,7 @@ const contactReducer = (contacts = [], action) => {
       case actionType.CREATE:
         return [...contacts, action.payload];
       case actionType.UPDATE:
-        return contacts.map((contact) => (contact._id === action.payload._id ? action.payload : contact));
+        return contacts.map((contact) => (contact['person']._id === action.payload['person']._id ? action.payload : contact));
       case actionType.DELETE:
         console.log("in delete")
         console.log(contacts.filter((contact) => contact['person']._id !== action.payload));

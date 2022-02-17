@@ -131,7 +131,7 @@ export default function useTable(headCells,filterFn, filters, initialFilterValue
         const today = new Date()
         // console.log("today:::",today)
         // To calculate the time difference of two dates
-        var Difference_In_Time = today.getTime() - dateOfInfection.getTime() 
+        var Difference_In_Time = today.getTime() - dateOfInfection?.getTime() 
 
         // To calculate the no. of days between two dates
         var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);   
@@ -187,15 +187,23 @@ export default function useTable(headCells,filterFn, filters, initialFilterValue
     }
 
     const recordsAfterPagingAndSorting = () => {
+        // console.log("records is ",records)
 
         const afterManagingRelationThrough = records.map(item=>({
             ...item,
-            relatedThrough: (item.relatedThrough ===undefined || item.relatedThrough==="")? "self" : item.relatedThrough,
+            "person": {
+                ...item.person,
+                relation_through: (item['person'].relation_through===undefined || item['person'].relation_through==="")? "self" : item['person'].relation_through,
+            }
         }))
+        // console.log("records after managing relation through",afterManagingRelationThrough)
 
         const afterDateRefactor = afterManagingRelationThrough.map(item=>({
             ...item,
-            daysFromInfection: refactorDate(item.daysFromInfection)
+            "covid": {
+                ...item.covid,
+                daysFromInfection: refactorDate(item['covid'].infection_date)
+            }
         })
         )
         // console.log("after date refactor::",afterDateRefactor)
@@ -208,7 +216,8 @@ export default function useTable(headCells,filterFn, filters, initialFilterValue
             .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
 
 
-        
+        // console.log("after pagination and sorting::",afterPaginationAndSorting)
+
         return afterPaginationAndSorting
     }
 

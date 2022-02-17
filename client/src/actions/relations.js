@@ -24,10 +24,10 @@ export const getAllRelations = () => async (dispatch) => {
   
   export const createRelation = (relation) => async (dispatch) => {
     try {
-      console.log("in add relation", relation)
+      // console.log("in add relation", relation)
       let { data } = await api.createRelation(relation);
       
-      console.log("in create relation::",data)
+      // console.log("in create relation::",data)
   
       dispatch({ type: ADD_RELATION, payload: data });
     } catch (error) {

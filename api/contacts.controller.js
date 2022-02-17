@@ -4,27 +4,27 @@ import pool from "../db.js"
 
 export default class ContactsController {
   static async apiPostContact(req, res, next) {
-    // console.log(req.body)
+    // console.log("request body is::",req.body)
 
     try {
       const contactInfo = {
-       "relation_type" : req.body.relation,
-       "relation_through" : req.body.relatedThrough,
-       "status" : req.body.status,  
-       "name" : req.body.name,
-       "dateOfInfection" : new Date(req.body.dateOfInfection),
-       "vaccinationStatus" : req.body.vaccinationStatus,
-       "mobile_number" :req.body.mobileNumber,
+       "relation_type" : req.body.person.relation_type,
+       "relation_through" : req.body.person.relation_through,
+       "status" : req.body.covid.status,  
+       "name" : req.body.person.name,
+       "dateOfInfection" : new Date(req.body.covid.infection_date),
+      //  "vaccinationStatus" : req.body.vaccine.vaccinationStatus,
+       "mobile_number" :req.body.person.mobile_number,
        "_userId" : req.body.owner,
-       "covidVariant" : req.body.variant,
-       "country" : req.body.country,
-       "province" : req.body.province,
-       "city" : req.body.city,
-       "district" : req.body.district,
-       "ward" : req.body.ward,
-       "doseName" : req.body.dose_name,
-       "vaccination_date" : new Date(req.body.vaccination_date),
-       "vaccination_center" : req.body.vaccination_center,
+       "covidVariant" : req.body.covid.variant,
+       "country" : req.body.address.country,
+       "province" : req.body.address.province,
+       "city" : req.body.address.city,
+       "district" : req.body.address.district,
+       "ward" : req.body.address.ward,
+       "doseName" : req.body.vaccine.dose_name,
+       "vaccination_date" : new Date(req.body.vaccine.vaccination_date),
+       "vaccination_center" : req.body.vaccine.vaccination_center,
       }
 
       
@@ -88,31 +88,55 @@ export default class ContactsController {
         // const updatedContact = req.body.updatedContact
 
         // console.log(updatedContact)
+      // const contactInfo = {
+      //  "relation_type" : req.body.relation,
+      //  "relation_through" : req.body.relatedThrough,
+      //  "status" : req.body.status,  
+      //  "name" : req.body.name,
+      //  "dateOfInfection" : new Date(req.body.dateOfInfection),
+      //  "vaccinationStatus" : req.body.vaccinationStatus,
+      //  "mobile_number" :req.body.mobileNumber,
+      //  "owner" : req.body.owner,
+      //  "covidVariant" : req.body.covidVariant,
+      //  "country" : req.body.country,
+      //  "province" : req.body.province,
+      //  "city" : req.body.city,
+      //  "district" : req.body.district,
+      //  "ward" : req.body.ward,
+      //  "doseName" : req.body.doseName,
+      //  "vaccination_date" : new Date(req.body.vaccinationDate),
+      //  "vaccination_center" : req.body.vaccinationCenter,
+      //  "address_id" : req.body.address_id,
+      //  "covid_id" : req.body.covid_id,
+      //   "vaccine_id" : req.body.vaccine_id,
+      //  "_id" : req.body._id,
+      // }
       const contactInfo = {
-       "relation_type" : req.body.relation,
-       "relation_through" : req.body.relatedThrough,
-       "status" : req.body.status,  
-       "name" : req.body.name,
-       "dateOfInfection" : new Date(req.body.dateOfInfection),
-       "vaccinationStatus" : req.body.vaccinationStatus,
-       "mobile_number" :req.body.mobileNumber,
-       "owner" : req.body.owner,
-       "covidVariant" : req.body.covidVariant,
-       "country" : req.body.country,
-       "province" : req.body.province,
-       "city" : req.body.city,
-       "district" : req.body.district,
-       "ward" : req.body.ward,
-       "doseName" : req.body.doseName,
-       "vaccination_date" : new Date(req.body.vaccinationDate),
-       "vaccination_center" : req.body.vaccinationCenter,
-       "address_id" : req.body.address_id,
-       "covid_id" : req.body.covid_id,
-        "vaccine_id" : req.body.vaccine_id,
-       "_id" : req.body._id,
+       "relation_type" : req.body.person.relation_type,
+       "relation_through" : req.body.person.relation_through,
+       "status" : req.body.covid.status,  
+       "name" : req.body.person.name,
+       "dateOfInfection" : new Date(req.body.covid.infection_date),
+      //  "vaccinationStatus" : req.body.vaccine.vaccinationStatus,
+       "mobile_number" :req.body.person.mobile_number,
+       "owner" : req.body.person._userid,
+       "covidVariant" : req.body.covid.variant,
+       "country" : req.body.address.country,
+       "province" : req.body.address.province,
+       "city" : req.body.address.city,
+       "district" : req.body.address.district,
+       "ward" : req.body.address.ward,
+       "doseName" : req.body.vaccine.dose_name,
+       "vaccination_date" : new Date(req.body.vaccine.vaccination_date),
+       "vaccination_center" : req.body.vaccine.vaccination_center,
+       "address_id" : req.body.address._id,
+       "covid_id" : req.body.covid._id,
+        "vaccine_id" : req.body.vaccine._id,
+       "_id": req.body.person._id
       }
 
-      console.log(contactInfo)
+
+      // console.log(contactInfo)
 
         // const {
         //   relation,
@@ -185,14 +209,17 @@ export default class ContactsController {
         'UPDATE "Person" SET name=$1,email=$2,relation_type=$3,relation_through=$4,mobile_number=$5,_addressid=$6,_covidid=$7,_vaccineid=$8 WHERE _id=$10 AND _userid =$9 RETURNING *;',
         [contactInfo.name, contactInfo.email, contactInfo.relation_type, contactInfo.relation_through, contactInfo.mobile_number, AddressDetailsResponse.rows[0]._id, CovidDetailsResponse.rows[0]._id, vaccinationStatusResponse.rows[0]._id, contactInfo.owner, contactInfo._id])
 
-      // console.log(updatedContact.rows[0])
-
-      res.json({
+      // console.log(updatedContact)
+      
+      const result = {
         "person": updatedContact.rows[0],
         "covid": CovidDetailsResponse.rows[0],
         "address": AddressDetailsResponse.rows[0],
         "vaccine": vaccinationStatusResponse.rows[0]
-      })
+      }
+      console.log(result)
+      res.json(result)
+      // res.json({"success":true})
       
     } catch (e) {
       res.status(500).json({ error: e.message })

@@ -62,7 +62,7 @@ const headCells = [
   { id: "relation", label: "Relation" },
   { id: "status", label: "Status" },
   { id: "mobileNumber", label: "Mobile Number", disableSorting: true },
-  //   { id: "vaccinationStatus", label: "Vaccination" },
+    // { id: "vaccinationStatus", label: "Vaccination" },
   // { id: 'dateOfInfection', label: 'Date' },
   {
     id: "daysFromInfection",
@@ -84,6 +84,7 @@ export default function Homepage() {
   const dispatch = useDispatch();
   const history = useHistory();
   const [recordForEdit, setRecordForEdit] = useState(null);
+  // console.log("record for edit is",recordForEdit)
   // const [records, setRecords] = useState(useSelector(state=>state.contactReducer))
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
@@ -100,7 +101,7 @@ export default function Homepage() {
   // console.log("loading is:::", loading)
 
   const contacts = useSelector((state) => state.contactReducer);
-  // console.log("contacts in homepage::", contacts);
+  console.log("contacts in homepage::", contacts);
   const relations = useSelector((state) => state.relationReducer);
   // console.log("relations in homepage::",relations)
   const [notRecentlyUpdatedContacts, setnotRecentlyUpdatedContacts] = useState(
@@ -143,22 +144,29 @@ export default function Homepage() {
     }
     const afterManagingRelationThrough = contacts.map((item) => ({
       ...item,
-      relatedThrough:
-        item.relatedThrough === undefined || item.relatedThrough === ""
-          ? "self"
-          : item.relatedThrough,
+      "person": {
+        ...item.person,
+        
+        relation_through:
+          item['person'].relation_through === undefined || item['person'].relation_through === ""
+            ? "self"
+            : item['person'].relation_through,
+      }
     }));
 
     // fllter our the not updated records
     const afterDateRefactor = afterManagingRelationThrough.map((item) => ({
       ...item,
-      daysFromInfection: refactorDate(item.daysFromInfection),
+      "covid": {
+        ...item.covid,
+        daysFromInfection: refactorDate(item['covid'].infection_date),
+      }
     }));
     // console.log("after date refactor::",afterDateRefactor)
 
     let notRecentlyUpdated = afterDateRefactor.filter((contact) => {
-      var length = contact.daysFromInfection.length - 5;
-      const days = contact.daysFromInfection.substr(0, length);
+      var length = contact["covid"].daysFromInfection.length - 5;
+      const days = contact["covid"].daysFromInfection.substr(0, length);
       // console.log(days)
 
       if (days > 14) {
@@ -215,18 +223,23 @@ export default function Homepage() {
   }
 
   const addOrEdit = (contact, resetForm) => {
-    // console.log("inside add or edit with contact:::",contact)
+    console.log("inside add or edit with contact:::",contact)
 
-    const isAdd = contact._id === undefined;
-    // console.log(isAdd)
+    const isAdd = contact['person']._id === undefined;
+    console.log(isAdd)
 
     if (isAdd) {
       // use item.id to decide add or edit
-      const relation = contact.relation.toLowerCase();
-      contact = { ...contact, relation: relation };
+      const relation = contact['person'].relation_type.toLowerCase();
+      contact = { ...contact,
+        "person": {
+          ...contact['person'],
+          relation_type: relation,
+         }
+        };
 
-      // console.log("inside add",contact)
-      // console.log("relations list::",relations)
+      console.log("inside add",contact)
+      console.log("relations list::",relations)
 
       let updateRelationsDatabase = true;
 
@@ -237,7 +250,7 @@ export default function Homepage() {
       });
 
       if (updateRelationsDatabase) {
-        // console.log("dispatch relations post")
+        console.log("dispatch relations post")
         dispatch(
           relationsService.createRelation({ relation_name: contact.relation })
         );
@@ -245,7 +258,7 @@ export default function Homepage() {
 
       dispatch(contactService.createContact(contact));
     } else {
-      // console.log("inside edit with data:::",contact)
+      console.log("inside edit with data:::",contact)
 
       dispatch(contactService.updateContact(contact));
     }
@@ -371,11 +384,11 @@ export default function Homepage() {
                     {/* <TableCell>{item.email}</TableCell> */}
                     <TableCell>{item["person"].relation_through}</TableCell>
                     <TableCell>{item["person"].relation_type}</TableCell>
-                    <TableCell>{item.status}</TableCell>
+                    <TableCell>{item["covid"].status}</TableCell>
                     <TableCell>{item["person"].mobile_number}</TableCell>
                     {/* <TableCell>{item.vaccinationStatus}</TableCell> */}
                     {/* <TableCell>{formatDateToDisplay(item.dateOfInfection)}</TableCell> */}
-                    <TableCell>{item.daysFromInfection}</TableCell>
+                    <TableCell>{item['covid'].daysFromInfection}</TableCell>
                     <TableCell>
                       <Controls.ActionButton
                         color="primary"
@@ -424,9 +437,9 @@ export default function Homepage() {
                 {/* <TableCell>{item.email}</TableCell> */}
                 <TableCell>{item['person'].relation_through}</TableCell>
                 <TableCell>{item['person'].relation_type}</TableCell>
-                <TableCell>{item.status}</TableCell>
-                <TableCell>{item['person'].mobileNumber}</TableCell>
-                <TableCell>{item.daysFromInfection}</TableCell>
+                <TableCell>{item['covid'].status}</TableCell>
+                <TableCell>{item['person'].mobile_number}</TableCell>
+                <TableCell>{item['covid'].daysFromInfection}</TableCell>
                 <TableCell>
                   <Controls.ActionButton
                     color="primary"

@@ -15,56 +15,63 @@ export default function CovidForm(props) {
   const isAdd = recordForEdit === null;
 
   const initialFValues = {
-    name: "",
-    relation: "",
-    relatedThrough: "",
-    email: "",
+    address: {
+      city: "",
+      country: "",
+      district: "",
+      province: "",
+      ward: "",
+    },
+    covid: {
+      variant: "",
+      status: "",
+      infection_date: new Date(),
+    },
+    person: {
+      name: "",
+      relation_type: "",
+      relation_through: "",
+      email: "",
+      mobile_number: "",
+      // vaccinationStatus: "unknown",
+    },
     owner: `${props.contactOwner}`,
-    status: "",
-    mobileNumber: "",
-    dateOfInfection: new Date(),
-    // vaccinationStatus: "unknown",
-    city: "",
-    country: "",
-    district: "",
-    province: "",
-    ward: "",
-
-    variant: "",
-    dose_name: "",
-    vaccination_center: "",
-    vaccination_date: new Date(),
+    vaccine: {
+      dose_name: "",
+      vaccination_center: "",
+      vaccination_date: new Date(),
+    },
   };
-  // console.log("recordForEdit in form::",recordForEdit)
+  // console.log("recordForEdit in form::", recordForEdit);
 
   const validate = (fieldValues = values) => {
-    // console.log("inside validate::", fieldValues)
+    console.log("inside validate::", fieldValues)
     let temp = { ...errors };
     if ("name" in fieldValues)
       temp.name = fieldValues.name ? "" : "This field is required.";
     // if ('email' in fieldValues)
     //     temp.email = (/$^|.+@.+..+/).test(fieldValues.email) ? "" : "Email is not valid."
-    if ("mobileNumber" in fieldValues) {
+    if ("mobile_number" in fieldValues) {
       temp.mobile =
-        fieldValues.mobileNumber.length > 9 ||
-        fieldValues.mobileNumber.length === 0
+        fieldValues.mobile_number.length > 9 ||
+        fieldValues.mobile_number.length === 0
           ? ""
           : "Minimum 10 numbers required.";
-      if (fieldValues.mobileNumber.length !== 0) {
+      if (fieldValues.mobile_number.length !== 0) {
         temp.mobile =
           /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(
-            fieldValues.mobileNumber
+            fieldValues.mobile_number
           )
             ? ""
             : "Invalid format.";
       }
     }
-    if ("status" in fieldValues)
-      temp.status =
-        fieldValues.status.length !== 0 ? "" : "This field is required.";
-    setErrors({
-      ...temp,
-    });
+    // if ("status" in fieldValues)
+    //   temp.status =
+    //     fieldValues.status !== "" ? "" : "This field is required.";
+    // setErrors({
+    //   ...temp,
+    // });
     // console.log(errors)
     // console.log(temp)
 
@@ -74,15 +81,15 @@ export default function CovidForm(props) {
 
   const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
     useForm(initialFValues, true, validate);
-  
-  // console.log(values)
+
+  console.log(values);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log("add form data::", values);
+    console.log("add form data::", values);
 
     if (validate()) {
-        console.log("validated")
+      console.log("validated");
       addOrEdit(values, resetForm);
     }
   };
@@ -140,23 +147,26 @@ export default function CovidForm(props) {
             <Grid item xs={6}>
               <Controls.Input
                 name="name"
+                id="person"
                 label="Full Name"
-                value={values.name}
+                value={values['person'].name}
                 onChange={handleInputChange}
                 error={errors.name}
                 required={true}
               />
               <Controls.Input
                 label="Email"
+                id="person"
                 name="email"
-                value={values.email}
+                value={values['person'].email}
                 onChange={handleInputChange}
                 error={errors.email}
               />
               <Controls.Input
                 label="Mobile"
-                name="mobileNumber"
-                value={values.mobileNumber}
+                id="person"
+                name="mobile_number"
+                value={values['person'].mobile_number}
                 onChange={handleInputChange}
                 error={errors.mobile}
               />
@@ -164,15 +174,17 @@ export default function CovidForm(props) {
             <Grid item xs={6}>
               <Controls.Input
                 label="Relation"
-                name="relation"
-                value={values.relation}
+                name="relation_type"
+                id="person"
+                value={values['person'].relation_type}
                 onChange={handleInputChange}
               />
 
               <Controls.Select
-                name="relatedThrough"
+                name="relation_through"
                 label="Related Through"
-                value={values.relatedThrough}
+                id="person"
+                value={values['person'].relation_through}
                 onChange={handleInputChange}
                 options={props.relations}
               />
@@ -186,27 +198,31 @@ export default function CovidForm(props) {
               <Controls.Input
                 label="city"
                 name="city"
-                value={values.city}
+                id="address"
+                value={values['address'].city}
                 onChange={handleInputChange}
               />
               <Controls.Input
                 label="country"
+                id="address"
                 name="country"
-                value={values.country}
+                value={values['address'].country}
                 onChange={handleInputChange}
               />
             </Grid>
             <Grid item xs={6}>
               <Controls.Input
                 label="province"
+                id="address"
                 name="province"
-                value={values.province}
+                value={values['address'].province}
                 onChange={handleInputChange}
               />
               <Controls.Input
                 label="ward"
                 name="ward"
-                value={values.ward}
+                id="address"
+                value={values['address'].ward}
                 onChange={handleInputChange}
               />
             </Grid>
@@ -219,13 +235,15 @@ export default function CovidForm(props) {
               <Controls.Input
                 name="variant"
                 label="variant"
-                value={values.variant}
+                id="covid"
+                value={values['covid'].variant}
                 onChange={handleInputChange}
               />
               <Controls.Select
                 name="status"
                 label="Status"
-                value={values.status}
+                id="covid"
+                value={values['covid'].status}
                 onChange={handleInputChange}
                 options={selectOptions.status}
                 error={errors.status}
@@ -234,9 +252,10 @@ export default function CovidForm(props) {
             </Grid>
             <Grid item xs={6}>
               <Controls.DatePicker
-                name="dateOfInfection"
+                name="infection_date"
+                id="covid"
                 label={isAdd ? "Date Of Infection" : "Date of status update"}
-                value={values.dateOfInfection}
+                value={values['covid'].infection_date}
                 onChange={handleInputChange}
               />
             </Grid>
@@ -248,22 +267,25 @@ export default function CovidForm(props) {
             <Grid item xs={6}>
               <Controls.Input
                 name="dose_name"
+                id="vaccine"
                 label="Dose Name"
-                value={values.dose_name}
+                value={values['vaccine'].dose_name}
                 onChange={handleInputChange}
               />
               <Controls.Input
                 name="vaccination_center"
+                id="vaccine"
                 label="Vaccination Center"
-                value={values.vaccination_center}
+                value={values['vaccine'].vaccination_center}
                 onChange={handleInputChange}
               />
             </Grid>
             <Grid item xs={6}>
               <Controls.DatePicker
                 name="vaccination_date"
+                id="vaccine"
                 label="Date of vaccination"
-                value={values.vaccination_date}
+                value={values['vaccine'].vaccination_date}
                 onChange={handleInputChange}
               />
             </Grid>
@@ -345,7 +367,7 @@ export default function CovidForm(props) {
           })}
         </Stepper>
         <div>
-          {activeStep === steps.length ? 
+          {activeStep === steps.length ? (
             <div>
               <Typography className={classes.instructions}>
                 All steps completed - you&apos;re finished
@@ -354,17 +376,17 @@ export default function CovidForm(props) {
                 Reset
               </Button>
             </div>
-          : 
+          ) : (
             <div className="steps-content">
               {getStepContent(activeStep)}
-              <div style={{'display': "flex"}}>
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    className={classes.button}
-                  >
-                    Back
-                  </Button>
+              <div style={{ display: "flex" }}>
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  className={classes.button}
+                >
+                  Back
+                </Button>
                 {isStepOptional(activeStep) && (
                   <Button
                     variant="contained"
@@ -373,8 +395,9 @@ export default function CovidForm(props) {
                     className={classes.button}
                   >
                     Skip
-                  </Button>)}
-                {activeStep === steps.length - 1 ? 
+                  </Button>
+                )}
+                {activeStep === steps.length - 1 ? (
                   <div>
                     <Controls.Button type="submit" text="Submit" />
                     <Controls.Button
@@ -383,7 +406,7 @@ export default function CovidForm(props) {
                       onClick={resetForm}
                     />
                   </div>
-                 : 
+                ) : (
                   <Button
                     variant="contained"
                     color="primary"
@@ -392,13 +415,12 @@ export default function CovidForm(props) {
                   >
                     {activeStep === steps.length - 1 ? "Finish" : "Next"}
                   </Button>
-                }
+                )}
               </div>
             </div>
-          }
+          )}
         </div>
       </div>
-      );
       {/* <FormStepper /> */}
       {/* <Grid container>
         <Grid item xs={6}>
