@@ -33,20 +33,22 @@ router.route("/relations/all").get(RelationsController.apiGetRelations)
 router.route("/relations/add").post(RelationsController.apiPostRelation)
 
 
-
+ app.use((err, req, res, next) => {
+        console.error(err.stack);
+        res.status(500).send(`Red Alert ${err.stack}`);
+    });
 
 // app.use("/api/v1/c_tracker", c_tracker)
 // app.use("*", (req, res)=> res.status(404).json({error:"not found"}))
 
 if(process.env.NODE_ENV === "production"){
-        console.log("inside")
         app.use(express.static(path.join("client/build")));
         app.get("*",(req,res)=>{
             res.sendFile(path.resolve(path.resolve(), 'client','build','index.html'));
         })
     }
 
-app.listen(port ,'0.0.0.0',()=>{
+app.listen(port ,()=>{
     console.log(`listening on port ${port}`)})
 
 // export default app
