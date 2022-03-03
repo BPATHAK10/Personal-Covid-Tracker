@@ -10,8 +10,7 @@ const app = express()
 
 dotenv.config()     //load the env variables
 const port = process.env.PORT || 5000   //get the port value from dotenv
-console.log(process.env.NODE_ENV)
-const router = express.Router()  // create Router obj
+console.log(process.env.NODE_ENV)  
 
 
 app.use(cors())
@@ -19,18 +18,18 @@ app.use(express.json())    // allows to accept json in the body of a request
 app.use(express.urlencoded({extended: true}))
 
 // router.route("/").get(UsersController.apiGetUsers) //creating a route
-router.route("/sign-in").post(UsersController.apiSignIn )
+app.route("/sign-in").post(UsersController.apiSignIn )
 
-router.route("/sign-up").post(UsersController.apiSignUp)
-// router.route("/user/edit").put(UsersController.apiUpdateUser)
+app.route("/sign-up").post(UsersController.apiSignUp)
+// app.route("/user/edit").put(UsersController.apiUpdateUser)
 
-router.route("/contact/all/:id").get(ContactsController.apiGetContacts)
-router.route("/contact/add").post(ContactsController.apiPostContact)
-router.route("/contact/edit").put(ContactsController.apiUpdateContact)
-router.route("/contact/delete/:id").delete(ContactsController.apiDeleteContact)
+app.route("/contact/all/:id").get(ContactsController.apiGetContacts)
+app.route("/contact/add").post(ContactsController.apiPostContact)
+app.route("/contact/edit").put(ContactsController.apiUpdateContact)
+app.route("/contact/delete/:id").delete(ContactsController.apiDeleteContact)
 
-router.route("/relations/all").get(RelationsController.apiGetRelations)
-router.route("/relations/add").post(RelationsController.apiPostRelation)
+app.route("/relations/all").get(RelationsController.apiGetRelations)
+app.route("/relations/add").post(RelationsController.apiPostRelation)
 
 
  app.use((err, req, res, next) => {
