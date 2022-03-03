@@ -1,5 +1,3 @@
-import ContactsDAO from "../dao/contactsDAO.js"
-import UserDAO from "../dao/userDAO.js"
 import pool from "../db.js"
 
 export default class ContactsController {

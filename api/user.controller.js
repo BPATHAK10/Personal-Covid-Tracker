@@ -1,4 +1,3 @@
-import UserDAO from "../dao/userDAO.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import pool from "../db.js";
@@ -95,30 +94,30 @@ export default class UsersController {
     }
   }
 
-  static async apiUpdateUser(req, res, next) {
-    try {
-      const userId = req.body.userId;
-      const userInfo = {
-        username: req.body.username,
-        password: req.body.password,
-        email: req.body.email,
-      };
-      const updateResponse = await UserDAO.updateUser(userId, userInfo);
+//   static async apiUpdateUser(req, res, next) {
+//     try {
+//       const userId = req.body.userId;
+//       const userInfo = {
+//         username: req.body.username,
+//         password: req.body.password,
+//         email: req.body.email,
+//       };
+//       const updateResponse = await UserDAO.updateUser(userId, userInfo);
 
-      var { error } = updateResponse;
-      if (error) {
-        res.status(400).json({ error });
-      }
+//       var { error } = updateResponse;
+//       if (error) {
+//         res.status(400).json({ error });
+//       }
 
-      if (updateResponse.modifiedCount === 0) {
-        throw new Error(
-          "unable to update review - user may not be original poster"
-        );
-      }
+//       if (updateResponse.modifiedCount === 0) {
+//         throw new Error(
+//           "unable to update review - user may not be original poster"
+//         );
+//       }
 
-      res.json({ status: "success" });
-    } catch (e) {
-      res.status(500).json({ error: e.message });
-    }
-  }
+//       res.json({ status: "success" });
+//     } catch (e) {
+//       res.status(500).json({ error: e.message });
+//     }
+//   }
 }

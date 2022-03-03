@@ -1,4 +1,3 @@
-import RelationDAO from "../dao/relationsDAO.js"
 import pool from "../db.js"
 
 export default class RelationsController{

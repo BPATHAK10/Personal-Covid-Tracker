@@ -2,9 +2,7 @@ import app from "./server.js"
 import mongodb from "mongodb"
 import express from "express"
 import dotenv from "dotenv"
-import UserDAO from "./dao/userDAO.js"
-import ContactsDAO from "./dao/contactsDAO.js"
-import RelationDAO from "./dao/relationsDAO.js"
+
 
 dotenv.config()     //load the env variables
 // const MongoClient = mongodb.MongoClient
