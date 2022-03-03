@@ -1,18 +1,18 @@
 import express from "express"
 import cors from "cors"    
 import dotenv from "dotenv"
-import favicon from "serve-favicon"
 import path from "path"
-import UsersController from "./user.controller.js"
-import ContactsController from "./contacts.controller.js"
-import RelationsController from "./relations.controller.js"
+import UsersController from "./api/user.controller.js"
+import ContactsController from "./api/contacts.controller.js"
+import RelationsController from "./api/relations.controller.js"
 
 const app = express()
 
 dotenv.config()     //load the env variables
+const port = process.env.PORT || 5000   //get the port value from dotenv
+console.log(process.env.NODE_ENV)
 const router = express.Router()  // create Router obj
 
-app.use(favicon(path.join(path.resolve(), "client","public", "favicon.ico")));
 
 app.use(cors())
 app.use(express.json())    // allows to accept json in the body of a request
@@ -22,7 +22,7 @@ app.use(express.urlencoded({extended: true}))
 router.route("/sign-in").post(UsersController.apiSignIn )
 
 router.route("/sign-up").post(UsersController.apiSignUp)
-router.route("/user/edit").put(UsersController.apiUpdateUser)
+// router.route("/user/edit").put(UsersController.apiUpdateUser)
 
 router.route("/contact/all/:id").get(ContactsController.apiGetContacts)
 router.route("/contact/add").post(ContactsController.apiPostContact)
