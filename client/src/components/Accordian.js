@@ -44,7 +44,6 @@ export default function Accordion_filter({initialFilterValues,filterCategories,s
   
   const handleChange = (e) => {
     const { name, value } = e.target
-    console.log(e.target)
     setfilterCategories({
         ...filterCategories,
         [name]: value

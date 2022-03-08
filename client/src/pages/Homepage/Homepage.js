@@ -325,7 +325,7 @@ export default function Homepage() {
     return (
       <>
         <Toolbar>
-          <Controls.Input
+          {/* <Controls.Input
             label="Search Contacts"
             className={classes.searchInput}
             value={searchQuery}
@@ -337,7 +337,7 @@ export default function Homepage() {
               ),
             }}
             onChange={(e) => handleSearch(e)}
-          />
+          /> */}
           <Controls.Button
             text="Add New"
             variant="outlined"
