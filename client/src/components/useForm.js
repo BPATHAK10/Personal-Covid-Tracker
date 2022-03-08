@@ -7,7 +7,7 @@ export function useForm(initialFValues, validateOnChange = false, validate) {
 
   const handleInputChange = (e) => {
     const { name, value, id } = e.target;
-    console.log("input change", name, value, id);
+    // console.log("input change", name, value, id);
 
    
     if (String(id) === "person") {

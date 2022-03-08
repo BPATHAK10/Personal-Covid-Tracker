@@ -23,9 +23,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function useTable(headCells,filterFn, filters, initialFilterValues) {
-
     const classes = useStyles();
-
     const [records, setRecords] = useState([])
     // console.log("records:::",records)
     const pages = [5, 10, 25]
@@ -127,9 +125,7 @@ export default function useTable(headCells,filterFn, filters, initialFilterValue
 
     function refactorDate(date){
         const dateOfInfection = date
-        // console.log("item ko date ::",dateOfInfection )
         const today = new Date()
-        // console.log("today:::",today)
         // To calculate the time difference of two dates
         var Difference_In_Time = today.getTime() - dateOfInfection?.getTime() 
 
@@ -146,8 +142,6 @@ export default function useTable(headCells,filterFn, filters, initialFilterValue
 
     function filterCategories(records,filters){
         var filtered = []
-        console.log("records:::",records)
-        console.log("filters:::",filters)
 
         if(filters === initialFilterValues)
             return records
@@ -198,7 +192,6 @@ export default function useTable(headCells,filterFn, filters, initialFilterValue
                 relation_through: (item['person'].relation_through===undefined || item['person'].relation_through==="")? "self" : item['person'].relation_through,
             }
         }))
-        // console.log("records after managing relation through",afterManagingRelationThrough)
 
         const afterDateRefactor = afterManagingRelationThrough.map(item=>({
             ...item,
@@ -208,17 +201,14 @@ export default function useTable(headCells,filterFn, filters, initialFilterValue
             }
         })
         )
-        // console.log("after date refactor::",afterDateRefactor)
         
         const afterFiltering = filterCategories(afterDateRefactor,filters)
         setrecordsLength(afterFiltering.length)
-        // console.log("after filtering::",afterFiltering)
         
         const afterPaginationAndSorting = stableSort(filterFn.fn(afterFiltering), getComparator(order, orderBy))
             .slice(page * rowsPerPage, (page + 1) * rowsPerPage)
 
 
-        // console.log("after pagination and sorting::",afterPaginationAndSorting)
 
         return afterPaginationAndSorting
     }

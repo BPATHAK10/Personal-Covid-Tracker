@@ -84,8 +84,6 @@ export default function Homepage() {
   const dispatch = useDispatch();
   const history = useHistory();
   const [recordForEdit, setRecordForEdit] = useState(null);
-  // console.log("record for edit is",recordForEdit)
-  // const [records, setRecords] = useState(useSelector(state=>state.contactReducer))
   const [filterFn, setFilterFn] = useState({
     fn: (items) => {
       return items;
@@ -93,15 +91,12 @@ export default function Homepage() {
   });
   const [openPopup, setOpenPopup] = useState(false);
   const [openNotifyPopup, setOpenNotifyPopup] = useState(false);
-  // const [pageContent, setpageContent] = useState("table")
   const [searchQuery, setsearchQuery] = useState("");
   const [contactOwner, setcontactOwner] = useState("");
   const [loading, setloading] = useState(true);
   const [showNotUpdatedTable, setshowNotUpdatedTable] = useState(true);
-  // console.log("loading is:::", loading)
 
   const contacts = useSelector((state) => state.contactReducer);
-  console.log("contacts in homepage::", contacts);
   const relations = useSelector((state) => state.relationReducer);
   // console.log("relations in homepage::",relations)
   const [notRecentlyUpdatedContacts, setnotRecentlyUpdatedContacts] = useState(
@@ -223,10 +218,7 @@ export default function Homepage() {
   }
 
   const addOrEdit = (contact, resetForm) => {
-    console.log("inside add or edit with contact:::",contact)
-
     const isAdd = contact['person']._id === undefined;
-    console.log(isAdd)
 
     if (isAdd) {
       // use item.id to decide add or edit
@@ -245,8 +237,6 @@ export default function Homepage() {
                 second_dose_date : '',
             }}
 
-      console.log("inside add",contact)
-      console.log("relations list::",relations)
 
       let updateRelationsDatabase = true;
 
@@ -257,7 +247,6 @@ export default function Homepage() {
       });
 
       if (updateRelationsDatabase) {
-        console.log("dispatch relations post")
         dispatch(
           relationsService.createRelation({ relation_name: contact.relation })
         );
@@ -265,8 +254,6 @@ export default function Homepage() {
 
       dispatch(contactService.createContact(contact));
     } else {
-      console.log("inside edit with data:::",contact)
-
       dispatch(contactService.updateContact(contact));
     }
     resetForm();

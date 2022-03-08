@@ -44,15 +44,12 @@ export default function CovidForm(props) {
       second_dose_name: '',
     },
   };
-  // console.log("recordForEdit in form::", recordForEdit);
 
   const validate = (fieldValues = values) => {
     console.log("inside validate::", fieldValues)
     let temp = { ...errors };
     if ("name" in fieldValues)
       temp.name = fieldValues.name ? "" : "This field is required.";
-    // if ('email' in fieldValues)
-    //     temp.email = (/$^|.+@.+..+/).test(fieldValues.email) ? "" : "Email is not valid."
     if ("mobile_number" in fieldValues) {
       temp.mobile =
         fieldValues.mobile_number.length > 9 ||
@@ -88,10 +85,8 @@ export default function CovidForm(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("add form data::", values);
 
     if (validate()) {
-      console.log("validated");
       addOrEdit(values, resetForm);
     }
   };
@@ -318,7 +313,6 @@ export default function CovidForm(props) {
   const steps = getSteps();
 
   const isStepOptional = (step) => {
-    // return step === 1;
     return false;
   };
 
@@ -343,8 +337,6 @@ export default function CovidForm(props) {
 
   const handleSkip = () => {
     if (!isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
       throw new Error("You can't skip a step that isn't optional.");
     }
 
