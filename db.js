@@ -5,7 +5,7 @@ var pool;
 if(process.env.NODE_ENV === "production") {
     pool = new Pool({
         connectionString: process.env.DATABASE_URL,
-        ssl: false
+        ssl: true 
     })
 }
 else{
