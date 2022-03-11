@@ -91,10 +91,10 @@ export const createContact = (contact) => async (dispatch) => {
 
 export const updateContact = (contact) => async (dispatch) => {
   try {
-    console.log("in update contact", contact);
+    // console.log("in update contact", contact);
     let { data } = await api.updateContact(contact);
     let statuss = selectOptions.status;
-    console.log("server response ::", data);
+    // console.log("server response ::", data);
     data = {
       ...data,
       person: {
@@ -111,7 +111,7 @@ export const updateContact = (contact) => async (dispatch) => {
       },
     };
 
-    console.log("data after refactor", data);
+    // console.log("data after refactor", data);
 
     dispatch({ type: UPDATE, payload: data });
   } catch (error) {

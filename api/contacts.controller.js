@@ -216,7 +216,7 @@ export default class ContactsController {
         "address": AddressDetailsResponse.rows[0],
         "vaccine": vaccinationStatusResponse.rows[0]
       }
-      console.log(result)
+      // console.log(result)
       res.json(result)
       // res.json({"success":true})
       

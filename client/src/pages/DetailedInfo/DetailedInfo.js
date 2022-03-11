@@ -24,7 +24,6 @@ function DetailedInfo() {
   const { _id } = useParams();
   const contacts = useSelector((state) => state.contactReducer);
   const classes = useStyles();
-  console.log("inside detailed info with contacts::",contacts);
   // console.log(_id);
 
   const dispatch = useDispatch();

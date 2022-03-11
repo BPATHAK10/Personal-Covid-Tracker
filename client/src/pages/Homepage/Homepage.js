@@ -98,7 +98,6 @@ export default function Homepage() {
 
   const contacts = useSelector((state) => state.contactReducer);
   const relations = useSelector((state) => state.relationReducer);
-  console.log("relations in homepage::", relations);
   const [notRecentlyUpdatedContacts, setnotRecentlyUpdatedContacts] = useState(
     []
   );
@@ -223,7 +222,6 @@ export default function Homepage() {
     if (isAdd) {
       // use item.id to decide add or edit
       const relation = contact['person'].relation_type.toLowerCase();
-      console.log("value of relation in add or edit::", relation);
 
       contact = { ...contact,
         "person": {
@@ -243,7 +241,6 @@ export default function Homepage() {
       let updateRelationsDatabase = true;
 
       relations.forEach((element) => {
-        console.log("inside for each and element is::", element);
         if (element.id === relation) {
           updateRelationsDatabase = false;
         }
@@ -253,7 +250,6 @@ export default function Homepage() {
         const new_relation = {
           relation_name: relation
         };
-        console.log("updating relations database with relation",new_relation);
         dispatch(
           relationsService.createRelation({ relation_name: relation })
         );
@@ -267,31 +263,20 @@ export default function Homepage() {
     setRecordForEdit(null);
     setOpenPopup(false);
 
-    // const contactsAfterAdd = useSelector(state => state.contactReducer)
-    // console.log("contaacts after add:::",contactsAfterAdd)
     setRecords(contacts);
   };
 
   const deleteContact = (item) => {
-    // e.preventDefault();
-    // e.stopPropagation();
-    // console.log("in delete contact::", item)
     const deleteData = {
       owner: item['person']._userid,
       id: item['person']._id,
     };
-    // console.log(deleteData)
 
     dispatch(contactService.deleteContact(deleteData.id));
 
-    // contactService.deleteContactId(item)
-    // setRecords(contacts);
   };
 
   const openInPopup = (item) => {
-    // e.preventDefault();
-    // e.stopPropagation();
-    // console.log("inside openInPopup with item::",item)
     setRecordForEdit(item);
     setOpenPopup(true);
   };
