@@ -5,7 +5,7 @@ export const getAllRelations = () => async (dispatch) => {
     try {
       let { data } = await api.fetchRelations();
   
-      // console.log("relations in get all relations before refactor::",data)
+      console.log("relations in get all relations before refactor::",data)
   
       //refactor data
       data = data.map(item=>({
@@ -13,7 +13,7 @@ export const getAllRelations = () => async (dispatch) => {
         title: item.relation_name.toLowerCase()
       }))
       data.push({id:"self",title:"self"})
-      // console.log("relations in get all relations after refactor::",data)
+      console.log("relations in get all relations after refactor::",data)
 
       
       dispatch({ type: FETCH_ALL_RELATIONS, payload: data });
@@ -24,10 +24,10 @@ export const getAllRelations = () => async (dispatch) => {
   
   export const createRelation = (relation) => async (dispatch) => {
     try {
-      // console.log("in add relation", relation)
+      console.log("in add relation", relation)
       let { data } = await api.createRelation();
       
-      // console.log("in create relation after post to api::",data)
+      console.log("in create relation after post to api::",data)
   
       dispatch({ type: ADD_RELATION, payload: data });
     } catch (error) {

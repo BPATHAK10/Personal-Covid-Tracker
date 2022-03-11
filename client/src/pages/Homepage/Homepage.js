@@ -98,6 +98,7 @@ export default function Homepage() {
 
   const contacts = useSelector((state) => state.contactReducer);
   const relations = useSelector((state) => state.relationReducer);
+  console.log("relations in homepage::", relations);
   const [notRecentlyUpdatedContacts, setnotRecentlyUpdatedContacts] = useState(
     []
   );
@@ -222,7 +223,7 @@ export default function Homepage() {
     if (isAdd) {
       // use item.id to decide add or edit
       const relation = contact['person'].relation_type.toLowerCase();
-      // console.log("value of relation in add or edit::", relation);
+      console.log("value of relation in add or edit::", relation);
 
       contact = { ...contact,
         "person": {
@@ -242,7 +243,7 @@ export default function Homepage() {
       let updateRelationsDatabase = true;
 
       relations.forEach((element) => {
-        // console.log("inside for each and element is::", element);
+        console.log("inside for each and element is::", element);
         if (element.id === relation) {
           updateRelationsDatabase = false;
         }
@@ -252,7 +253,7 @@ export default function Homepage() {
         const new_relation = {
           relation_name: relation
         };
-        // console.log("updating relations database with relation",new_relation);
+        console.log("updating relations database with relation",new_relation);
         dispatch(
           relationsService.createRelation({ relation_name: relation })
         );
