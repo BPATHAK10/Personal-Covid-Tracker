@@ -25,7 +25,7 @@ export const getAllRelations = () => async (dispatch) => {
   export const createRelation = (relation) => async (dispatch) => {
     try {
       console.log("in add relation", relation)
-      let { data } = await api.createRelation();
+      let { data } = await api.createRelation(relation);
       
       console.log("in create relation after post to api::",data)
   

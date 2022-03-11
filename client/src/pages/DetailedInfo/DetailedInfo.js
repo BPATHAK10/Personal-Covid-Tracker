@@ -62,7 +62,7 @@ function DetailedInfo() {
                     {contact["person"].email &&
                       <h4>Email : {contact["person"].email}</h4>}
                     <h4>
-                      Relation : {contact["person"].relation_through}'s{" "}
+                      Relation : {contact["person"].relation_through === null ? "Self" : contact["person"].relation_through}'s{" "}
                       {contact["person"].relation_type}
                     </h4>
                     <h4>

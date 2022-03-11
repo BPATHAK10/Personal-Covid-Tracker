@@ -3,13 +3,6 @@ import pool from "../db.js"
 export default class RelationsController{
     static async apiGetRelations(req,res,next){
         try{
-            // let relations = await RelationDAO.getRelations()
-            // if (!relations){
-            //     res.status(404).json({error: "Not found"})
-            //     return
-            // }
-            // res.json(relations)
-
             const relations = await pool.query('SELECT * FROM "Relations"')
             // console.log(relations)
 
