@@ -10,6 +10,7 @@ export default class ContactsController {
        "relation_through" : req.body.person.relation_through,
        "status" : req.body.covid.status,  
        "name" : req.body.person.name,
+       "email" : req.body.person.email,
        "dateOfInfection" : new Date(req.body.covid.infection_date),
       //  "vaccinationStatus" : req.body.vaccine.vaccinationStatus,
        "mobile_number" :req.body.person.mobile_number,

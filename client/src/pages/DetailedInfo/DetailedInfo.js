@@ -24,7 +24,7 @@ function DetailedInfo() {
   const { _id } = useParams();
   const contacts = useSelector((state) => state.contactReducer);
   const classes = useStyles();
-  // console.log(contacts);
+  // console.log("inside detailed info with contacts::",contacts);
   // console.log(_id);
 
   const dispatch = useDispatch();
@@ -59,7 +59,8 @@ function DetailedInfo() {
                     gutterBottom
                   >
                     <h4>Mobile Number : {contact["person"].mobile_number}</h4>
-                    <h4>Email : {contact["person"].email}</h4>
+                    {contact["person"].email &&
+                      <h4>Email : {contact["person"].email}</h4>}
                     <h4>
                       Relation : {contact["person"].relation_through}'s{" "}
                       {contact["person"].relation_type}

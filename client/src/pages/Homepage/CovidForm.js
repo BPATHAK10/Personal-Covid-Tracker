@@ -46,7 +46,7 @@ export default function CovidForm(props) {
   };
 
   const validate = (fieldValues = values) => {
-    console.log("inside validate::", fieldValues)
+    // console.log("inside validate::", fieldValues)
     let temp = { ...errors };
     if ("name" in fieldValues)
       temp.name = fieldValues.name ? "" : "This field is required.";
@@ -81,7 +81,7 @@ export default function CovidForm(props) {
   const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
     useForm(initialFValues, true, validate);
 
-  console.log(values);
+  // console.log(values);
 
   const handleSubmit = (e) => {
     e.preventDefault();

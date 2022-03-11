@@ -26,15 +26,19 @@ export default class RelationsController{
     }
     static async apiPostRelation(req,res,next){
         try{
+            // console.log("the req body iss::",req.body)
+            
             const relation_name = req.body.relation_name
             // console.log(relation_name)
             // const RelationResponse = await RelationDAO.addRelation(relation_name)
 
             const RelationResponse = await pool.query('INSERT INTO "Relations" (relation_name) VALUES ($1) RETURNING *',[relation_name])
+            // console.log("the relations response is:::");
             // console.log(RelationResponse)
             // console.log(RelationResponse.rows[0])
 
             res.json(RelationResponse.rows[0])
+            // res.json({message:"success"})
         }
         catch(e){
             res.status(500).json({error: e.message})
