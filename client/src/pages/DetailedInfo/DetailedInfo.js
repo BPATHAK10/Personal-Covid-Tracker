@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 function DetailedInfo() {
   const { _id } = useParams();
   const contacts = useSelector((state) => state.contactReducer);
+  // console.log("in detailed info", contacts);
   const classes = useStyles();
   // console.log(_id);
 
@@ -135,7 +136,7 @@ function DetailedInfo() {
                           <h4>
                           Second Dose Date :{" "}
                           {formatDateToDisplay(
-                            contact["vaccine"].seond_dose_date
+                            contact["vaccine"].second_dose_date
                           )}
                         </h4>}
                       </Typography>

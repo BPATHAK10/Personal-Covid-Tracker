@@ -22,6 +22,8 @@ export default class ContactsController {
        "district" : req.body.address.district,
        "ward" : req.body.address.ward,
        "doseName" : req.body.vaccine.dose_name,
+       "second_dose_name": req.body.vaccine.second_dose_name,
+       "second_dose_date": new Date(req.body.vaccine.second_dose_date),
        "vaccination_date" : new Date(req.body.vaccine.vaccination_date),
        "vaccination_center" : req.body.vaccine.vaccination_center,
       }
@@ -57,8 +59,8 @@ export default class ContactsController {
     // console.log(AddressDetailsResponse.rows[0])
 
     // then insert into VannineDetails table
-    const vaccinationStatusResponse = await pool.query('INSERT INTO "VaccineDetails" (dose_name,vaccination_date,vaccination_center) VALUES ($1,$2,$3) RETURNING *;',
-      [contactInfo.doseName, contactInfo.vaccination_date, contactInfo.vaccination_center])
+    const vaccinationStatusResponse = await pool.query('INSERT INTO "VaccineDetails" (dose_name,vaccination_date,vaccination_center,second_dose_name,second_dose_date) VALUES ($1,$2,$3,$4,$5) RETURNING *;',
+      [contactInfo.doseName, contactInfo.vaccination_date, contactInfo.vaccination_center, contactInfo.second_dose_name, contactInfo.second_dose_date])
 
     // console.log(vaccinationStatusResponse.rows[0])
 
@@ -84,7 +86,7 @@ export default class ContactsController {
 
   static async apiUpdateContact(req, res, next) {
     try {
-        // const updatedContact = req.body.updatedContact
+        // console.log("request body is::",req.body);
 
         // console.log(updatedContact)
       // const contactInfo = {
@@ -131,11 +133,12 @@ export default class ContactsController {
        "address_id" : req.body.address._id,
        "covid_id" : req.body.covid._id,
         "vaccine_id" : req.body.vaccine._id,
+        "second_dose_name": req.body.vaccine.second_dose_name,
+        "second_dose_date": new Date(req.body.vaccine.second_dose_date),
        "_id": req.body.person._id
       }
 
-
-      // console.log(contactInfo)
+      // console.log("contact info is::",contactInfo)
 
         // const {
         //   relation,
@@ -198,8 +201,8 @@ export default class ContactsController {
       // console.log(AddressDetailsResponse.rows[0])
 
       // then update VaccineDetails table
-      const vaccinationStatusResponse = await pool.query('UPDATE "VaccineDetails" SET dose_name=$1,vaccination_date=$2,vaccination_center=$3 WHERE _id=$4 RETURNING *;',
-        [contactInfo.doseName, contactInfo.vaccination_date, contactInfo.vaccination_center, contactInfo.vaccine_id])
+      const vaccinationStatusResponse = await pool.query('UPDATE "VaccineDetails" SET dose_name=$1,vaccination_date=$2,vaccination_center=$3,second_dose_name=$4,second_dose_date=$5 WHERE _id=$6 RETURNING *;',
+        [contactInfo.doseName, contactInfo.vaccination_date, contactInfo.vaccination_center,contactInfo.second_dose_name,contactInfo.second_dose_date, contactInfo.vaccine_id])
 
       // console.log(vaccinationStatusResponse.rows[0])
 

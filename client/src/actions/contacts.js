@@ -62,7 +62,7 @@ export const getAllContacts = () => async (dispatch) => {
 
 export const createContact = (contact) => async (dispatch) => {
   try {
-    // console.log("in create contact", contact);
+    console.log("in create contact", contact);
     let { data } = await api.createContact(contact);
     let statuss = selectOptions.status;
     // console.log("server response ::", data);
@@ -82,7 +82,7 @@ export const createContact = (contact) => async (dispatch) => {
       },
     };
 
-    // console.log("data after refactor", data);
+    console.log("data after refactor", data);
     dispatch({ type: CREATE, payload: data });
   } catch (error) {
     console.log(error);
